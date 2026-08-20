@@ -1,0 +1,101 @@
+
+# MVP1 Documentation Acceptance Tool - Project Plan
+
+Prepared by the Artificial Intelligence and Machine Learning Validation Center of Excellence, Model Risk Management (MRM). Draft for review, August 2026.
+
+---
+
+## 1. Purpose
+
+Every generative artificial intelligence (GenAI) validation begins with a documentation acceptance decision. A validator reads the Model Development Document (MDD) submitted by the model owner, assesses whether it is sufficiently complete to support a validation, and determines whether the engagement can be kicked off. That assessment is performed manually for each submission and applies a threshold that is not written down, so the outcome varies with the reviewing validator and model owners receive inconsistent signals about what the documentation must contain.
+
+MVP1 automates that assessment. The tool reviews the submitted documentation against the GenAI requirements, identifies gaps by category, and produces graded requirement-level assessments from which a kick-off recommendation is computed. A validator confirms the recommendation before it is acted on.
+
+The users of the tool are validators. The acceptance report may be provided to the model owner after the validator has reviewed it, so the model owner receives a consistent statement of what the documentation requires with Validation retaining review responsibility. The output is a working artifact supporting the kick-off decision and does not form part of the validation record.
+
+The approach is also intended to serve as a template for other MRM validation teams, and design decisions have accordingly been made to generalize beyond GenAI models.
+
+## 2. Scope
+
+Component 1.1, the documentation acceptance review, is delivered for the chatbot and document intelligence archetypes by 11/30/2026. It identifies documentation gaps across data, methodology and framework, and performance, classifies each gap, and supports the kick-off decision. Component 1.2, the validation approach and testing recommender, recommends the validation approach and testing areas from model type, risk tier, and key model characteristics. It is not part of the 11/30 deliverable, and its timing will be set separately.
+
+The following are outside the scope of MVP1:
+
+- The agentic artificial intelligence archetype. No agentic development documentation exists against which the tool could be built or tested, and the archetype will be added once such documentation is available.
+- Monitoring plans and implementation testing plans as reviewed inputs. These may be added if the effort permits.
+- Drafting of validation report content, which is the subject of MVP2.
+- Execution of model testing, which is the subject of the evaluation codebase workstream.
+- Orchestration of the end-to-end validation workflow, which is the subject of MVP3.
+- Review of the Estimation Method Questionnaire (EMQ) and the Estimation Method Assessment (EMA). Point-in-time versions of these records cannot be reconstructed from Archer, so the tool cannot assess them as they stood at kick-off. A future enhancement may compare the EMA against the development documentation to support the corresponding validation report section.
+
+## 3. Input data
+
+The review standard consists of the GenAI and Agentic AI Model Development Template, whose section-level instructions and questions are embedded in the tool as the criteria against which documentation is assessed; the GenAI requirements checklist and its priority guidance; and the legacy Model Development Template, which supports the section mapping applied to submissions prepared before the GenAI template was issued.
+
+The reviewed input for the 11/30 deliverable is the MDD in Word format, which is the document and the format in which development documentation is submitted. Broader input formats and document types are addressed in later phases. The path to the model documentation folder is supplied at the start of a run, and supporting documents and meeting minutes within that folder are consulted only in the targeted second pass described in Section 4, where they serve to resolve identified gaps.
+
+Ground truth for development and measurement is drawn from the six GenAI models that have completed full validation. Earlier MDD versions carrying validator comments are available for these models and are being assembled into per-model folders containing all document versions, the associated meeting minutes, and both templates. Word comments are structured data within the document file and can therefore be extracted programmatically together with the section to which each is anchored. A subject matter expert pass separates substantive gap comments from editorial ones, producing a section-level reference gap set for each model. Model-6788 was documented on the legacy template and serves as the test case for section mapping. Constructed examples supplement the historical set.
+
+## 4. Framework and architecture
+
+The tool is built in LangGraph with Azure OpenAI accessed through the Application Programming Interface Management (APIM) gateway. The graph structure holds control of execution, which means each requirement check is guaranteed to run rather than left to model discretion, every step is checkpointed, and the resulting trace supports internal audit and regulatory examination review. The section review agents and the evaluation harness use the most capable GPT and Claude models available on the gateway, which additionally permits a two-judge cross-check during measurement.
+
+The tool is not a retrieval-augmented application. Retrieval addresses the problem of locating relevant material within a corpus too large to present at once, which is the situation when a model answers open questions against a knowledge base of many thousands of articles. The documentation acceptance problem has the opposite shape. The questions are fixed and known in advance, being the template requirements themselves, and the material to be searched is a single document of known structure. Current-generation models available on the gateway accept context windows substantially in excess of the length of a model development document, so each section can be presented to its reviewing agent in full rather than as retrieved fragments.
+
+Chunking would additionally work against the purpose of the tool. A requirement is frequently evidenced across a narrative passage, an accompanying table, and a cross-reference to an appendix, and dividing the document into fragments severs those relationships. More fundamentally, retrieval can establish that a requirement has been addressed but cannot establish that it is absent, since material not returned by a similarity search may nonetheless be present in the document. Because the central function of the tool is to determine that a requirement has not been addressed, it must assess the complete section rather than a retrieved subset.
+
+Each substantive section is accordingly reviewed by a dedicated agent whose system prompt carries that section's template instructions, its requirement list, and the archetype-specific rules governing which requirements do not apply. A chatbot, for example, invokes no tools, so tool inventory requirements are recorded as not applicable rather than as gaps.
+
+Two validator checkpoints are built into the workflow. The first occurs before review, where the validator confirms the archetype, the template version, and the section split, since an error in those inputs would propagate through every subsequent check. The second occurs after the gap list is produced, where the validator may cite meeting minutes or supporting documents as evidence that an apparent gap is addressed elsewhere. Any such claim is verified by the tool, which reads the cited source and confirms or rejects the remediation before a gap is reclassified. The kick-off recommendation itself is computed from the graded requirement statuses by a deterministic rule and is not generated by a language model.
+
+**Figure 1. MVP1 workflow.**
+
+*[Flow diagram to be inserted]*
+
+The workflow runs in three phases:
+
+1. **Intake and setup.** The development document is ingested and split by section, legacy-template submissions are mapped to the current section structure, and the workflow pauses at the first validator checkpoint.
+2. **Section review.** The sections are distributed to parallel review agents, agent failures are handled by retry and then by explicit alert, a cross-section consistency check is applied, and a candidate gap list is collated.
+3. **Gap resolution and decision.** The targeted folder search is performed, each gap is classified, the workflow pauses at the second validator checkpoint, and the recommendation and report are produced.
+
+## 5. Key components
+
+1. **Ingestion and structuring.** The development document is parsed, split by section using template styles, and assessed for template version. Submissions prepared on the legacy template are mapped to the current section structure using a mapping table authored by the team and maintained as a controlled artifact.
+2. **Section review agents.** One agent reviews each substantive section, with agents running in parallel. Sections that record sign-off or attestation rather than model content are excluded from review. Each returns a graded status for every requirement in its section, recorded as addressed, partially addressed, missing, or not applicable, together with the passage supporting that determination. Failures are retried; where retries are exhausted the section is recorded as unreviewed and raises an alert, and is never silently omitted.
+3. **Cross-section consistency check.** Rules identify inconsistencies that no single section exhibits in isolation, such as metrics defined in one section but never reported in another, stated usage that conflicts with the monitoring description, or data descriptions inconsistent with the test samples presented.
+4. **Targeted folder search.** A controlled second pass searches the documentation folder for evidence addressing each identified gap, so that requirements satisfied in supporting documents rather than in the template body are credited.
+5. **Gap classification.** Each gap is classified by rule as a transparency gap, where the evidence exists but is not recorded in the MDD, or as a true gap, where the evidence is not present in the documentation set at all. The distinction matters because the two carry different consequences for the kick-off decision and for subsequent Finding severity.
+6. **Validator review interface.** Gaps are presented with their supporting citations for confirmation or override, and overrides are captured with the validator's rationale.
+7. **Decision and reporting.** Coverage is computed across applicable requirements after removal of those recorded as not applicable, weighted equally in the first release. A kick-off recommendation is produced where coverage exceeds the threshold and no requirement in the defined blocking set is recorded as a true gap. The tool produces an acceptance report, a gap list suitable for issue to the model owner, the arithmetic underlying the recommendation, and the full execution trace.
+8. **Resubmission handling.** A revised MDD is reviewed on the same execution thread as the original, and each previously identified gap is reported as closed, open, or newly identified.
+9. **Testing recommender.** Component 1.2 maps model type, risk tier, and key model characteristics to recommended testing areas, grounded in the requirements checklist and priority guidance.
+
+## 6. Output
+
+The tool produces requirement-level graded statuses with supporting citations, aggregated by section; a computed kick-off recommendation accompanied by the arithmetic that produced it, which the validator confirms or overrides with rationale; a gap list classified as transparency or true and formatted for issue to the model owner as a documentation request; and a complete execution trace supporting audit and examination review.
+
+## 7. Success criteria
+
+Performance is measured as the precision and recall of the tool's gap list against the labeled validator comments from the six historical models, reported by section with denominators stated. Targets are to be set, with particular attention to the recall threshold, given the consequence of an unidentified gap for the kick-off decision.
+
+Consistency is assessed by confirming that the same submission produces the same assessment across runs and across validators. Efficiency is assessed against the effort currently required for manual acceptance review. Once the reference set is sufficient to support it, requirement weights and the coverage threshold will be calibrated so that documentation previously rejected scores below the threshold and documentation previously accepted scores above it.
+
+## 8. Milestones
+
+| Target date | Deliverable |
+|---|---|
+| 08/31/2026 | Project plan delivered |
+| 09/30/2026 | Reference documentation set assembled and comments extracted; section mapping table drafted; platform foundation available |
+| 11/30/2026 | Component 1.1 delivered for the chatbot and document intelligence archetypes and evidenced against the historical reference gap sets |
+| 12/31/2026 | Internal testing on current submissions; refinement against results; component 1.2 scope and date confirmed |
+| Q1 2027 | Rollout to the validation team, supported by the intake filing as non-model artificial intelligence |
+
+## 9. Resourcing
+
+The initiative is resourced at 14 hours per week per team member through 11/30/2026 and is the team's priority initiative for the period, with validation engagements planned around it. Additional internal resource and external support are available where required. A learning session is being arranged with an external firm that has developed a comparable documentation acceptance capability. The role split across the team is to be confirmed.
+
+## 10. Dependencies and risks
+
+Methodology definition, the section mapping table, prompt development, and reference set assembly proceed in September in parallel with the platform build, so that only integration depends on the platform foundation being available at the end of that month.
+
+The reference gap sets are the measurement basis for the 11/30 deliverable, which places folder assembly and comment extraction on the critical path. Four validation engagements fall within the MVP1 window against an open position on the team, and resourcing is monitored against that load through the period. Requirements satisfied through supporting documents rather than the template body are credited through the folder search pass, and requirements satisfied nowhere are recorded as true gaps. The boundary with MVP2 is maintained, since gap review output resembles validation report content.
