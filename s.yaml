@@ -1,101 +1,73 @@
+# Provisional Approval Report (PA3) - Model-7306 PayVIEW - GTM and MMP ChatBot
 
-# MVP1 Documentation Acceptance Tool - Project Plan
+Draft, 08/20/2026. Internal Validation draft. Not for distribution.
+Recommended outcome: Approved with Restriction. Pilot duration: 05/04/2026 through 11/01/2026 (unchanged). Restriction effective date: 11/01/2026 (unchanged).
 
-Prepared by the Artificial Intelligence and Machine Learning Validation Center of Excellence, Model Risk Management (MRM). Draft for review, August 2026.
+This report is scoped to a single change, the foundation large language model version upgrade from GPT-4o to GPT-5.1. It follows the structure of the second Provisional Approval (PA2) report and does not re-document unchanged elements; refer to the PA1 and PA2 reports.
 
 ---
 
-## 1. Purpose
+## Executive Summary
 
-Every generative artificial intelligence (GenAI) validation begins with a documentation acceptance decision. A validator reads the Model Development Document (MDD) submitted by the model owner, assesses whether it is sufficiently complete to support a validation, and determines whether the engagement can be kicked off. That assessment is performed manually for each submission and applies a threshold that is not written down, so the outcome varies with the reviewing validator and model owners receive inconsistent signals about what the documentation must contain.
+This report documents Model Risk Management (MRM) Validation's third Provisional Approval (PA3) review of Model-7306, PayVIEW - GTM and MMP ChatBot. It covers one change: the upgrade of the foundation large language model from GPT-4o to GPT-5.1. The upgrade is driven by the vendor's retirement of GPT-4o, announced for October 2026, with GPT-5.1 as the bank platform's designated replacement; the bank's gateway migration for this model is scheduled for 09/18/2026, after which GPT-4o is no longer available to the model. The system prompt, retrieval process, embedding models, knowledge base, combined answer generation, business purpose, and user population are unchanged.
 
-MVP1 automates that assessment. The tool reviews the submitted documentation against the GenAI requirements, identifies gaps by category, and produces graded requirement-level assessments from which a kick-off recommendation is computed. A validator confirms the recommendation before it is acted on.
+The second Provisional Approval covered the model on the GPT-4o configuration; the version upgrade therefore requires a new Provisional Approval before deployment. The business line performed comparative performance testing of the GPT-4o and GPT-5.1 configurations on the same test query set. [TBD: one-sentence summary of the testing result, e.g., correctness on the GPT-5.1 configuration of X percent against Y percent on GPT-4o, meeting the 67 percent pilot threshold.] Validation reviewed the testing and [TBD: has no concerns / observations]. Validation recommends an Approved with Restriction outcome for the change, under the same restrictions and dates as the existing approval, which are unchanged.
 
-The users of the tool are validators. The acceptance report may be provided to the model owner after the validator has reviewed it, so the model owner receives a consistent statement of what the documentation requires with Validation retaining review responsibility. The output is a working artifact supporting the kick-off decision and does not form part of the validation record.
+## Model Purpose and Usage
 
-The approach is also intended to serve as a template for other MRM validation teams, and design decisions have accordingly been made to generalize beyond GenAI models.
+The model assists sales agents in answering Global Treasury Management (GTM) and Money Movement Platform (MMP) questions using the bank's knowledge base articles. It is employee facing, and agents review the model's output before relaying information to a customer. The model purpose and usage are unchanged; refer to the PA1 report.
 
-## 2. Scope
+## Model Theory and Construction
 
-Component 1.1, the documentation acceptance review, is delivered for the chatbot and document intelligence archetypes by 11/30/2026. It identifies documentation gaps across data, methodology and framework, and performance, classifies each gap, and supports the kick-off decision. Component 1.2, the validation approach and testing recommender, recommends the validation approach and testing areas from model type, risk tier, and key model characteristics. It is not part of the 11/30 deliverable, and its timing will be set separately.
+The change replaces the foundation large language model, GPT-4o, with GPT-5.1, accessed through the bank's GenAI gateway. This is a version upgrade within the same model family. The change is required rather than discretionary: the vendor is retiring GPT-4o in October 2026, and the bank's gateway migration for this model is scheduled for 09/18/2026. No other component changes. The system prompt and instruction for the combined answer generation, the retrieval and per-article answer generation process, the reflexion (Verbal Reinforcement Learning) grading step, the embedding models, the knowledge base, and the caches are unchanged from the configuration approved under the PA2.
 
-The following are outside the scope of MVP1:
+Because the model's outputs are prose rather than numerical, the evaluation relies on subject matter expert grading and automated LLM-based metrics on the same test set, rather than an exact output-for-output comparison.
 
-- The agentic artificial intelligence archetype. No agentic development documentation exists against which the tool could be built or tested, and the archetype will be added once such documentation is available.
-- Monitoring plans and implementation testing plans as reviewed inputs. These may be added if the effort permits.
-- Drafting of validation report content, which is the subject of MVP2.
-- Execution of model testing, which is the subject of the evaluation codebase workstream.
-- Orchestration of the end-to-end validation workflow, which is the subject of MVP3.
-- Review of the Estimation Method Questionnaire (EMQ) and the Estimation Method Assessment (EMA). Point-in-time versions of these records cannot be reconstructed from Archer, so the tool cannot assess them as they stood at kick-off. A future enhancement may compare the EMA against the development documentation to support the corresponding validation report section.
+On 08/17/2026, the model was briefly switched to GPT-5.1 in production due to a miscommunication on the business and technology side, without performance testing or MRM approval, and was reverted to GPT-4o the same day after MRM raised the issue. The model development team represented that no end-user queries were served during the window. [TBD: written confirmation from the business line.] The event was reported to Model Risk Governance, and this Provisional Approval is the required approval path for the change.
 
-## 3. Input data
+## Model Performance
 
-The review standard consists of the GenAI and Agentic AI Model Development Template, whose section-level instructions and questions are embedded in the tool as the criteria against which documentation is assessed; the GenAI requirements checklist and its priority guidance; and the legacy Model Development Template, which supports the section mapping applied to submissions prepared before the GenAI template was issued.
+[Internal note, remove before routing: the required evidence set is still under negotiation with the business line; both evaluations below are drafted as placeholders pending that agreement.]
 
-The reviewed input for the 11/30 deliverable is the MDD in Word format, which is the document and the format in which development documentation is submitted. Broader input formats and document types are addressed in later phases. The path to the model documentation folder is supplied at the start of a run, and supporting documents and meeting minutes within that folder are consulted only in the targeted second pass described in Section 4, where they serve to resolve identified gaps.
+The business line performed comparative performance testing of the GPT-4o and GPT-5.1 configurations on the same test query set, with the outputs generated under the same conditions and the model version as the only difference. [TBD: state the test set size and its relationship to the PA2 72-query deduplicated set, the environment used, and confirmation that caching was disabled for the runs.]
 
-Ground truth for development and measurement is drawn from the six GenAI models that have completed full validation. Earlier MDD versions carrying validator comments are available for these models and are being assembled into per-model folders containing all document versions, the associated meeting minutes, and both templates. Word comments are structured data within the document file and can therefore be extracted programmatically together with the section to which each is anchored. A subject matter expert pass separates substantive gap comments from editorial ones, producing a section-level reference gap set for each model. Model-6788 was documented on the legacy template and serves as the test case for section mapping. Constructed examples supplement the historical set.
+### Subject Matter Expert Pairwise Evaluation
 
-## 4. Framework and architecture
+The subject matter expert graded the GPT-4o and GPT-5.1 outputs for each query side by side.
 
-The tool is built in LangGraph with Azure OpenAI accessed through the Application Programming Interface Management (APIM) gateway. The graph structure holds control of execution, which means each requirement check is guaranteed to run rather than left to model discretion, every step is checkpointed, and the resulting trace supports internal audit and regulatory examination review. The section review agents and the evaluation harness use the most capable GPT and Claude models available on the gateway, which additionally permits a two-judge cross-check during measurement.
+[TBD: Table 1. Subject matter expert pairwise evaluation, GPT-4o versus GPT-5.1: per-configuration Correct, Incorrect, Partially correct, and N/A counts, with the correctness rate (Correct divided by the sum of Correct, Incorrect, and Partially correct, excluding N/A) for each configuration.]
 
-The tool is not a retrieval-augmented application. Retrieval addresses the problem of locating relevant material within a corpus too large to present at once, which is the situation when a model answers open questions against a knowledge base of many thousands of articles. The documentation acceptance problem has the opposite shape. The questions are fixed and known in advance, being the template requirements themselves, and the material to be searched is a single document of known structure. Current-generation models available on the gateway accept context windows substantially in excess of the length of a model development document, so each section can be presented to its reviewing agent in full rather than as retrieved fragments.
+[TBD: Narrative: whether the GPT-5.1 correctness rate is comparable to or better than GPT-4o and clears the 67 percent pilot threshold, whether abstention behavior changed, whether any new incorrect answers were introduced, and root cause for any query whose grade differs between configurations.]
 
-Chunking would additionally work against the purpose of the tool. A requirement is frequently evidenced across a narrative passage, an accompanying table, and a cross-reference to an appendix, and dividing the document into fragments severs those relationships. More fundamentally, retrieval can establish that a requirement has been addressed but cannot establish that it is absent, since material not returned by a similarity search may nonetheless be present in the document. Because the central function of the tool is to determine that a requirement has not been addressed, it must assess the complete section rather than a retrieved subset.
+### RAGAS Automated Evaluation
 
-Each substantive section is accordingly reviewed by a dedicated agent whose system prompt carries that section's template instructions, its requirement list, and the archetype-specific rules governing which requirements do not apply. A chatbot, for example, invokes no tools, so tool inventory requirements are recorded as not applicable rather than as gaps.
+The automated RAGAS metrics were generated on the same outputs for both configurations.
 
-Two validator checkpoints are built into the workflow. The first occurs before review, where the validator confirms the archetype, the template version, and the section split, since an error in those inputs would propagate through every subsequent check. The second occurs after the gap list is produced, where the validator may cite meeting minutes or supporting documents as evidence that an apparent gap is addressed elsewhere. Any such claim is verified by the tool, which reads the cited source and confirms or rejects the remediation before a gap is reclassified. The kick-off recommendation itself is computed from the graded requirement statuses by a deterministic rule and is not generated by a language model.
+[TBD: Table 2. RAGAS automated evaluation, GPT-4o versus GPT-5.1: Correctness, Faithfulness, and Relevancy per configuration. Note: RAGAS Correctness requires ground truth reference answers, which were not available for the PA2 evaluation; confirm whether reference answers are being provided this round or the Correctness row is dropped.]
 
-**Figure 1. MVP1 workflow.**
+[TBD: Narrative: whether the automated metrics are comparable across configurations and consistent with the subject matter expert grading.]
 
-*[Flow diagram to be inserted]*
+**Validation Commentary:** [TBD: Validation's review of the testing design and results, including sample size adequacy, denominator construction, and reconciliation between the subject matter expert grades and the automated metrics. If no concerns: "Validation reviewed the performance testing and has no concerns with the model's performance on the GPT-5.1 configuration for the pilot."]
 
-The workflow runs in three phases:
+## Risk Mitigation
 
-1. **Intake and setup.** The development document is ingested and split by section, legacy-template submissions are mapped to the current section structure, and the workflow pauses at the first validator checkpoint.
-2. **Section review.** The sections are distributed to parallel review agents, agent failures are handled by retry and then by explicit alert, a cross-section consistency check is applied, and a candidate gap list is collated.
-3. **Gap resolution and decision.** The targeted folder search is performed, each gap is classified, the workflow pauses at the second validator checkpoint, and the recommendation and report are produced.
+The risk mitigations from the existing approval remain in effect and are unchanged: employee facing use with agent review before any customer relay, a limited group of trained and experienced agents, a curated set of pre approved knowledge base articles that contain no customer data with source links preserved, and access through the bank's GenAI gateway providing authentication, logging, content filtering, profanity filtering, and prompt injection controls. The gateway controls apply to GPT-5.1 in the same manner as GPT-4o. The reflexion grading step and the combined answer exclusion of unanswered articles, corrected during the PA2, are unchanged by the version upgrade. [TBD: confirm with the model development team that the corrected combined answer code operates identically on GPT-5.1 outputs.]
 
-## 5. Key components
+## Risk Management Groups Approvals
 
-1. **Ingestion and structuring.** The development document is parsed, split by section using template styles, and assessed for template version. Submissions prepared on the legacy template are mapped to the current section structure using a mapping table authored by the team and maintained as a controlled artifact.
-2. **Section review agents.** One agent reviews each substantive section, with agents running in parallel. Sections that record sign-off or attestation rather than model content are excluded from review. Each returns a graded status for every requirement in its section, recorded as addressed, partially addressed, missing, or not applicable, together with the passage supporting that determination. Failures are retried; where retries are exhausted the section is recorded as unreviewed and raises an alert, and is never silently omitted.
-3. **Cross-section consistency check.** Rules identify inconsistencies that no single section exhibits in isolation, such as metrics defined in one section but never reported in another, stated usage that conflicts with the monitoring description, or data descriptions inconsistent with the test samples presented.
-4. **Targeted folder search.** A controlled second pass searches the documentation folder for evidence addressing each identified gap, so that requirements satisfied in supporting documents rather than in the template body are credited.
-5. **Gap classification.** Each gap is classified by rule as a transparency gap, where the evidence exists but is not recorded in the MDD, or as a true gap, where the evidence is not present in the documentation set at all. The distinction matters because the two carry different consequences for the kick-off decision and for subsequent Finding severity.
-6. **Validator review interface.** Gaps are presented with their supporting citations for confirmation or override, and overrides are captured with the validator's rationale.
-7. **Decision and reporting.** Coverage is computed across applicable requirements after removal of those recorded as not applicable, weighted equally in the first release. A kick-off recommendation is produced where coverage exceeds the threshold and no requirement in the defined blocking set is recorded as a true gap. The tool produces an acceptance report, a gap list suitable for issue to the model owner, the arithmetic underlying the recommendation, and the full execution trace.
-8. **Resubmission handling.** A revised MDD is reviewed on the same execution thread as the original, and each previously identified gap is reported as closed, open, or newly identified.
-9. **Testing recommender.** Component 1.2 maps model type, risk tier, and key model characteristics to recommended testing areas, grounded in the requirements checklist and priority guidance.
+[TBD: Change Estimation Method Assessment (EMA) for the LLM version change: identifier, Model Risk Governance acceptance date and decision, risk rating, monitoring frequency. Confirm with MRG whether a new Change EMA is required for this change or the existing EMA is updated.]
 
-## 6. Output
+## Conclusion
 
-The tool produces requirement-level graded statuses with supporting citations, aggregated by section; a computed kick-off recommendation accompanied by the arithmetic that produced it, which the validator confirms or overrides with rationale; a gap list classified as transparency or true and formatted for issue to the model owner as a documentation request; and a complete execution trace supporting audit and examination review.
+Validation reviewed the foundation large language model version upgrade from GPT-4o to GPT-5.1 and the business line's comparative performance testing. [TBD: one-sentence result statement.] The change alters no other component of the model, and the controls from the existing approval remain in effect. Validation identified no concerns that would prevent continued pilot use on the GPT-5.1 configuration prior to completion of a full validation. [TBD: confirm after testing review.]
 
-## 7. Success criteria
+The pilot duration remains 05/04/2026 through 11/01/2026 and the restriction effective date remains 11/01/2026; no approved dates change under this Provisional Approval. Validation recommends an Approved with Restriction outcome approving the GPT-5.1 version upgrade for pilot use under the same restrictions as the existing approval, which remain unchanged and are reiterated below. The pilot is restricted to a maximum of 148 experienced agents selected from approximately 450 total users, all of whom have received training on the solution; it is limited to Global Treasury Management and Money Movement Platform queries, and the knowledge base is restricted to 800 articles during the pilot. No further changes to the model framework, output, or scope are permitted during the pilot; any subsequent change requires a new Provisional Approval or submission for Initial Validation prior to deployment.
 
-Performance is measured as the precision and recall of the tool's gap list against the labeled validator comments from the six historical models, reported by section with denominators stated. Targets are to be set, with particular attention to the recall threshold, given the consequence of an unidentified gap for the kick-off decision.
+Validation reiterates the following observations and recommendations from the PA2, which remain open and become more relevant with the version upgrade:
 
-Consistency is assessed by confirming that the same submission produces the same assessment across runs and across validators. Efficiency is assessed against the effort currently required for manual acceptance review. Once the reference set is sufficient to support it, requirement weights and the coverage threshold will be calibrated so that documentation previously rejected scores below the threshold and documentation previously accepted scores above it.
+- Strengthen the combined answer synthesis prompt, including explicit handling for unanswerable queries, a constraint to ground the combined answer only in the provided answers, per-answer delimiters in the input, and adaptation of the prompt formatting to the current model interface. The prompt retains Llama-2 style system tags carried over from a prior implementation; the move to GPT-5.1 is a natural point to adapt it. This will be assessed during the Initial Validation.
+- The model owner should complete the root cause analysis of the incorrect combined answers identified in the PA2 evaluation (retrieval ranking versus knowledge base coverage) and confirm whether the behavior persists on the GPT-5.1 configuration.
+- Add per-article delimiters to the evaluation export and logs so each combined answer can be traced to its source articles. Target the Initial Validation; if not delivered by then, it would be documented as a Finding, for delivery during ongoing monitoring.
+- Continue to communicate knowledge base article changes, given that some pilot links previously returned access errors.
 
-## 8. Milestones
-
-| Target date | Deliverable |
-|---|---|
-| 08/31/2026 | Project plan delivered |
-| 09/30/2026 | Reference documentation set assembled and comments extracted; section mapping table drafted; platform foundation available |
-| 11/30/2026 | Component 1.1 delivered for the chatbot and document intelligence archetypes and evidenced against the historical reference gap sets |
-| 12/31/2026 | Internal testing on current submissions; refinement against results; component 1.2 scope and date confirmed |
-| Q1 2027 | Rollout to the validation team, supported by the intake filing as non-model artificial intelligence |
-
-## 9. Resourcing
-
-The initiative is resourced at 14 hours per week per team member through 11/30/2026 and is the team's priority initiative for the period, with validation engagements planned around it. Additional internal resource and external support are available where required. A learning session is being arranged with an external firm that has developed a comparable documentation acceptance capability. The role split across the team is to be confirmed.
-
-## 10. Dependencies and risks
-
-Methodology definition, the section mapping table, prompt development, and reference set assembly proceed in September in parallel with the platform build, so that only integration depends on the platform foundation being available at the end of that month.
-
-The reference gap sets are the measurement basis for the 11/30 deliverable, which places folder assembly and comment extraction on the critical path. Four validation engagements fall within the MVP1 window against an open position on the team, and resourcing is monitored against that load through the period. Requirements satisfied through supporting documents rather than the template body are credited through the folder search pass, and requirements satisfied nowhere are recorded as true gaps. The boundary with MVP2 is maintained, since gap review output resembles validation report content.
+The next validation activity is the Initial Validation. The model owner should submit the complete documentation package (Model Development Document, Monitoring Plan Document, and Implementation Framework and Testing Document), updated to reflect the GPT-5.1 configuration, sufficiently in advance to allow the Initial Validation to be completed before the pilot concludes on 11/01/2026.
