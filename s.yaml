@@ -1,73 +1,71 @@
-# Provisional Approval Report (PA3) - Model-7306 PayVIEW - GTM and MMP ChatBot
+# Jordan Low
+917-378-3239 · jordan.low@usbank.com
 
-Draft, 08/20/2026. Internal Validation draft. Not for distribution.
-Recommended outcome: Approved with Restriction. Pilot duration: 05/04/2026 through 11/01/2026 (unchanged). Restriction effective date: 11/01/2026 (unchanged).
+## SUMMARY
+Transformation leader inside a top-10 US bank who has taken one AI-enabled program from diagnostic baseline through business case, roadmap, adoption and realized benefits, modernizing how a control function operates through process redesign, automation, and responsible AI adoption, and who brings the AI and automation depth that process transformation now requires. Fourteen years leading technology modernization and operating-model change, eleven of them running a firm's entire platform as founder-CIO (cloud migration, legacy modernization, terabyte-scale data pipelines) and three inside U.S. Bank's second line; twenty-plus years in large regulated financial institutions overall. MIT (five degrees), CFA Charterholder. Owner of AI CoE ID 1286, the Model Risk Management AI validation-automation initiative: measured the manual baseline, wrote the value case Finance received (~$5 million cumulative avoided cost through 2030, ~$290K realized in 2026), set the phased roadmap on the ITO tracker, built the toolset and playbook now in use on the AI validation team and being extended across Model Risk Management with the first-line AI Center of Excellence, and delivered an 8x throughput design. Redesigned the change-control operating model for a production agentic system so the business line ships within control instead of waiting on a full cycle. Works daily across a matrixed organization of model risk, first-line AI teams, infrastructure, security, vendors and executives, and gets things adopted by building the case, training the people, and removing the friction. Former founder-CIO who built a firm's entire operating platform from zero, and former head of a 20-person quantitative team managing $4B+.
 
-This report is scoped to a single change, the foundation large language model version upgrade from GPT-4o to GPT-5.1. It follows the structure of the second Provisional Approval (PA2) report and does not re-document unchanged elements; refer to the PA1 and PA2 reports.
+## SELECTED MEASURABLE OUTCOMES
+* Cost reduction: AI CoE ID 1286 value case of **~$5 million in cumulative avoided validation cost, 2026 through 2030 (~45,000 hours, 25 FTE-years), ~$290K realized on 2026 activities**, the value statement submitted to Finance from my draft
+* Productivity gains and capacity optimization: a provisional approval cut from **120-190 manual hours to 20-40**, a full initial validation by **350-650 hours**; GenAI validation volume grew from **1 (2024) to 6 (2025) to ~22 (2026)** on the same team, with no added headcount
+* Process simplification and cycle time: a CI/CD change-control process that lets the business line ship **non-material changes within validation control** instead of waiting on a full validation cycle; a legacy AKS gateway retired for Azure API Management and a separation-of-duties conflict resolved by transferring ownership to the first line, with no interruption to access
+* Enterprise-scale change: co-authored the bank's firm-wide GenAI validation standards, the requirement every first-line GenAI team now builds against; the development template drew positive Federal Reserve feedback
+* Organizational change and adoption: a toolset and playbook in production on the AI validation team, with the first-line AI Center of Excellence now partnering to extend it across all of Model Risk Management; **~10 analysts** trained through a four-month GenAI program; two enterprise training sessions whose tooling is now used in production reviews
+* **Terabytes of data migrated in three months** into a production ML platform at a firm whose entire operating model I designed
 
----
+## EXPERIENCE
 
-## Executive Summary
+### U.S. Bank | Vice President, Quantitative Model Analyst | AI CoE Validation, Model Risk Management | 2023 - Present
 
-This report documents Model Risk Management (MRM) Validation's third Provisional Approval (PA3) review of Model-7306, PayVIEW - GTM and MMP ChatBot. It covers one change: the upgrade of the foundation large language model from GPT-4o to GPT-5.1. The upgrade is driven by the vendor's retirement of GPT-4o, announced for October 2026, with GPT-5.1 as the bank platform's designated replacement; the bank's gateway migration for this model is scheduled for 09/18/2026, after which GPT-4o is no longer available to the model. The system prompt, retrieval process, embedding models, knowledge base, combined answer generation, business purpose, and user population are unchanged.
+**Establishing and Leading a Transformation Program: Strategy, Governance, Execution**
+* Own AI CoE ID 1286 (MRM-AI Validation), an enterprise AI use case delivered within established governance: wrote the initial codebase (V1 complete 06/30/2026) and lead its productionization with the team into a standardized GenAI Validation Automation Playbook and toolset in production on the AI validation team, engineered for an 8x increase in validation throughput, with the first-line AI Center of Excellence now partnering to extend it across all of Model Risk Management.
+* Run it as a governed program with a dated roadmap: milestones reported to the ITO tracker (Documentation Acceptance Tool 11/30/2026, BCIQ entry 12/01/2026, Validation Recommendation Tool 03/31/2027, report drafter through 06/30/2027, integration with the testing-automation codebase in 2H 2027), and a roadmap presented to senior management.
+* Maintain a second dated roadmap for agentic AI evaluation: enterprise AI training requirements (November 2026) and the banking-customized agentic evaluation release of the toolset (target 03/31/2027), synthesized from industry frameworks and the evaluation-tooling landscape.
 
-The second Provisional Approval covered the model on the GPT-4o configuration; the version upgrade therefore requires a new Provisional Approval before deployment. The business line performed comparative performance testing of the GPT-4o and GPT-5.1 configurations on the same test query set. [TBD: one-sentence summary of the testing result, e.g., correctness on the GPT-5.1 configuration of X percent against Y percent on GPT-4o, meeting the 67 percent pilot threshold.] Validation reviewed the testing and [TBD: has no concerns / observations]. Validation recommends an Approved with Restriction outcome for the change, under the same restrictions and dates as the existing approval, which are unchanged.
+**Diagnostic Assessment to Benefits Realization: Business Cases and Executive Reporting**
+* Measured the baseline before building anything: one conversational-AI validation runs 40 multi-turn test cases against 19 metrics (~600 conversation-by-metric evaluations per run, rerun per model version), against a business-line manual benchmark of 52 scenarios that took a multi-week SME effort and a two-day, ~50-person workshop to cover once.
+* Prepared the value justification for Finance through the Risk AI Enablement Team (~$5 million cumulative avoided validation cost 2026-2030, ~$290K realized in 2026), and report realized benefits against it: the toolset's LLM judges, synthetic test data, and topic modeling cut a provisional approval from 120-190 manual hours to 20-40 and a full initial validation by 350-650 hours.
+* Report program status, findings and risks into senior leadership and governance forums; helped defend the first approved GenAI model through a third-line internal-audit review (Corporate Audit Services) escalated to SVP level.
+* Run the program as a loop of continuous improvement rather than a one-time build, so results are sustained rather than delivered once: benefits are reported against the value case as they are realized, evaluations are rerun on every model version so the baseline moves with the portfolio, the roadmap is re-baselined on the ITO tracker as milestones land, and each validation's findings feed the next release of the toolset.
 
-## Model Purpose and Usage
+**Operating Model Redesign, Process Simplification and Workflow Automation**
+* Redesigned change control for a production agentic system: championed a CI/CD-style process for the Conversational AI in IVRs dispute agent, with a DeepEval regression suite as the automated quality gate before UAT promotion and YAML-configured test definitions, so the business line makes rapid non-material changes within validation control, tracked in Jira with validation sign-off.
+* Simplified access and ownership for the validation team: opened Azure OpenAI gateway access for Model Risk Management (intake with Amy Steingrebe's team, infrastructure setup with Tim Walker, 14 tasks), then resolved the separation-of-duties conflict on CAR ID ownership by transferring ongoing maintenance to Saima Shafiq's first-line team; led the migration from the legacy AKS gateway to Azure API Management (DEV from May 2026, UAT and PROD through summer 2026), which opened GPT-5 and GPT-5.1 access; manage gateway roles and key rotation across the DEV/UAT/PROD path.
+* Already work with Information Security Services directly: co-delivered "Generative AI: Information Security Guardrails" (September 2025) with ISS Enterprise Security Architecture (Will Ferguson, Security Research and Development; David Lord, Cloud Security Solutions Architecture) as part of the 2025 AI/ML Model Training Series, a joint ISS and AI/ML Validation CoE session on data protection, input/output integrity, and the GenAI threat landscape; and partner with ISS on the Azure OpenAI gateway. Familiar with ISS's intake review process, its AI reference architecture, and its guardrail requirements from the inside.
+* Operate daily inside the bank's security controls rather than around them: gateway entitlements and key rotation, separation of duties on CAR ID ownership, PII/PCI scanning and guardrail placement in the GenAI gateway architecture I documented for the first line, and guardrail evaluation of prompt-injection and data-leakage defenses on the enterprise Responsible AI platforms.
+* Automated the team's own workflow with a GitHub Copilot custom agent that organizes the model inventory and documentation and drafts validation reports, meeting minutes, and presentation decks; a Copilot-integration use case in daily use.
+* Built the reusable assets that make the process repeatable rather than bespoke: codebases for synthetic-data generation, ground-truth datasets, topic modeling (UMAP, HDBSCAN), and LLM-as-judge evaluation; a DeepEval-backed framework spanning RAG quality and agentic behavior that produces the metrics validation decisions rest on.
 
-The model assists sales agents in answering Global Treasury Management (GTM) and Money Movement Platform (MMP) questions using the bank's knowledge base articles. It is employee facing, and agents review the model's output before relaying information to a customer. The model purpose and usage are unchanged; refer to the PA1 report.
+**Responsible AI Adoption with Enterprise AI, Risk and Governance Partners**
+* Work with the first-line AI Center of Excellence (Jim Howard, Saima Shafiq) to automate its processes, above all Lumenova guardrails and evaluators; sit on the working committee that identifies and prioritizes what the CoE automates next, guiding it to automate faster for the Access Online models; connect the CoE with the document-intelligence model teams; and work with it on ways to accelerate the voice IVR agentic AI models.
+* Member of the bank's working committee evaluating the enterprise Responsible AI platforms (Nimbus, Lumenova RAI and Beacon, TrustWise); lead MRM's formal assessments within it, benchmarking guardrails and scoring against ground-truth datasets with LLM judges I built, evidence the committee uses in the bank's platform decisions and that drove one vendor to strengthen its product.
+* Co-authored the bank's GenAI validation templates and standards; the GenAI Model Development Template received positive Federal Reserve feedback that the bank "laid out good expectations for GenAI." Synthesized the GenAI gateway architecture (authentication, logging, PII/PCI scanning, guardrail placement) into reference material shared with the first-line team.
+* As validator of 24-Hour Banking Agent Assist, the first GenAI model approved at U.S. Bank, established the LLM-based evaluation approach adopted as the observability standard and reused across the PayVIEW GTM and MMP ChatBot and other models.
+* Reduced risk on production agentic AI: independent code and evaluation review of the dispute-intake voice agent surfaced 12 of 33 test cases misaligned despite all reporting success, and the business line revised production prompts and Lambda logic.
 
-## Model Theory and Construction
+**Change Adoption and Influence Across a Matrixed Organization**
+* Designed and delivered a 4-month GenAI Immersion Program for ~10 rotational analysts across MRM divisions (including offshore consultants), with mentorship, office hours, and governance reporting to senior leadership; mentor and lead 2 analysts on LangChain/LangGraph, RAG, and LLM evaluation.
+* Created and delivered the GenAI Performance Evaluation training series (two enterprise sessions, May 2025), introducing Giskard, UMAP, HDBSCAN, and LLM-as-judge evaluation, tooling now used in production validations.
+* Act as the technical translator between MRM, first-line AI Enablement, infrastructure, and vendor engineers on guardrail and entitlement design, turning evaluation evidence into configuration decisions the business line can act on and executives can approve.
+* Hold developer-level knowledge of the shared codebase reused across dependent production models; after the model developer's departure, enabled fast, low-risk change recommendations and continued deployment through the knowledge gap, protecting delivery continuity for the business line.
 
-The change replaces the foundation large language model, GPT-4o, with GPT-5.1, accessed through the bank's GenAI gateway. This is a version upgrade within the same model family. The change is required rather than discretionary: the vendor is retiring GPT-4o in October 2026, and the bank's gateway migration for this model is scheduled for 09/18/2026. No other component changes. The system prompt and instruction for the combined answer generation, the retrieval and per-article answer generation process, the reflexion (Verbal Reinforcement Learning) grading step, the embedding models, the knowledge base, and the caches are unchanged from the configuration approved under the PA2.
+### Adjunct Professor | Fordham University, Stevens Institute of Technology, Adelphi University, Hofstra University | 2018 - Present
+* Teach graduate courses in generative AI, applied data science, data visualization for business analytics, business analytics, optimization, and computational finance; oversubscribed cohorts of working professionals, 4.8/5.0 average rating; a decade of practice getting technical change adopted by non-specialists.
 
-Because the model's outputs are prose rather than numerical, the evaluation relies on subject matter expert grading and automated LLM-based metrics on the same test set, rather than an exact output-for-output comparison.
+### Wave Hill Capital Management | Chief Information Officer (Founder) | 2012 - 2023
+* Designed and ran the operating model of a machine-learning-driven hedge fund from zero: platform, cloud, vendor and process decisions end to end, including signing the firm's AWS and MongoDB contracts. Migrated to AWS/Azure with Docker; orchestrated Apache Airflow ETL moving terabytes in three months; CI/CD; modernized legacy Python 2 / C++ / Perl to Python 3.
+* Built a SEC 10-K/10-Q ingestion and NLP pipeline feeding three ML applications; developed neural-network stock-prediction and TensorFlow/Keras option-pricing models.
 
-On 08/17/2026, the model was briefly switched to GPT-5.1 in production due to a miscommunication on the business and technology side, without performance testing or MRM approval, and was reverted to GPT-4o the same day after MRM raised the issue. The model development team represented that no end-user queries were served during the window. [TBD: written confirmation from the business line.] The event was reported to Model Risk Governance, and this Provisional Approval is the required approval path for the change.
+### Earlier
+* **Credit Suisse Asset Management | Head of Quantitative Research (2006 - 2012):** took over an established quantitative-equities group through the ambiguity of a partial team departure, redesigned its research and production processes, then led the 20-person team managing $4B+ globally with full P&L and personnel responsibility; built a centralized predictive-factor feature store, the shared asset behind every strategy.
+* **Deutsche Bank | Vice President, Proprietary Trading (2004 - 2006):** built statistical-arbitrage systems in C++ running $100M+, plus a distributed-computing grid harnessing idle desktops for off-hours compute.
 
-## Model Performance
+## TECHNICAL SKILLS
+* **AI, GenAI and Agentic AI:** RAG, agent orchestration, LangChain, LangGraph, Model Context Protocol (MCP), LLM-as-judge evaluation agents, DeepEval, DSPy / GEPA, guardrail / hallucination / red-team testing, embeddings and vector retrieval, LlamaIndex, Giskard, Azure Document Intelligence, OpenAI / Azure OpenAI / Anthropic APIs, GitHub Copilot custom agents, agentic voice platforms (Amazon Connect / Q in Connect)
+* **Workflow, Process and Governance:** business process redesign and management, operating-model design, change adoption, CI/CD change control with automated quality gates, Jira-tracked sign-off, Responsible AI and guardrail platforms (Lumenova RAI/Beacon, Nimbus, TrustWise), model governance (versioning, lineage, auditability), GenAI validation standards, SR 11-7, NIST AI RMF, EU AI Act
+* **Data Platforms and Analytics:** Apache Airflow, Snowflake, Databricks, Kafka, MongoDB Atlas, Elasticsearch, feature stores, ETL at terabyte scale, data visualization (Python, Tableau), topic modeling (UMAP, HDBSCAN), NLP
+* **Cloud and MLOps:** Azure (Machine Learning / ML Studio, model registry, Data Factory, DevOps, Azure OpenAI gateway, API Management), AWS (Bedrock, Lambda, EC2, RDS, Redshift), Docker / Kubernetes, GitLab, CI/CD, secrets management and key rotation
+* **Machine Learning and Programming:** TensorFlow/Keras, PyTorch, scikit-learn, XGBoost; Python (NumPy, Pandas, SciPy), SQL, R, C/C++, Java, JavaScript, Scala, Bash
 
-[Internal note, remove before routing: the required evidence set is still under negotiation with the business line; both evaluations below are drafted as placeholders pending that agreement.]
-
-The business line performed comparative performance testing of the GPT-4o and GPT-5.1 configurations on the same test query set, with the outputs generated under the same conditions and the model version as the only difference. [TBD: state the test set size and its relationship to the PA2 72-query deduplicated set, the environment used, and confirmation that caching was disabled for the runs.]
-
-### Subject Matter Expert Pairwise Evaluation
-
-The subject matter expert graded the GPT-4o and GPT-5.1 outputs for each query side by side.
-
-[TBD: Table 1. Subject matter expert pairwise evaluation, GPT-4o versus GPT-5.1: per-configuration Correct, Incorrect, Partially correct, and N/A counts, with the correctness rate (Correct divided by the sum of Correct, Incorrect, and Partially correct, excluding N/A) for each configuration.]
-
-[TBD: Narrative: whether the GPT-5.1 correctness rate is comparable to or better than GPT-4o and clears the 67 percent pilot threshold, whether abstention behavior changed, whether any new incorrect answers were introduced, and root cause for any query whose grade differs between configurations.]
-
-### RAGAS Automated Evaluation
-
-The automated RAGAS metrics were generated on the same outputs for both configurations.
-
-[TBD: Table 2. RAGAS automated evaluation, GPT-4o versus GPT-5.1: Correctness, Faithfulness, and Relevancy per configuration. Note: RAGAS Correctness requires ground truth reference answers, which were not available for the PA2 evaluation; confirm whether reference answers are being provided this round or the Correctness row is dropped.]
-
-[TBD: Narrative: whether the automated metrics are comparable across configurations and consistent with the subject matter expert grading.]
-
-**Validation Commentary:** [TBD: Validation's review of the testing design and results, including sample size adequacy, denominator construction, and reconciliation between the subject matter expert grades and the automated metrics. If no concerns: "Validation reviewed the performance testing and has no concerns with the model's performance on the GPT-5.1 configuration for the pilot."]
-
-## Risk Mitigation
-
-The risk mitigations from the existing approval remain in effect and are unchanged: employee facing use with agent review before any customer relay, a limited group of trained and experienced agents, a curated set of pre approved knowledge base articles that contain no customer data with source links preserved, and access through the bank's GenAI gateway providing authentication, logging, content filtering, profanity filtering, and prompt injection controls. The gateway controls apply to GPT-5.1 in the same manner as GPT-4o. The reflexion grading step and the combined answer exclusion of unanswered articles, corrected during the PA2, are unchanged by the version upgrade. [TBD: confirm with the model development team that the corrected combined answer code operates identically on GPT-5.1 outputs.]
-
-## Risk Management Groups Approvals
-
-[TBD: Change Estimation Method Assessment (EMA) for the LLM version change: identifier, Model Risk Governance acceptance date and decision, risk rating, monitoring frequency. Confirm with MRG whether a new Change EMA is required for this change or the existing EMA is updated.]
-
-## Conclusion
-
-Validation reviewed the foundation large language model version upgrade from GPT-4o to GPT-5.1 and the business line's comparative performance testing. [TBD: one-sentence result statement.] The change alters no other component of the model, and the controls from the existing approval remain in effect. Validation identified no concerns that would prevent continued pilot use on the GPT-5.1 configuration prior to completion of a full validation. [TBD: confirm after testing review.]
-
-The pilot duration remains 05/04/2026 through 11/01/2026 and the restriction effective date remains 11/01/2026; no approved dates change under this Provisional Approval. Validation recommends an Approved with Restriction outcome approving the GPT-5.1 version upgrade for pilot use under the same restrictions as the existing approval, which remain unchanged and are reiterated below. The pilot is restricted to a maximum of 148 experienced agents selected from approximately 450 total users, all of whom have received training on the solution; it is limited to Global Treasury Management and Money Movement Platform queries, and the knowledge base is restricted to 800 articles during the pilot. No further changes to the model framework, output, or scope are permitted during the pilot; any subsequent change requires a new Provisional Approval or submission for Initial Validation prior to deployment.
-
-Validation reiterates the following observations and recommendations from the PA2, which remain open and become more relevant with the version upgrade:
-
-- Strengthen the combined answer synthesis prompt, including explicit handling for unanswerable queries, a constraint to ground the combined answer only in the provided answers, per-answer delimiters in the input, and adaptation of the prompt formatting to the current model interface. The prompt retains Llama-2 style system tags carried over from a prior implementation; the move to GPT-5.1 is a natural point to adapt it. This will be assessed during the Initial Validation.
-- The model owner should complete the root cause analysis of the incorrect combined answers identified in the PA2 evaluation (retrieval ranking versus knowledge base coverage) and confirm whether the behavior persists on the GPT-5.1 configuration.
-- Add per-article delimiters to the evaluation export and logs so each combined answer can be traced to its source articles. Target the Initial Validation; if not delivered by then, it would be documented as a Finding, for delivery during ongoing monitoring.
-- Continue to communicate knowledge base article changes, given that some pilot links previously returned access errors.
-
-The next validation activity is the Initial Validation. The model owner should submit the complete documentation package (Model Development Document, Monitoring Plan Document, and Implementation Framework and Testing Document), updated to reflect the GPT-5.1 configuration, sufficiently in advance to allow the Initial Validation to be completed before the pilot concludes on 11/01/2026.
+## EDUCATION AND CREDENTIALS
+* **Massachusetts Institute of Technology**, five degrees. **M.Eng., Computer Science, GPA 5.0/5.0**; B.S. in Computer Science, Management (Finance), Economics, and Mathematics.
+* **CFA Charterholder** · International Mathematical Olympiad (Third Prize) · Active daily coder
