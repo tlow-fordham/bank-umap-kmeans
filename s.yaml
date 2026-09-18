@@ -1,80 +1,16 @@
-# Jordan Low
+Dear Masood,
+
+I am applying for the Head of AI Technology for WCIB role (2026-0028116). Sara Heeney passed along that New York is not the preferred location; I am applying because the role's mandate, a multi-year AI strategy, a federated delivery model and measurable outcomes across Wealth, Corporate, Commercial and Institutional Banking, is the work I do today from the second line, and because I know those businesses from the inside.
+
+At the bank I own AI CoE ID 1286, the Model Risk Management AI validation-automation program: I wrote the first codebase, built the value case Finance received (about $5 million in cumulative avoided cost through 2030, with $290K realized this year), set the phased roadmap on the ITO tracker, and lead the toolset now in production on the AI validation team and being extended across Model Risk Management with the first-line AI Center of Excellence. I sit on the CoE's working committee that decides what the bank automates next, co-authored the GenAI development standards that every first-line team builds against, maintain the consolidated reference for the GenAI gateway architecture, and led our migration to Azure API Management. I have evaluated the bank's first production agentic system across its full AWS stack and validated the first GenAI model the bank approved.
+
+On the engineering side of your basic qualifications: before the bank I ran the software engineering organization of an investment manager I founded, for eleven years, hiring and leading the engineers and contractors who built its cloud and ML platform, setting its engineering practices, and owning architecture, vendors and build-versus-buy. Twenty years of production systems sit behind that, from C++ trading engines at Deutsche Bank to the evaluation agents I still code.
+
+On the businesses: six years at Credit Suisse Asset Management as Head of Quantitative Research and Head of Quantitative Equities, running a 20-person team for institutional and pension clients, reporting to the fund board, and holding the CFA. Research there was delivered as a federated model in a matrix, pods embedded in the equities, fixed income and funds businesses and drawing on a central team and shared standards, which is the delivery model your posting describes. I can sit with a wealth or institutional business head and talk about their P&L and their clients as well as their AI use cases.
+
+If New York can be made to work, I would welcome the conversation, and I am glad to spend time in Hopkins as the work requires.
+
+Regards,
+
+Jordan Low
 917-378-3239 · jordan.low@usbank.com
-
-## SUMMARY
-AI technology leader inside U.S. Bank's AI Center of Excellence who has taken an enterprise AI program from strategy and business case through engineering, governance and adoption, and who knows the WCIB businesses from the inside: six years at Credit Suisse Asset Management as Head of Quantitative Research and Head of Quantitative Equities, running research as a federated model with pods embedded in the equities, fixed income and funds businesses for institutional and pension clients, CFA Charterholder. Owner of AI CoE ID 1286, the Model Risk Management AI validation-automation initiative: wrote the value case Finance received (~$5 million cumulative avoided cost through 2030, ~$290K realized in 2026), set the phased roadmap on the ITO tracker, built the toolset and playbook now in production on the AI validation team and being extended across Model Risk Management with the first-line AI Center of Excellence, and delivered an 8x throughput design. Co-author of the bank's GenAI development standards (positive Federal Reserve feedback); maintainer of the consolidated reference for the GenAI gateway architecture; member of the CoE working committee that decides what the bank automates next and of the committee evaluating the enterprise Responsible AI platforms. Twenty-plus years building production systems in regulated financial services, from C++ trading engines to enterprise AI evaluation agents; fourteen years leading technology modernization, eleven of them as founder-CIO of a firm whose entire cloud and ML platform I designed and whose engineering team I hired and led. MIT (five degrees).
-
-## SELECTED MEASURABLE OUTCOMES
-* AI CoE ID 1286 value case: **~$5 million in cumulative avoided validation cost, 2026 through 2030 (~45,000 hours, 25 FTE-years), ~$290K realized on 2026 activities**, the value statement submitted to Finance from my draft
-* Per validation, the 1286 toolset cuts a provisional approval from **120-190 manual hours to 20-40** and a full initial validation by **350-650 hours**; GenAI validation volume grew from **1 (2024) to 6 (2025) to ~22 (2026)** on the same team
-* A CI/CD regression gate that lets a business line ship **non-material changes to a production agentic system within control** instead of waiting on a full cycle
-* Validated the **first GenAI model approved at U.S. Bank**; its evaluation approach became the reused observability standard across the production AI portfolio
-* Led the validation team's gateway migration from legacy AKS to **Azure API Management**, opening GPT-5 and GPT-5.1 access on the DEV/UAT/PROD path
-* **~10 analysts** trained through a four-month GenAI immersion program; two enterprise training sessions whose tooling is now used in production reviews
-* **Terabytes of data migrated in three months** into a production ML platform I designed and staffed from zero
-
-## EXPERIENCE
-
-### U.S. Bank | Vice President, Quantitative Model Analyst | AI CoE Validation, Model Risk Management | 2023 - Present
-
-**AI Technology Strategy, Operating Model and Delivery Framework**
-* Own AI CoE ID 1286 (MRM-AI Validation), an enterprise AI use case delivered within established governance: wrote the initial codebase (V1 complete 06/30/2026) and lead its productionization with the team into a standardized GenAI Validation Automation Playbook and toolset, in production on the AI validation team and being extended across Model Risk Management with the first-line AI Center of Excellence, engineered for an 8x increase in throughput.
-* Run it as a governed program with a dated roadmap: prepared the value justification for Finance through the Risk AI Enablement Team, with the resource and staffing plan behind it (~45,000 hours, 25 FTE-years avoided through 2030), presented the roadmap to senior management, and report phased milestones to the ITO tracker (Documentation Acceptance Tool 11/30/2026, BCIQ entry 12/01/2026, Validation Recommendation Tool 03/31/2027, report drafter through 06/30/2027, integration with the testing-automation codebase in 2H 2027).
-* Built the business case on measured baselines: one conversational-AI validation runs 40 multi-turn test cases against 19 metrics (~600 evaluations per run, rerun per model version), against a business-line manual benchmark of 52 scenarios that took a multi-week SME effort and a two-day, ~50-person workshop to cover once.
-* Maintain a second dated roadmap for agentic AI evaluation: enterprise AI training requirements (November 2026) and the banking-customized agentic evaluation release of the toolset (target 03/31/2027), synthesized from industry frameworks and the evaluation-tooling landscape.
-
-**Federated Delivery with the Enterprise AI Center of Excellence and Platform Teams**
-* Sit on the first-line AI Center of Excellence's working committee that identifies and prioritizes what the bank automates next (Jim Howard, Saima Shafiq): guide it to automate faster for the Access Online models, connect it with the document-intelligence model teams, and work with it on ways to accelerate the voice IVR agentic AI models.
-* Serve as the second line's hands-on counterpart to the CoE and first-line AI Enablement on the bank's AI pipeline: guardrail configurations and risk-tier templates for the enterprise Responsible AI platform, gateway architecture, and the TrustWise platform evaluation.
-* Maintain the consolidated reference for the GenAI gateway architecture (authentication, logging, PII/PCI scanning, guardrail placement), drawing the migration notes, office hours and platform standups into one picture and tracking its open decisions; shared as reference material with the first-line team.
-* Led the validation team's migration from the legacy AKS gateway to Azure API Management (DEV from May 2026, UAT and PROD through summer 2026), which opened GPT-5 and GPT-5.1 access; opened Azure OpenAI gateway access for Model Risk Management (intake with Amy Steingrebe's team, infrastructure with Tim Walker, 14 tasks) and resolved the CAR ID separation-of-duties conflict by transferring maintenance to the first line; manage gateway roles and key rotation across the DEV/UAT/PROD path.
-
-**AI Engineering Practices, Reusable Services and Standardized Architectures**
-* Co-authored the bank's GenAI validation templates and standards; the GenAI Model Development Template received positive Federal Reserve feedback that the bank "laid out good expectations for GenAI."
-* Championed a CI/CD-style change-control process for a production agentic system, with a DeepEval regression suite as the automated quality gate before UAT promotion and YAML-configured test definitions, tracked in Jira with validation sign-off: an engineering practice that made delivery faster by making it controlled.
-* Built the reusable services that make AI delivery repeatable rather than bespoke: codebases for synthetic-data generation, ground-truth datasets, topic modeling (UMAP, HDBSCAN) and LLM-as-judge evaluation; a DeepEval-backed framework spanning RAG quality (relevancy, correctness, faithfulness, completeness) and agentic behavior (task completion, tool-selection accuracy, role adherence, safety and guardrail checks); LLM-as-judge evaluation agents (Python) with vector and hybrid retrieval and automated prompt optimization (DSPy / GEPA), now serving as evaluation controls across multiple production models.
-* Applied AI to the software development lifecycle of the team itself: a GitHub Copilot custom agent that organizes the model inventory and documentation and drafts validation reports, meeting minutes and presentation decks, in daily use.
-
-**Accelerating GenAI, Agentic AI and ML Adoption with Measurable Outcomes**
-* As validator of 24-Hour Banking Agent Assist, the first GenAI model approved at U.S. Bank, established the LLM-based evaluation approach adopted as the observability standard and reused across the PayVIEW GTM and MMP ChatBot and other models.
-* Evaluated the bank's first production agentic system end to end across its vendor stack (Amazon Connect / Q in Connect, Claude Haiku 4.5, Amazon Nova Sonic 2 and Nova Pro V1, AWS Lambda tools dispatched through the Bedrock AgentCore Gateway (MCP) to the Casper backend API); independent code and evaluation review surfaced 12 of 33 test cases misaligned despite all reporting success, and the business line revised production prompts and Lambda logic before launch.
-* Monitor two production GenAI document-intelligence models for drift (DocuSign Insight, government-contract obligations; GCTC Credit Ratings Extraction, feeding Internal Liquidity Stress Testing to meet Federal Reserve requirements) and deployed independent GenAI models to benchmark both and close gaps.
-* Hold developer-level knowledge of the shared codebase reused across dependent production models; after the model developer's departure, enabled fast, low-risk change recommendations and continued deployment through the knowledge gap, protecting delivery continuity for the business line.
-
-**Responsible AI, Model Governance, Security and Regulatory Alignment**
-* Member of the bank's working committee evaluating the enterprise Responsible AI platforms (Nimbus, Lumenova RAI and Beacon, TrustWise); lead MRM's formal assessments within it, benchmarking ingress guardrails (prompt injection, PII, topic) and egress scoring (Trust Score, Coherence Score, groundedness) against ground-truth datasets with LLM judges I built, evidence the committee uses in platform decisions and that drove one vendor to strengthen its product.
-* Co-delivered "Generative AI: Information Security Guardrails" (September 2025) with ISS Enterprise Security Architecture as part of the 2025 AI/ML Model Training Series; operate daily inside the bank's security controls: gateway entitlements and key rotation, separation of duties, PII/PCI scanning and guardrail placement.
-* Helped defend the first approved GenAI model through a third-line internal-audit review (Corporate Audit Services) escalated to SVP level; report program status, findings and risks into senior leadership and governance forums.
-
-**AI Talent Strategy: Recruitment, Capability Development, Mentoring and Upskilling**
-* Designed and delivered a 4-month GenAI Immersion Program for ~10 rotational analysts across MRM divisions (including offshore consultants), with mentorship, office hours and governance reporting to senior leadership; the graduates act as the generative-AI points of contact in their divisions, a federated capability model in practice. Hired, mentor and lead 2 analysts, including offshore consultants, on LangChain/LangGraph, RAG and LLM evaluation.
-* Created and delivered the GenAI Performance Evaluation training series (two enterprise sessions, May 2025), introducing Giskard, UMAP, HDBSCAN and LLM-as-judge evaluation, tooling now used in production validations.
-
-**Influence Across Business, Product and Technology Leaders**
-* Act as the technical translator between MRM, first-line AI Enablement, infrastructure and vendor engineers, turning evaluation evidence into configuration decisions the business line can act on and executives can approve; the point of contact for model risk, technology, information security, third-party risk, compliance, legal and the business lines on the production AI portfolio.
-
-### Adjunct Professor | Fordham University, Stevens Institute of Technology, Adelphi University, Hofstra University | 2018 - Present
-* Teach graduate courses in generative AI, applied data science, business analytics, optimization and computational finance to oversubscribed cohorts of working professionals, 4.8/5.0 average rating; eight years of getting technical change adopted by non-specialists.
-
-### Wave Hill Capital Management | Chief Information Officer (Founder) | 2012 - 2023
-* Ran the software engineering organization of a machine-learning-driven investment manager for eleven years: hired and led the seven engineers and contractors who built the platform, set its engineering practices (CI/CD, containerized deployment, code review, test coverage on the modernized codebase) and owned the technology strategy, architecture, vendor contracts and build-versus-buy decisions end to end, including the firm's AWS and MongoDB contracts.
-* Delivered the modernization program: migration to AWS/Azure with Docker; Apache Airflow ETL moving terabytes (CSV/Parquet/SQL Server to MongoDB) in three months; legacy Python 2 / C++ / Perl modernized to Python 3; a production ML platform running NLP, recommendation, time-series forecasting and deep-learning applications.
-* Built a SEC filings ingestion and NLP pipeline (10-K, 10-Q, 20-F, 40-F from EDGAR) feeding three ML applications, later scaled to ~3,300 filings across ~800 companies with one LLM agent per filing producing schema-validated JSON; built and delivered an XGBoost liquidity-forecasting platform inside the firm's managed-account product for institutional clients, with client integration and ongoing support.
-
-### Credit Suisse Asset Management | Managing Director, Head of Quantitative Research and Head of Quantitative Equities | 2006 - 2012
-* Ran quantitative research as a federated delivery model in a matrix organization: quantitative pods embedded in the equities, fixed income and funds businesses, each aligned to its business head and drawing on a central research team, shared standards and a common feature store; six years leading multiple teams through that structure.
-* Led the 20-person quantitative-equities team managing $4B+ globally with full P&L and personnel responsibility for institutional and pension clients across mutual funds and managed accounts, working with the European division and serving Asian sovereign and public pension investors; built the centralized predictive-factor feature store, the shared data asset behind every strategy.
-* Reported to the mutual fund board of directors and its audit committee on the strategies' risk and performance; set and monitored the strategies' risk limits; ran the group's monthly risk reporting and transaction cost analysis; managed the group's prime-broker counterparty exposure, including through the Lehman Brothers failure in 2008.
-
-### Deutsche Bank | Vice President, Proprietary Trading | 2004 - 2006
-* Built statistical-arbitrage systems in C++ (FIX protocol) running $100M+ in live order flow, plus a distributed-computing grid spanning hundreds of nodes.
-
-## TECHNICAL SKILLS
-* **AI, GenAI and Agentic AI:** RAG, agent orchestration, LangChain, LangGraph, Model Context Protocol (MCP), LLM tool and function integration, LLM-as-judge evaluation agents, DeepEval, DSPy / GEPA, guardrail / hallucination / red-team testing, embeddings and hybrid retrieval (BM25, vector, Reciprocal Rank Fusion), LlamaIndex, Giskard, Azure Document Intelligence, OpenAI / Azure OpenAI / Anthropic APIs, GitHub Copilot custom agents, agentic voice platforms (Amazon Connect / Q in Connect)
-* **Architecture, Cloud and MLOps:** hybrid and multi-cloud architecture (Azure primary, AWS, on-prem Kubernetes), Azure (ML Studio, model registry, Data Factory, DevOps, Azure OpenAI gateway, API Management), AWS (Bedrock, Lambda, EC2, RDS, Redshift), Docker / Kubernetes, GitLab, CI/CD, secrets management and key rotation, Apache Airflow, Snowflake, Databricks, Kafka, MongoDB Atlas, Elasticsearch, feature stores
-* **AI Governance and Observability:** model performance, drift and reliability monitoring, evaluation frameworks, model governance (versioning, lineage, auditability), Responsible AI and guardrail platforms (Lumenova RAI/Beacon, Nimbus, TrustWise), GenAI development and validation standards, SR 11-7, NIST AI RMF, EU AI Act
-* **Machine Learning and Programming:** TensorFlow/Keras, PyTorch, scikit-learn, XGBoost; Python (NumPy, Pandas, SciPy), SQL, R, C/C++, Java, JavaScript, Scala, Bash
-
-## EDUCATION AND CREDENTIALS
-* **Massachusetts Institute of Technology**, five degrees. **M.Eng., Computer Science, GPA 5.0/5.0**; B.S. in Computer Science, Management (Finance), Economics, and Mathematics.
-* **CFA Charterholder** · International Mathematical Olympiad (Third Prize) · Active daily coder
