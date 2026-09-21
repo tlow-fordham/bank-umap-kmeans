@@ -1,16 +1,48 @@
-Dear Masood,
+# Model-7306 PayVIEW - GTM and MMP ChatBot - Meeting Minutes
 
-I am applying for the Head of AI Technology for WCIB role (2026-0028116). Sara Heeney passed along that New York is not the preferred location; I am applying because the role's mandate, a multi-year AI strategy, a federated delivery model and measurable outcomes across Wealth, Corporate, Commercial and Institutional Banking, is the work I do today from the second line, and because I know those businesses from the inside.
+**Date:** 09/21/2026
+**Subject:** Discuss Rebuild of Model 7306
+**Attendees:** Bob Larson (Model Risk Management (MRM)), Xinyu Wu (MRM Validation), Model Risk Governance (MRG), PayView business line team
+**Prepared by:** MRM Validation
 
-At the bank I own AI CoE ID 1286, the Model Risk Management AI validation-automation program: I wrote the first codebase, built the value case Finance received (about $5 million in cumulative avoided cost through 2030, with $290K realized this year), set the phased roadmap on the ITO tracker, and lead the toolset now in production on the AI validation team and being extended across Model Risk Management with the first-line AI Center of Excellence. I sit on the CoE's working committee that decides what the bank automates next, co-authored the GenAI development standards that every first-line team builds against, maintain the consolidated reference for the GenAI gateway architecture, and led our migration to Azure API Management. I have evaluated the bank's first production agentic system across its full AWS stack and validated the first GenAI model the bank approved.
+## Purpose
 
-On the engineering side of your basic qualifications: before the bank I ran the software engineering organization of an investment manager I founded, for eleven years, hiring and leading the engineers and contractors who built its cloud and ML platform, setting its engineering practices, and owning architecture, vendors and build-versus-buy. Twenty years of production systems sit behind that, from C++ trading engines at Deutsche Bank to the evaluation agents I still code.
+Working session between MRG, MRM Validation, and the PayView team to decide the path for Model-7306 PayVIEW - GTM and MMP ChatBot, and to set governance expectations for the PayView team's upcoming GenAI and agentic AI initiatives.
 
-On the businesses: six years at Credit Suisse Asset Management as Head of Quantitative Research and Head of Quantitative Equities, running a 20-person team for institutional and pension clients, reporting to the fund board, and holding the CFA. Research there was delivered as a federated model in a matrix, pods embedded in the equities, fixed income and funds businesses and drawing on a central team and shared standards, which is the delivery model your posting describes. I can sit with a wealth or institutional business head and talk about their P&L and their clients as well as their AI use cases.
+## Model-7306 Retirement
 
-If New York can be made to work, I would welcome the conversation, and I am glad to spend time in Hopkins as the work requires.
+- The business line confirmed that Model-7306 will not be rebuilt and will not be migrated to the newer GPT version.
+- The use case has already been removed from production. All parties agreed the model will be formally retired rather than upgraded.
+- MRG advised the PayView team to initiate the retirement process through its MRG contact so the model is removed from the model inventory and the associated governance records.
+- The business line's position is that AI capabilities have advanced substantially since the original project began, and that effort is better directed to the next generation of AI capabilities and agents currently under development.
 
-Regards,
+## Governance Changes and EMQ Requirements
 
-Jordan Low
-917-378-3239 · jordan.low@usbank.com
+- MRG summarized its recent streamlining of governance processes. Under the updated guidance, not all AI use cases require an EMQ submission.
+- The guidance differentiates AI solutions that qualify as models, which require MRG oversight, from AI solutions considered non-models, which proceed under the AI Policy framework.
+- The first line of defense will take a larger role in determining the appropriate path using updated risk-based criteria.
+
+## Historical Observations on Model-7306
+
+- The business line stated that the original use case might have been categorized differently under today's framework, and that there had been uncertainty over whether the chatbot functionality should have gone through the full model risk process.
+- The business line also described prior confusion over the distinction between material and immaterial model changes, whether LLM version upgrades trigger governance review, and the validation expectations for model upgrades.
+
+## Upcoming Change Management Guidance
+
+- MRG stated that additional change governance guidance is forthcoming. Future sessions will cover material versus immaterial changes, streamlined review requirements, expected validation and documentation requirements, and faster pathways for lower-risk changes.
+- The PayView team asked to be included in the upcoming workshops and communications.
+
+## Future PayView AI Agents and Intake 854
+
+- The PayView team expects to develop multiple AI-powered agents and use cases in the coming months. Many may be classified as non-models; the team expects some to qualify as models because they may incorporate predictive capabilities and advanced analytics.
+- Intake 854 is the umbrella AI CoE intake for PayView's AI initiatives and associated business value tracking. Individual agents developed under it will be evaluated separately and may carry their own MRG, AI Registry, Prism, or risk-review requirements while still rolling up to the same business initiative.
+- The group discussed the need for clear reporting and value attribution so leadership can see how multiple AI use cases relate to the single intake.
+- MRG encouraged the business to bring new AI initiatives forward early so the proper governance path is identified before development scales and rework is avoided.
+
+## Action Items
+
+- PayView team: work with the MRG contact to formally retire Model-7306.
+- MRG: schedule a follow-up session covering the new EMQ process and governance requirements.
+- MRG: include the PayView team in the upcoming change management workshops.
+- PayView team: define how future AI agents under Intake 854 will be tracked, valued, and reported.
+- All parties: continue coordinating on governance requirements for upcoming PayView AI agents and potential new models.
