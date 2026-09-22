@@ -1,48 +1,110 @@
-# Model-7306 PayVIEW - GTM and MMP ChatBot - Meeting Minutes
+# Model-7158 Entity Name Resolution as a Service - Meeting Minutes
 
-**Date:** 09/21/2026
-**Subject:** Discuss Rebuild of Model 7306
-**Attendees:** Bob Larson (Model Risk Management (MRM)), Xinyu Wu (MRM Validation), Model Risk Governance (MRG), PayView business line team
-**Prepared by:** MRM Validation
+**Date:** 09/21/2026, 11:30 AM to 12:00 PM PT (Microsoft Teams)
 
-## Purpose
+**Meeting:** Review of the draft Provisional Approval (PA) request for the Large Language Model (LLM) version
 
-Working session between MRG, MRM Validation, and the PayView team to decide the path for Model-7306 PayVIEW - GTM and MMP ChatBot, and to set governance expectations for the PayView team's upcoming GenAI and agentic AI initiatives.
+**Attendees:** Bill Miller (Model Owner), Paramjit Chumber (Business Unit Owner), Guru Dath Gundurao (Business Line, preparing the PA form), Wentao Lu (Model Developer), Fion Wang (Model Risk Officer), Xinyu Wu, Jordan Low, and Aditi Pandey (Model Risk Management (MRM) Validation)
 
-## Model-7306 Retirement
+**Absent:** Damien Traore, Model Risk Governance (MRG)
 
-- The business line confirmed that Model-7306 will not be rebuilt and will not be migrated to the newer GPT version.
-- The use case has already been removed from production. All parties agreed the model will be formally retired rather than upgraded.
-- MRG advised the PayView team to initiate the retirement process through its MRG contact so the model is removed from the model inventory and the associated governance records.
-- The business line's position is that AI capabilities have advanced substantially since the original project began, and that effort is better directed to the next generation of AI capabilities and agents currently under development.
+**Purpose:** Understand progress since early September on the transition from the VectorDB version to the LLM version, review the draft PA form, and agree the additional requirements and next steps for the PA submission.
 
-## Governance Changes and EMQ Requirements
+---
 
-- MRG summarized its recent streamlining of governance processes. Under the updated guidance, not all AI use cases require an EMQ submission.
-- The guidance differentiates AI solutions that qualify as models, which require MRG oversight, from AI solutions considered non-models, which proceed under the AI Policy framework.
-- The first line of defense will take a larger role in determining the appropriate path using updated risk-based criteria.
+## Draft Provisional Approval Form
 
-## Historical Observations on Model-7306
+- Guru shared the draft PA form on screen. The model description, method information, and architecture diagram have been updated for the LLM version.
+- Validation described the submission as a second PA request for the LLM version of the model and confirmed that an updated architecture diagram showing the differences from the December 2025 version is required. The updated diagram is already included in the draft form.
+- Wentao explained that the updated diagram adds a middle section that did not exist in the prior version, covering the LLM inference components.
+- Wentao stated that the LLM name and version are stated explicitly in the data flow diagram.
+- Detailed review of the form's design description was not covered in the meeting. Validation will review the draft form and table design questions for the next meeting.
 
-- The business line stated that the original use case might have been categorized differently under today's framework, and that there had been uncertainty over whether the chatbot functionality should have gone through the full model risk process.
-- The business line also described prior confusion over the distinction between material and immaterial model changes, whether LLM version upgrades trigger governance review, and the validation expectations for model upgrades.
+## LLM Version Architecture
 
-## Upcoming Change Management Guidance
+- The vector database is retained in the LLM version. Jordan asked how the LLM and the vector database are combined. Per Wentao, the LLM is used for two purposes:
+  - inferring the North American Industry Classification System (NAICS) industry classification for the entity
+  - interpreting the input name and suggesting an alternative or normalized name, which is then used to run the vector search.
+- On this description the LLM augments the existing retrieval and scoring flow rather than replacing it. The embedding model, vector search, Entity Database, confidence score calculation, and Automated Acceptance Rules are all retained, and the inferred NAICS classification is added as a further similarity measure within the existing confidence score.
+- The draft form shared on screen names two locally hosted models, Mistral-7B-Instruct-v0.3 for the name interpretation pass and GPT-OSS-20B/v1 for the NAICS inference, running on NVIDIA DGX infrastructure. When each is invoked and what data feeds them was not discussed in detail and is tabled for the next meeting.
 
-- MRG stated that additional change governance guidance is forthcoming. Future sessions will cover material versus immaterial changes, streamlined review requirements, expected validation and documentation requirements, and faster pathways for lower-risk changes.
-- The PayView team asked to be included in the upcoming workshops and communications.
+## Performance Evidence Presented
 
-## Future PayView AI Agents and Intake 854
+- Wentao and Bill stated the team has been running multiple datasets through the LLM version in the development environment.
+- Guru shared the comparison spreadsheet and Bill walked through it. The objective of the model is, for a payment record such as an Automated Clearing House (ACH) payment, to identify the recipient and resolve it to an S&P Global identifier.
+- The spreadsheet holds two kinds of sample set, each run separately for ACH originated and ACH received:
+  - Samples of records that had already been resolved, either by the stored procedures or by Kensho, sent to the LLM to resolve. The metric is the share of records where the LLM returned the same S&P Global identifier as the existing resolution.
+  - Full-day extracts for selected dates in May and June 2026, sent to the LLM without pre-selection. Bill explained this second design was added because the first drew only on records the legacy processes had already resolved, which he described as cherry-picking.
+- For the full-day extracts, two metrics are shown for the same LLM outputs: the share matching the stored-procedure identifier, which the team struck through after Wentao raised that exact match against the stored-procedure result was not a fair scoring basis, and the share of LLM outputs accepted by the acceptance procedures (the Automated Acceptance Rules, 10 to 15 rules comparing the resolved entity's name, address, and phone number to the input record). Both figures come from a single LLM version and differ only in how the outputs were scored.
+- Bill presented the accepted share on the full-day extracts as the basis for the proposal, and his position is that the pilot's purpose is to find whether there is a sweet spot, meaning record types or sources where the LLM excels, and whether performance can be improved further.
+- The spreadsheet does not include results for the VectorDB version on the same records. Bill stated verbally that the December 2025 VectorDB pilot results were in line with the LLM results shown, and that the LLM looks better in this particular comparison.
+- Aditi asked about the difference between the ACH originated and ACH received results on the sheet. Bill's explanation is that ACH originated is easier to resolve because the transaction originates from the bank's side, and that the two sample designs are not like-for-like. [TBD: Aditi to confirm]
+- Validation will review the spreadsheet in detail once received, including the aggregate-by-date and quarterly views it contains, before drawing conclusions from the figures.
 
-- The PayView team expects to develop multiple AI-powered agents and use cases in the coming months. Many may be classified as non-models; the team expects some to qualify as models because they may incorporate predictive capabilities and advanced analytics.
-- Intake 854 is the umbrella AI CoE intake for PayView's AI initiatives and associated business value tracking. Individual agents developed under it will be evaluated separately and may carry their own MRG, AI Registry, Prism, or risk-review requirements while still rolling up to the same business initiative.
-- The group discussed the need for clear reporting and value attribution so leadership can see how multiple AI use cases relate to the single intake.
-- MRG encouraged the business to bring new AI initiatives forward early so the proper governance path is identified before development scales and rework is avoided.
+## Ground Truth and Evaluation Method
+
+- Jordan described Validation's usual expectation for a comparison of this kind: a confusion-matrix view (true and false positives and negatives) of the stored-procedure and LLM outputs on the same records, showing both the LLM's lift and that it does not introduce additional errors.
+- Wentao stated that the comparison has no ground truth. Bill's view is that the stored-procedure result serves as the reference for the same records; Wentao's view is that it is not ground truth. Bill confirmed the spreadsheet is a result-versus-result comparison rather than a confusion matrix.
+- Jordan noted that the acceptance-procedure pass rate is an automated evaluation of the outputs rather than a measure of accuracy against confirmed matches. Since no ground truth exists, Subject Matter Expert (SME) review of a sample of records is needed to establish whether resolved entities are correct, concentrated on the harder cases where the processes under comparison disagree, as those are the records where the automated pass rate carries the least information. The evidence expected with the PA submission is set out below.
+- Jordan asked that the spreadsheet be provided with the submission materials. The Kensho comparison is not needed in the PA narrative, since Kensho is discontinued and is not a challenger.
+
+**Performance evidence required at the PA stage.** Following the meeting, and in answer to the action item below, Validation confirms the following as the performance evidence expected with the submission.
+
+- A pairwise comparison across the three processes run on the same input records: the stored procedures, the VectorDB version, and the VectorDB plus LLM version. The records should be drawn from the population the pilot will actually process, and each arm should report how many records it resolved at all, how many of those passed the Automated Acceptance Rules, and how many of those were correct, each with its denominator, so that coverage and precision are visible separately. Comparing all three isolates the lift the LLM adds over the vector database from the lift the vector database adds over the legacy process, which a two-way comparison against the stored procedures alone does not do.
+- Where no ground truth exists for a record, human review by Subject Matter Experts establishes whether the resolved entity is correct. The acceptance-procedure pass rate measures how many outputs clear an automated rule set, not how many are right, so it does not substitute for confirmed matches. The reviewed records need to cover both kinds of disagreement, where the arms resolve to different entities and where one arm resolves a record another leaves unresolved, and a portion of the records where the arms agree, since the VectorDB and VectorDB plus LLM arms share the same embedding, retrieval, and scoring pipeline and can agree on the same wrong entity. The reviewed sample is what supports the confusion-matrix view described above for each arm.
+- The sampling approach, sample sizes, and review criteria are for the Model Owner team to define and document; Validation will assess the evidence produced.
+
+## Scope of the Pilot
+
+- Aditi asked whether the model use remains the same as in the December 2025 PA, which covered five payment rails. Bill stated the LLM work is only in the context of ACH (ACH originated, ACH received, and related ACH categories), and that ACH is by far the most significant rail for the customer. Check, Wire, and Corporate Card, which were in the earlier pilot, would not be in this pilot. The meeting did not establish which process resolves those three rails today, or whether the VectorDB version remains in production use on any rail after the current pilot ends on 11/30/2026; see the action item below.
+- Aditi asked whether the LLM is intended to replace the stored procedures. Bill stated the original VectorDB intent was ACH only and to replace Kensho. The longer-term intent is to replace the legacy stored procedures, which carry technical debt, with the LLM; the team is not at that point yet.
+- Production today runs on the stored procedures only. Kensho's contract has been cancelled. The prior flow was stored procedures first, unresolved records to Kensho, then the acceptance procedures.
+
+## Model Developer and Inventory Record
+
+- Jordan asked whether Wentao is the Model Developer. Wentao confirmed he has taken over from the previous developer. Archer currently lists Chenglin Zhang as Model Developer.
+- Jordan asked that the inventory record be cleaned up as part of the Estimation Method Assessment (EMA) submission, since it still lists Chenglin Zhang as Model Developer and carries other personnel entries that may no longer apply.
+
+## LLM Version Control During the Pilot
+
+- Jordan asked which LLM is used and whether it will change during the pilot, noting the recent migration from GPT-4 to GPT-5 on the enterprise gateway. Wentao stated the model is named in the data flow diagram, that the team could keep the current model for the pilot, and that models change quickly so the team may want to try newer ones.
+- Jordan noted that on other models a change of LLM version during a pilot has required another PA request, and suggested two alternatives: submit the best or final version for the pilot, or document in advance a fixed regression test suite (a sample of records run through the old and the new LLM version) so that a version change can be evidenced without a new request. Wentao understood; no specific tests are defined yet.
+
+## Code and Prompts
+
+- Jordan asked for access to the GitLab repository so Validation can review the prompts directly rather than iterating questions by email. Wentao confirmed the code is uploaded and will send the link. Validation will review the repository and follow up with residual questions.
+
+## Validation Comments on the Draft Form (following the meeting)
+
+Validation reviewed the draft form after the meeting. The points below are for the Model Owner team to address before submission. Design questions that need discussion are listed under Items Deferred.
+
+- Section 1, scope: the draft describes the request as covering the LLM component of the Entity Name Resolution as a Service (ENRaaS) framework. A Provisional Approval covers the model rather than a component of it, so the description should state that the request covers the new version of Model-7158 that incorporates an LLM. Scoped that way, the request also covers the retained vector database retrieval for the new pilot period.
+- Section 1, design description: the form should state explicitly that the LLM augments the existing retrieval-and-ranking process rather than replacing it, as the meeting description and the data flow diagram indicate, and describe the transaction data the NAICS inference uses: which fields, the observation window, and how the data is aggregated before it reaches the LLM.
+- Section 5, challenger design against the VectorDB plan: Section 5 has the LLM version running in parallel as a challenger to the StorProc_ENRaaS-VectorDB version for three months, to 01/31/2027, and then replacing "both the Stored Procs and ENRaaS VectorDB for ACH payment rail." That has the VectorDB version running past 11/30/2026, which does not align with the 09/02/2026 confirmation that there is no plan to continue it. The form should state which processes run during the pilot and what happens to the VectorDB version and its current approval after 11/30/2026.
+- Section 3, rail scope: the request is framed as testing the LLM against the stored procedures for the ACH rail only. The form should state what resolves Check, Wire, and Corporate Card records during and after the pilot.
+- Sections 2 and 5, dates: Section 2 states production usage anticipated 02/01/2027 while Section 5 has deployment to production on 03/01/2027; the two should agree. The Section 5 milestones also allow two weeks between delivering documentation for full validation (02/15/2027) and production deployment (03/01/2027). A full validation cannot be completed in that time, so the deployment date should follow the validation timeline. At the front end, the PA review takes three to four weeks from a complete submission, and the 11/01/2026 first-use date in the draft should allow for that.
+- Section 6, EMA reference: the FRBD pre-review disposition and EMA link carry over from December 2025 (EMA 60213900). The form should reference the change EMA for the LLM version once submitted, since MRG has confirmed that EMA is required before the transition.
+- Housekeeping: the draft still contains Validation's review comments and question-and-answer exchanges from the review of the December 2025 PA request, including Kensho comparisons that no longer apply. These should be removed before submission; Validation has marked the prior comments as resolved. The dates and email addresses in the draft also need to be checked and corrected before submission; several are inconsistent or out of date.
+- Performance testing results and the GenAI-specific documentation are not yet in the draft. The evidence expected is set out under Ground Truth and Evaluation Method above; Aditi will send the GenAI requirements.
+- December 2025 pilot monitoring: the December 2025 PA committed the Business Line to a monthly manual review of 200 accepted records per payment rail (1,000 per month). Where performed, those reviews are SME-confirmed matches on VectorDB outputs and would serve both as ground truth for the VectorDB arm of the comparison and as a labelled set to run through the LLM version. Validation asks for the monthly results to date, or confirmation of whether the reviews were performed.
 
 ## Action Items
 
-- PayView team: work with the MRG contact to formally retire Model-7306.
-- MRG: schedule a follow-up session covering the new EMQ process and governance requirements.
-- MRG: include the PayView team in the upcoming change management workshops.
-- PayView team: define how future AI agents under Intake 854 will be tracked, valued, and reported.
-- All parties: continue coordinating on governance requirements for upcoming PayView AI agents and potential new models.
+- Guru: send the draft PA form to Validation. Complete; received after the meeting, and Validation's comments are set out above.
+- Guru and Bill: send the performance comparison spreadsheet to Validation. Target: 09/28/2026
+- Wentao: send the GitLab repository link to Validation. Target: 09/28/2026
+- Bill and Guru: submit the change EMA, contacting Damien Traore for the expedited duplication of the existing record, and clean up the inventory record so that it lists Wentao Lu as Model Developer and removes personnel entries that no longer apply. Target: 09/28/2026
+- Bill: confirm in writing which process resolves Check, Wire, and Corporate Card records today, and whether the VectorDB version is in production use on any payment rail, including after 11/30/2026 when the current Provisional Approval expires (Sections 3 and 5 of the draft form). Target: 09/28/2026
+- Bill: provide the monthly manual review results from the December 2025 pilot (200 accepted records per payment rail, 1,000 per month, per the December 2025 PA), or confirm whether the reviews were performed. Target: 09/28/2026
+- Aditi: send the GenAI-applicable PA requirements to the Model Owner team so coverage can be checked against the draft form. Target: 09/28/2026
+- Jordan: confirm the performance evidence required at the PA stage, including whether SME-confirmed matches are needed. Answered above; to be sent to the Model Owner team with the GenAI requirements. Target: 09/28/2026
+
+## Items Deferred to Next Session or Email
+
+- Pilot start and end dates. Not discussed in the meeting; the draft form states a three-month pilot from 11/01/2026 to 01/31/2027 with production use anticipated 02/01/2027. Written confirmation is needed.
+- Written confirmation of the pilot scope by payment rail (ACH only; Check, Wire, and Corporate Card excluded).
+- Model design details: which LLMs are used, where they are hosted, when each is invoked in the resolution flow, and what data feeds them. Not covered in detail; Validation will review the draft form and raise questions at the next meeting.
+- Automated Acceptance Rules in the LLM version: whether the rules compare the resolved entity against the original input name or against the LLM-normalized name (comparing against the normalized name would have the rules evaluating the LLM's own rewrite), and whether the acceptance thresholds were re-tuned for the LLM version, since adding the NAICS similarity measure changes the confidence score distribution the rules operate on.
+- Confirmation of the three-way comparison and the Subject Matter Expert review set out above.
+- Definition of the regression test suite for LLM version changes during the pilot.
+- Deployment design of the pilot: whether the LLM version runs on all ACH records as a challenger to the stored procedures, as Sections 3 and 5 of the draft form describe, or only on the records the stored procedures leave unresolved, as the retained acceptance process in Section 4 and the December 2025 design imply. The comparison population and the role of the stored-procedure arm in the evidence above follow from this answer.
