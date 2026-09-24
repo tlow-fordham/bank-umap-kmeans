@@ -1,119 +1,156 @@
-# Model-7158 Entity Name Resolution as a Service - Meeting Minutes
+# 1286 Requirements Document - New Sections Drafted from Bob's 09/21 Direction
 
-**Date:** 09/21/2026, 11:30 AM to 12:00 PM PT (Microsoft Teams)
+Internal working notes. Not for external distribution. Drafted 09/24/2026 as paste-ready text for the Enterprise Model Lifecycle Automation Program requirements document (Revision 2). Each block names where it goes. Text is written in the document's own register. Items still needing input are marked [INPUT: ...]; nothing else is a placeholder.
 
-**Meeting:** Review of the draft Provisional Approval (PA) request for the Large Language Model (LLM) version
-
-**Attendees:** Bill Miller (Model Owner), Paramjit Chumber (Business Unit Owner), Guru Dath Gundurao (Business Line, preparing the PA form), Wentao Lu (Model Developer), Fion Wang (Model Risk Officer), Xinyu Wu, Jordan Low, and Aditi Pandey (Model Risk Management (MRM) Validation)
-
-**Absent:** Damien Traore, Model Risk Governance (MRG)
-
-**Purpose:** Understand progress since early September on the transition from the VectorDB version to the LLM version, review the draft PA form, and agree the additional requirements and next steps for the PA submission.
+Sources: Bob's direction at the 09/21 review; the 09/21 transcription of the document; the edit proposal of 09/22. The builder decision (internal global capability center, KPMG, or a request for proposal) is open as of 09/22 and the sourcing text is written to hold until it is made.
 
 ---
 
-## Draft Provisional Approval Form
+## Section 2 addition - sixth workflow component
 
-- Guru shared the draft PA form on screen. The model description, method information, and architecture diagram have been updated for the LLM version.
-- Validation described the submission as a second PA request for the LLM version of the model and confirmed that an updated architecture diagram showing the differences from the December 2025 version is required. The updated diagram is already included in the draft form.
-- Wentao explained that the updated diagram adds a middle section that did not exist in the prior version, covering the LLM inference components.
-- Wentao stated that the LLM name and version are stated explicitly in the data flow diagram.
-- Detailed review of the form's design description was not covered in the meeting. Validation will review the draft form and table design questions for the next meeting.
+Insert after "Additional Review & Governance Activities":
 
-## LLM Version Architecture
+- **Model Risk Governance process automation:** The solution is intended to support Model Risk Governance (MRG) in recurring governance processes where the activity is procedural rather than judgment-based, including intake and questionnaire handling, inventory record updates, evidence collection and routing between systems, and status reporting. Delivery may rely on workflow automation, data movement and rule-based processing, with GenAI applied only where interpretation of unstructured content is required. Scope, priority and sequencing will be confirmed with MRG. [INPUT: MRG scope from the Becca, Madhavi, Lucas meeting.]
 
-- The vector database is retained in the LLM version. Jordan asked how the LLM and the vector database are combined. Per Wentao, the LLM is used for two purposes:
-  - inferring the North American Industry Classification System (NAICS) industry classification for the entity
-  - interpreting the input name and suggesting an alternative or normalized name, which is then used to run the vector search.
-- On this description the LLM augments the existing retrieval and scoring flow rather than replacing it. The embedding model, vector search, Entity Database, confidence score calculation, and Automated Acceptance Rules are all retained, and the inferred NAICS classification is added as a further similarity measure within the existing confidence score.
-- The draft form shared on screen names two locally hosted models, Mistral-7B-Instruct-v0.3 for the name interpretation pass and GPT-OSS-20B/v1 for the NAICS inference, running on NVIDIA DGX infrastructure. When each is invoked and what data feeds them was not discussed in detail and is tabled for the next meeting.
+## Section 4.3 (new) - Release Schedule and Resourcing Beyond Release 1
 
-## Performance Evidence Presented
+The program is delivered as a sequence of releases on the shared foundation described in Section 4.1. Release 1 is the commitment; the sequence of subsequent releases is the plan of record and may be re-ordered on impact, process readiness and dependency without changing the Release 1 commitment. Each release carries its own scope, dependencies and resource requirement so that funding can be evaluated per release as well as in total.
 
-- Wentao and Bill stated the team has been running multiple datasets through the LLM version in the development environment.
-- Guru shared the comparison spreadsheet and Bill walked through it. The objective of the model is, for a payment record such as an Automated Clearing House (ACH) payment, to identify the recipient and resolve it to an S&P Global identifier.
-- The spreadsheet holds two kinds of sample set, each run separately for ACH originated and ACH received:
-  - Samples of records that had already been resolved, either by the stored procedures or by Kensho, sent to the LLM to resolve. The metric is the share of records where the LLM returned the same S&P Global identifier as the existing resolution.
-  - Full-day extracts for selected dates in May and June 2026, sent to the LLM without pre-selection. Bill explained this second design was added because the first drew only on records the legacy processes had already resolved, which he described as cherry-picking.
-- For the full-day extracts, two metrics are shown for the same LLM outputs: the share matching the stored-procedure identifier, which the team struck through after Wentao raised that exact match against the stored-procedure result was not a fair scoring basis, and the share of LLM outputs accepted by the acceptance procedures (the Automated Acceptance Rules, 10 to 15 rules comparing the resolved entity's name, address, and phone number to the input record). Both figures come from a single LLM version and differ only in how the outputs were scored.
-- Bill presented the accepted share on the full-day extracts as the basis for the proposal, and his position is that the pilot's purpose is to find whether there is a sweet spot, meaning record types or sources where the LLM excels, and whether performance can be improved further.
-- The spreadsheet does not include results for the VectorDB version on the same records. Bill stated verbally that the December 2025 VectorDB pilot results were in line with the LLM results shown, and that the LLM looks better in this particular comparison.
-- Aditi asked why the ACH originated and ACH received results on the sheet differ. Bill explained that ACH originated records are easier to resolve because the transaction originates from the bank's side.
-- Validation will review the spreadsheet in detail once received, including the aggregate-by-date and quarterly views it contains, before drawing conclusions from the figures.
+| Release | Target completion | Scope | Key dependencies | External resources | Internal resources |
+|---|---|---|---|---|---|
+| Release 1 | 03/31/2027 | Development documentation support for model developers; documentation acceptance review; validation support for full validations, initial validations and provisional approvals, including evidence review, report drafting and finding drafting | Reference corpus and labeled reference sets; structured development template; MRG classification of the tooling; BCIQ and PRISM review; enterprise gateway access | Team per Section 5.2 | Program management, MRM subject matter experts, Model Development counterpart, MRG counterpart per Section 5.1a |
+| Release 2 | 06/30/2027 | Change management review (targeted scope validation) and annual review workflows, reusing the Release 1 review, evidence and drafting components | Streamlined model change management pathways released 09/2026; annual review templates; Release 1 production stability | [INPUT: count and mix] | [INPUT] |
+| Release 3 | 09/30/2027 | Monitoring plan and implementation plan support; monitoring result interpretation, trend and exception analysis; monitoring report drafting and MRM review support | Revised Monitoring Plan and Implementation templates; monitoring data access | [INPUT] | [INPUT] |
+| Release 4 | 12/31/2027 | Issue and finding management; MRG process automation per Section 2 | MRG requirements; Archer integration feasibility and access | [INPUT] | [INPUT] |
 
-## Ground Truth and Evaluation Method
+Detailed functional design is staged by release. The Release 1 functional and technical design is completed jointly with the contractor once funding and onboarding are in place, per Section 4.2. Design planning for Release 2 begins in 03/2027, in parallel with Release 1 hardening, so that the contractor team moves from one release to the next without an idle period. Each subsequent release follows the same pattern.
 
-- Jordan described Validation's usual expectation for a comparison of this kind: a confusion-matrix view (true and false positives and negatives) of the stored-procedure and LLM outputs on the same records, showing both the LLM's lift and that it does not introduce additional errors.
-- Wentao stated that the comparison has no ground truth. Bill's view is that the stored-procedure result serves as the reference for the same records; Wentao's view is that it is not ground truth. Bill confirmed the spreadsheet is a result-versus-result comparison rather than a confusion matrix.
-- Jordan noted that the acceptance-procedure pass rate is an automated evaluation of the outputs rather than a measure of accuracy against confirmed matches. The evidence expected with the PA submission is set out below.
-- Jordan asked that the spreadsheet be provided with the submission materials. The Kensho comparison is not needed in the PA narrative, since Kensho is discontinued and is not a challenger.
+Resource requirements are stated per release so that the funding request distinguishes the Release 1 build from the continuing capacity required for expansion. Where the external team size is expected to remain constant across releases, that is stated; where a release requires a different mix, for example integration-heavy work in Release 4, the difference is stated with its rationale. [INPUT: per-release resource estimates.]
 
-**Performance evidence required at the PA stage.** Following the meeting, and in answer to the action item below, Validation confirms the performance evidence expected with the submission.
+## Section 5.1a (new) - Internal Roles and Involvement
 
-- Start from the pilot's live results: the SME reviews of 200 accepted records per payment rail per month that were agreed and required by the December 2025 PA, for the period the VectorDB version was in production use. Provide those results with the submission.
-- Run the LLM version on the same input records and compare the two versions: how many each resolved, how many passed the Automated Acceptance Rules, and how many were correct, each with its denominator. For simplicity, Validation recommends that both versions' outputs for the sample rows be presented on the same spreadsheet, with particular focus on the rows where the outputs differ. Where the initial match was already confident and unique, the two versions return the same entity and only light review is required; where they differ, SME review establishes which is correct.
-- The acceptance-procedure pass rate measures how many outputs clear the rules, not how many are right; SME judgment establishes correctness.
-- The same review commitment carried forward for the LLM pilot, with the sample drawn from accepted ACH resolutions and the cadence stated, in Section 4 of the form.
-- Review criteria and any additional records are for the Model Owner team to define and document; Validation will assess the evidence produced.
+The engagement is a co-delivery rather than a hand-off. Internal teams remain engaged throughout design, build, testing and release, and the following roles are required for the duration of the program.
 
-## Scope of the Pilot
+- **Program management (MRM):** Two named leads, Zhiguang and Jordan, at approximately one full-time equivalent combined through delivery, covering requirements ownership, contractor selection and onboarding, design review and sign-off, backlog and sprint participation, acceptance testing coordination and stakeholder communication.
+- **MRM subject matter experts:** Definition and maintenance of review criteria, documentation requirements and acceptance thresholds; labeling of reference data; acceptance testing of delivered capabilities against the reference sets; user feedback during pilot use. Estimated at [INPUT] hours per week during Release 1, drawn from the AI Validation team.
+- **Model Development counterpart (AI Center of Excellence):** A named assignee who owns requirements, acceptance and adoption for the development documentation workflow and represents model developer users.
+- **MRG counterpart:** A named contact for the classification determination of the tooling, MRG process automation requirements and template alignment.
+- **Technology:** Environment provisioning, access administration and integration support during the build, and the ongoing platform owner described in Section 9.
 
-- Aditi asked whether the model use remains the same as in the December 2025 PA, which covered five payment rails. Bill stated the LLM work is only in the context of ACH (ACH originated, ACH received, and related ACH categories), and that ACH is by far the most significant rail for the customer. Check, Wire, and Corporate Card, which were in the earlier pilot, would not be in this pilot. Bill confirmed in writing after the meeting (09/22/2026) that the legacy stored procedures resolve those three rails today.
-- Aditi asked whether the LLM is intended to replace the stored procedures. Bill stated the original VectorDB intent was ACH only and to replace Kensho. The longer-term intent is to replace the legacy stored procedures, which carry technical debt, with the LLM; the team is not at that point yet.
-- Bill stated that production today runs on the stored procedures and that Kensho's contract has been cancelled. The prior flow was stored procedures first, unresolved records to Kensho, then the acceptance procedures. Under the December 2025 PA the VectorDB version took Kensho's place in that flow, receiving the prioritized records the stored procedures leave unresolved. Bill confirmed in writing on 09/22/2026 that the VectorDB version is not currently in use and will not be used on any payment rail after 11/30/2026.
+The working model consists of standing standups with the contractor team, a shared backlog, design reviews at each phase gate in Section 4.2, and internal acceptance sign-off before any capability is released to business use. Contractors bring engineering capacity and delivery expertise; internal teams bring the standard the capability must meet and confirm that it meets it.
 
-## Model Developer and Inventory Record
+## Section 5.2 addition - External Team Composition
 
-- Jordan asked whether Wentao is the Model Developer. Wentao confirmed he has taken over from the previous developer. Archer currently lists Chenglin Zhang as Model Developer.
-- Jordan asked that the inventory record be cleaned up as part of the Estimation Method Assessment (EMA) submission, since it still lists Chenglin Zhang as Model Developer and carries other personnel entries that may no longer apply.
+The external team for Release 1 is expected to comprise three to five practitioners in the following mix:
 
-## LLM Version Control During the Pilot
+- three data scientists or data engineers with hands-on GenAI and agentic workflow experience, responsible for the review, evidence, drafting and evaluation components;
+- one integration engineer responsible for enterprise platform integration, security controls, observability and deployment; and
+- one delivery lead or project manager with model risk or financial services experience, responsible for translating validation requirements into engineering scope and for release management.
 
-- Jordan asked which LLM is used and whether it will change during the pilot, noting the recent migration from GPT-4 to GPT-5 on the enterprise gateway. Wentao stated the model is named in the data flow diagram, that the team could keep the current model for the pilot, and that models change quickly so the team may want to try newer ones.
-- Jordan noted that on other models a change of LLM version during a pilot has required another PA request, and suggested two alternatives: submit the best or final version for the pilot, or document in advance a fixed regression test suite (a sample of records run through the old and the new LLM version) so that a version change can be evidenced without a new request. Wentao understood; no specific tests are defined yet.
+Senior practitioners are preferred. Junior staff without financial services or risk experience increase the knowledge transfer burden on internal subject matter experts and raise the effective headcount required to deliver the same scope. The team size for subsequent releases is stated in Section 4.3, and the composition above is the starting position for negotiation rather than a fixed requirement.
 
-## Code and Prompts
+## Section 5.6 (new) - Program Interdependencies
 
-- Jordan asked for access to the GitLab repository so Validation can review the prompts directly rather than iterating questions by email. Wentao confirmed the code is uploaded and will send the link. Validation will review the repository and follow up with residual questions.
+The program depends on, and must not duplicate, the following related initiatives. Each is referenced here with its owner and status so that the funding request is scoped to what this program delivers.
 
-## Action Items
+- **Evaluation tooling (AI Enablement, Responsible AI Platform):** AI Enablement is developing standardized evaluator templates by model archetype, with institution and use-case context injected as parameters, on the Responsible AI Platform. Owners: Saima Shafiq and Jim Howard. Status and timeline: [INPUT]. [INPUT: one of the following two sentences once confirmed.] This program consumes those evaluators within the validation and testing workflow and does not fund their development. / Evaluator standardization is not separately funded and is included in Release 1 scope under the validation and testing workflow.
+- **First-line development documentation tooling (AI Center of Excellence):** Any authoring assistant built for model developers consumes the MRM-owned documentation requirements and review criteria described in Section 2 and does not define them. Coordination is through the Model Development counterpart in Section 5.1a. [INPUT: whether a separate first-line build exists or the development documentation workflow is delivered solely by this program.]
+- **Model classification and risk process (MRG, Information Security, Privacy, Legal):** MRG's classification determination for the tooling and the BCIQ and PRISM review are prerequisites for Release 1 production use and are described in Section 10.
+- **Streamlined model change management (MRM, released 09/2026):** Release 2's change management review workflow implements the released pathways and depends on their final form.
+- **Enterprise GenAI gateway (Technology):** All language model access is through the enterprise API gateway. Gateway model lifecycle events, including scheduled model retirements, require re-evaluation of affected capabilities before continued use, per Section 9.
 
-- Guru: send the draft PA form to Validation. Complete; received after the meeting, and Validation's comments are returned on the form.
-- Guru and Bill: send the performance comparison spreadsheet to Validation. Target: 09/28/2026
-- Wentao: send the GitLab repository link to Validation. Target: 09/28/2026
-- Bill and Guru: submit the change EMA, contacting Damien Traore for the expedited duplication of the existing record, and clean up the inventory record so that it lists Wentao Lu as Model Developer and removes personnel entries that no longer apply. In progress; Guru is contacting Damien. Target: 09/28/2026
-- Bill: confirm in writing which process resolves Check, Wire, and Corporate Card records today, and whether the VectorDB version is in use on any payment rail now or after 11/30/2026. Complete; confirmed 09/22/2026 that the legacy stored procedures resolve those rails and that the VectorDB version is not in use and will not be used after 11/30/2026.
-- Bill: confirm the date the VectorDB version was last in production use, so the December 2025 pilot record can be closed out. Target: 09/28/2026
-- Bill: provide the SME review results agreed and required by the December 2025 PA (200 accepted records per payment rail per month) for the period the VectorDB version was in production use. Target: 09/28/2026
-- Aditi: walk the Model Owner team through the GenAI-applicable PA requirements so coverage can be checked against the draft form. To be covered at the 09/28/2026 session.
-- Jordan: confirm the performance evidence required at the PA stage, including whether SME-confirmed matches are needed. Answered above.
+## Section 7.3 additions - Risk Factors
 
-## Items Deferred to Next Session or Email
+Append after the three existing risks:
 
-- Pilot start and end dates. Not discussed in the meeting; the draft form states a three-month pilot from 11/01/2026 to 01/31/2027 with production use anticipated 02/01/2027. Written confirmation is needed.
-- Written confirmation of the pilot scope by payment rail (ACH only; Check, Wire, and Corporate Card excluded).
-- Model design details: which LLMs are used, where they are hosted, when each is invoked in the resolution flow, and what data feeds them. Three specific questions from the form review: the rationale for running LLM inference after the reference data lookup rather than before it; whether NAICS re-ranking runs on every record or only where transaction data is judged sufficient, and how sufficiency is defined; and the inputs to each of the three stages (similarity measures and initial confidence score, LLM inference, re-ranking and re-scaling), listed separately.
-- Automated Acceptance Rules in the LLM version: whether the rules compare the resolved entity against the original input name or against the LLM-normalized name (comparing against the normalized name would have the rules evaluating the LLM's own rewrite), and whether the acceptance thresholds were re-tuned for the LLM version, since adding the NAICS similarity measure changes the confidence score distribution the rules operate on.
-- Confirmation of the two-version comparison and the Subject Matter Expert review set out above.
-- Definition of the regression test suite for LLM version changes during the pilot.
-- Deployment design of the pilot: whether the LLM version runs on all ACH records as a challenger to the stored procedures, as Sections 3 and 5 of the draft form describe, or only on the records the stored procedures leave unresolved, as the retained acceptance process in Section 4 and the December 2025 design imply. The comparison population in the evidence above follows from this answer.
+- **Funding risk:** Funding may not be approved, or may be approved below the level required for the Release 1 team described in Section 5.2, in which case scope or timeline is renegotiated per Section 4.3.
+- **Management commitment risk:** Funding may be available but deferred or diluted by competing priorities, which is distinct from funding risk and is mitigated by sponsor alignment on the Release 1 commitment.
+- **Procurement and onboarding timeline risk:** Contractor selection, contracting and access provisioning have historically taken one to two months, and prior offshore engagements were repeatedly blocked on access. A slip here compresses the Release 1 build window. Preliminary design and data preparation by internal teams during selection, as stated in Section 4.2, is the mitigation.
+- **Knowledge concentration risk:** Contractor staff may rotate or leave, taking program knowledge with them. Mitigated by bank-owned repositories for all artifacts, documentation standards and scheduled knowledge transfer per Section 5.4.
+- **Classification risk:** If MRG classifies any delivered capability as a model rather than a tool, that capability would require inventory, an Estimation Method Assessment and independent validation, changing scope and timeline. Mitigated by the design controls in Section 2 and early engagement with MRG per Section 10.
+- **Data confidentiality risk:** Contractor access to model development documents and validation reports, which are confidential and in some cases describe models the contractor's firm may serve elsewhere. Mitigated by the data boundary in Section 5.4 and the conflict screen in Section 6.
+- **Scope breadth risk:** Requirements spanning six workflows across two lines drafted on a short timeline may be shallow in places. Mitigated by staged functional design per release in Section 4.3.
+- **Duplication risk:** Parallel first-line initiatives may overlap this program's scope. Mitigated by the interdependency register in Section 5.6 and shared program governance with the AI Center of Excellence.
+- **Key-person risk:** Internal program management is concentrated in two individuals at approximately one full-time equivalent combined, alongside their validation workload. Mitigated by documented requirements and decisions, and by the Model Development and MRG counterparts in Section 5.1a.
 
-## Appendix: Validation Comments on the Draft Form (following the meeting)
+## Section 8 restructure - Cost Components, Funding Sources and Value
 
-Validation reviewed the draft form after the meeting. The points below are returned as comments on the form for the Model Owner team to address before submission, and are recorded here for reference. Design questions that need discussion are listed under Items Deferred.
+Replace the current single narrative with three subsections. Dollar amounts are not included at this stage; line items are enumerated so that costs can be estimated with Finance once the funding path is determined.
 
-- Section 1, scope: the draft describes the request as covering the LLM component of the Entity Name Resolution as a Service (ENRaaS) framework. A Provisional Approval covers the model rather than a component of it, so the description should state that the request covers the new version of Model-7158 that incorporates an LLM. Scoped that way, the request also covers the retained vector database retrieval for the new pilot period.
-- Section 1, design description: the form should state explicitly that the LLM augments the existing retrieval-and-ranking process rather than replacing it, as the meeting description and the data flow diagram indicate, and describe the transaction data the NAICS inference uses: which fields, the observation window, and how the data is aggregated before it reaches the LLM.
-- Section 5, challenger design against the VectorDB plan: Section 5 has the LLM version running in parallel as a challenger to the StorProc_ENRaaS-VectorDB version for three months, to 01/31/2027, and then replacing "both the Stored Procs and ENRaaS VectorDB for ACH payment rail." Bill confirmed on 09/22/2026 that the VectorDB version is not in production use and will not be after 11/30/2026, so the form should state the stored procedures as the production champion during the pilot. A development-only VectorDB comparison arm, if retained, should be described as such; it supports the comparison evidence and needs no approval. The form should also state the date the VectorDB version was last in production use, so the December 2025 pilot can be closed out.
-- Section 3, rail scope: the request is framed as testing the LLM against the stored procedures for the ACH rail only. Bill confirmed that the legacy stored procedures resolve Check, Wire, and Corporate Card today; the form should state this and whether it continues during and after the pilot.
-- Sections 2 and 5, dates: Section 2 states production usage anticipated 02/01/2027 while Section 5 has deployment to production on 03/01/2027; the two should agree. The Section 5 milestones also allow two weeks between delivering documentation for full validation (02/15/2027) and production deployment (03/01/2027). A full validation cannot be completed in that time, so the deployment date should follow the validation timeline. At the front end, the PA review takes three to four weeks from a complete submission, and the 11/01/2026 first-use date in the draft should allow for that.
-- Section 6, EMA reference: the FRBD pre-review disposition and EMA link carry over from December 2025 (EMA 60213900). The form should reference the change EMA for the LLM version once submitted, since MRG has confirmed that EMA is required before the transition.
-- Housekeeping: the draft still contains Validation's review comments and question-and-answer exchanges from the review of the December 2025 PA request, including Kensho comparisons that no longer apply. These should be removed before submission; Validation has marked the prior comments as resolved. The dates and email addresses in the draft also need to be checked and corrected before submission; several are inconsistent or out of date.
-- Performance testing results are not yet in the draft. The evidence expected is set out under Ground Truth and Evaluation Method above.
-- GenAI-specific documentation, drawing on the Gen AI Supplemental Requirements, is not yet in the draft. The submission should cover:
-  - confirmation that GPT-OSS-20B/v1 and Mistral-7B-Instruct-v0.3 are used as released, with no fine-tuning, and that neither model calls tools or external APIs;
-  - the prompt instructions used for the NAICS inference and the name normalization pass, with representative examples of inputs and the corresponding outputs for each;
-  - the reference data behind the vector and entity databases (sources, refresh cycle, record counts) and the transaction data aggregated for the NAICS inference;
-  - the controls specific to the LLM components: how an incorrect or fabricated NAICS inference or name rewrite is contained before it affects the resolved entity, and how input data is protected (prompt injection through the name field, and handling of any personal information in the transaction summaries);
-  - the changes anticipated during the pilot (prompts, model versions, thresholds) and how each will be classified under model change management, including the regression test suite discussed in the meeting.
-- December 2025 pilot monitoring: the December 2025 PA required a manual review of 200 accepted records per payment rail per month as a condition of the approval while the VectorDB version was in use. Those reviews are SME-confirmed matches on VectorDB outputs and serve both as ground truth for the VectorDB arm of the comparison and as a labelled set to run through the LLM version. Validation expects the results for the period the VectorDB version was in production use to be included with the submission.
+### 8.1 Cost Components
+
+Build (Release 1, with subsequent releases estimated per Section 4.3):
+
+- external team labor by role and duration;
+- internal program management and subject matter expert time;
+- language model and API usage on the enterprise gateway for development, testing and evaluation;
+- compute and storage across development, user acceptance and production environments;
+- developer tooling and platform seats;
+- data preparation, including pseudonymization of the reference corpus;
+- security, privacy and legal review effort for the risk process; and
+- test environments and test data.
+
+Ongoing (annual, from Release 1 production use):
+
+- platform and language model usage at production volume;
+- monitoring, observability and cost attribution tooling;
+- the technology platform owner described in Section 9, estimated at a partial full-time equivalent;
+- support and maintenance, whether by retainer or internal equivalent;
+- re-evaluation effort at each enterprise gateway model retirement, on a roughly quarterly lifecycle;
+- licensing;
+- user training and adoption support; and
+- knowledge transfer and transition activities at the end of each release.
+
+### 8.2 Funding Sources
+
+More than one funding path is available, and the choice affects which cost components each source would naturally carry.
+
+- **AI Center of Excellence:** Funding for AI initiatives is available through the first-line AI Center of Excellence under Prashant, which is the primary path discussed with sponsors and would naturally carry external team labor and platform costs for capabilities serving model developers.
+- **Risk Management and Controls Innovation and Transformation Office:** The office under Amy Steingrebe, reached through Casandra Kerr as Model Risk's AI Coordinator, has offered resources against the registered initiative (AI Center of Excellence intake 1286).
+- **Model Risk Management:** Internal program management and subject matter expert time.
+- **Technology:** Environment, gateway and ongoing platform ownership costs.
+
+The sourcing route for the external team is open among an internal global capability center engagement, an existing consulting relationship, and a request for proposal; the route chosen constrains both the funding source and the onboarding timeline in Section 4.2. [INPUT: sourcing decision.]
+
+### 8.3 Value
+
+The investment is expected to generate value through reduced manual effort and rework, shorter lifecycle cycle times, improved first-pass submission and validation quality, and increased capacity for Model Development and Model Risk staff to focus on judgment-intensive activities, measured against the indicators in Section 3. Baseline values for each indicator are captured during Release 1 design, before the tooling changes behavior, so that realized value can be measured after release. The existing value statement for intake 1286 rests on effort avoidance; the external team cost introduced by this program will be evaluated against the same indicators.
+
+## Section 9 additions - Ongoing Technology Ownership and Change Control
+
+Append to the existing list:
+
+- **Platform ownership:** A formally assigned technology resource, estimated at a partial full-time equivalent, owns the platform after each release: environments, data flow, storage and usage, access provisioning and removal, gateway and vendor coordination, and incident routing. The owner is to be determined; the requirement is recorded so that the receiving organization plans for the capacity. [INPUT: owning organization.]
+- **Change control:** Review criteria, prompts, templates, workflow configuration and reference data are version-controlled. Any change to prompts, criteria or the underlying language model, including changes driven by enterprise gateway model retirements, triggers a re-run of the evaluation harness against the reference sets before release, and each production run records the versions used.
+- **Classification re-confirmation:** The tooling's classification is re-confirmed with MRG at each scope expansion that changes who the users are or what the outputs feed, for example when assessment and finding drafting are added or when model developer users are onboarded.
+
+## Section 10 (new) - Governance and Risk Process
+
+The program's capabilities are internal-facing tools that support, and do not replace, human decisions. The classification of each capability is determined by MRG; the program assumes classification as non-model AI on the basis of the design controls in Section 2, namely that acceptance and readiness recommendations are computed against MRM-defined thresholds from evidence-cited checks and confirmed by an authorized reviewer, that outputs do not form part of the validation record without human review, and that review criteria remain MRM-owned artifacts.
+
+Before Release 1 enters business use, the following steps are completed and recorded as milestones in Section 4.2:
+
+1. MRG classification confirmation for each Release 1 capability.
+2. Submission through the business change intake (BCIQ) and the risk program review (PRISM) as internal-facing non-model AI, with a package covering workflow architecture, data scope and classification, access model, human-in-the-loop controls and traceability.
+3. Review by Information Security, Privacy and Legal through that process.
+4. Registration of the capabilities in the enterprise AI use case registry under intake 1286.
+
+Data handling follows enterprise data classification. Model development documents and validation reports used as reference data are confidential; external team access is limited to pseudonymized copies unless raw access is explicitly granted under the applicable rules. All runs retain the inputs used, the criteria and prompt versions applied, the intermediate graded results with their evidence citations, the reviewer decisions and the final outputs, so that any recommendation can be reconstructed for internal audit or regulatory examination. Governance of first-line use follows the independence boundary in Section 2: capabilities exposed to model developers are limited to completeness and consistency checks against published requirements.
+
+---
+
+## Placement summary
+
+| New text | Goes to |
+|---|---|
+| Sixth workflow (MRG process automation) | Section 2, after the fifth workflow bullet |
+| Release Schedule and Resourcing Beyond Release 1 | New Section 4.3 |
+| Internal Roles and Involvement | New Section 5.1a, after Internal foundation |
+| External Team Composition | Section 5.2, after the required capabilities list |
+| Program Interdependencies | New Section 5.6, after Preferred Engagement Model |
+| Nine additional risks | Section 7.3, appended |
+| Cost Components, Funding Sources, Value | Section 8, replacing the current narrative |
+| Platform ownership, change control, classification re-confirmation | Section 9, appended |
+| Governance and Risk Process | New Section 10 |
+
+Inputs outstanding: MRG automation scope (MRG meeting); evaluator tooling funding status and any first-line authoring build (AI CoE meeting); per-release resource estimates; sourcing decision; owning organization for the platform.
