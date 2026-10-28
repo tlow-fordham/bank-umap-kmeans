@@ -1,74 +1,71 @@
 # Model-7158 Entity Name Resolution as a Service - Meeting Minutes
 
-**Date:** 10/19/2026, 2:00 PM to 2:33 PM ET (Microsoft Teams)
+**Date:** 10/26/2026, 2:00 PM to 2:36 PM ET (Microsoft Teams)
 
 **Meeting:** Provisional Approval (PA) early engagement for the LLM version, weekly touch base
 
-**Attendees:** Bill Miller (Model Owner, MO), Guru Dath Gundurao (Business Line, BL), Paramjit Chumber (Business Line, BL), Wentao Lu (Model Developer, MD), Damien Traore (Model Risk Governance, MRG), Patricia Witkowiak (Fair and Responsible Banking, FaRB), Xinyu Wu, Jordan Low, and Aditi Pandey (MRM Validation)
+**Attendees:** Bill Miller (Model Owner, MO), Guru Dath Gundurao (Business Line, BL), Wentao Lu (Model Developer, MD), Fion Wang (Model Risk Officer, MRO), Jordan Low and Aditi Pandey (MRM Validation)
 
-**Purpose:** Agree the wording for the next revision of the PA form and confirm the status of the 10/14/2026 action items.
+**Absent:** Damien Traore (Model Risk Governance, MRG)
+
+**Purpose:** Walk through the revised PA form received before the call against the 10/19/2026 action list, and confirm the status of the 11/2/2026 deliverables.
 
 ---
 
-## PA Form Revisions
+## PA Form Revisions (10/26 draft)
 
-- Question 1 (the method and its use). The answers on the payment rails and the VectorDB challenger are now in the comment pane. The BL will write them into the body here. The same box says the entity database is updated weekly, while the data paragraph says the source tables are refreshed three to four times a year. The MO will replace both with one statement of the refresh the team can meet (see Reference Data below).
-- Question 4 (risks and controls while the PA is in effect), monitoring bullet. The team discussed that immaterial prompt changes, such as typo corrections, small wording changes, and added few-shot examples, may be made during the pilot. This is provided a pre-defined regression test shows the model still has acceptable performance. The LLMs, the embedding model, and the methodology are fixed for the PA duration. The BL and the MD will review the bullet and update it to match this view.
-- Question 4, acceptance-rate bullet. The struck-through figure of 42,000 out of 207,000 related to Kensho, which is no longer in use, and the BL is not sure it is correct. The BL will restate the sentence with the stored-procedure figure.
-- Question 4, controls. Two controls are in the updated EMA but not yet in the form: the consumer filter and the Customer 360 scrub that run before the LLM steps, and the monthly SME review of 200 accepted resolutions per ACH rail. This version of the PA form has no separate question on LLM controls and personal information, so both go here. The BL noted that the manual review is already described in this box.
-- Question 4, LLM-specific risks. The MD said in writing earlier that the inferred NAICS labels were not separately assessed for accuracy and are used as one similarity signal within the confidence score. The team agreed the form will say the same.
-- Question 5 (milestones). The sentence on a shortfall in accuracy contains a fragment that does not belong in it ("the ENRaaS LLM is superior to the ENRaaS VectorDB version, that will be replaced, and"). The BL will delete or move the fragment. The sentence will then read that, if there is a shortfall in accuracy, the BL will continue to enhance the LLM version until it can replace the stored procedures. The BL will also adjust the milestone dates to 11/30/2026 to 5/30/2027.
+- Question 2 (production use date). The draft still shows a pilot starting 11/1/2026 and running three months. The BL will change it to the agreed period, 11/30/2026 to 5/30/2027. The MO will let MRG know the dates moved.
+- Question 4 (risks and controls), monitoring bullet. The draft says the LLMs, the embedding model, and the methodology are fixed for the PA duration. The team discussed what counts as an immaterial prompt change during the pilot: typo corrections, wording made clearer (for example, splitting a combined line in the prompt's sector list into two lines), and added few-shot examples. Such a change is recorded in the change log before it is made, a regression test shows performance is unchanged, and the changes are evaluated together at the Initial Validation rather than through a further PA for each. The MD confirmed there is no plan to change any of the three LLM uses (the name search, the industry inference from transaction summaries, and the 3-digit NAICS inference from S&P industry fields). The BL will add the allowed immaterial changes to this bullet so that what can and cannot change is stated together.
+- Question 4, controls. The consumer filter and the Customer 360 scrub, which the updated EMA describes as removing personal information before any record reaches the LLM steps, will be stated here as a risk mitigation. The MO said the scrub is applied upstream, in a separate effort, and covers ACH data. The monthly SME review of 200 accepted resolutions per ACH rail during the pilot will be added as its own bullet under results validation. The heading can be broadened to cover both.
+- Question 4, pilot length and acceptance rate. "The 3-month pilot" becomes six months. The acceptance-rate sentence (400,000 out of 1.9 million a month) is the stored-procedure figure, and the Kensho wording no longer applies. The BL will restate the sentence for this model: about 60,000 records a month go through the model, with the expected accepted share stated approximately.
+- Question 5 (milestones). The fragment is fixed. The three-month period stated here, as in Question 4, becomes the six-month period, 11/30/2026 to 5/30/2027.
 
-## Change EMA and MRG Review
+## Where the material-change definition is recorded
 
-- The BL has submitted the updated change EMA, and MRG is reviewing it. At MRG's request, Validation confirmed that it reviewed the EMA before submission and has no further comments.
-- In answer to FaRB, MRG confirmed that this EMA covers the pilot. After the pilot, once a decision on full implementation is made, MRG will expect another EMA.
-- The Archer inventory record is updated once MRG accepts the EMA.
+- The MRO asked whether the material-versus-immaterial definition for prompt changes lives in the EMA or the PA form. Validation's answer: the agreed definition goes into the PA form, so that a change during the pilot does not need a materiality decision each time. The EMA carries a model-change-definition field, but it does not yet hold this definition. The finalized definition will also be carried in the validation report and in the full model development documentation, and it can change over time with changes logged.
+- The MRO will discuss with MRG whether the EMA should record the agreed definition, possibly when MRG updates the EMA for the actual production date.
 
 ## Reference Data and the Comparison Data Set
 
-- The S&P Global and D&B reference data are not refreshed weekly in practice. The MO said the team tries to refresh the two source tables weekly but often cannot, because of source issues and the platform moves from Greenplum to Azure and now Databricks. The actual cadence falls between the weekly statement in Question 1 and the three to four times a year stated in the data paragraph. The MO will replace both with one statement the team can meet. The PA does not require a particular refresh schedule; the form has to describe what is done.
-- The two copies of the S&P Global data have drifted apart: the vector database was built from a July 2026 table and the entity database from an August 2026 table. Data sets 6, 7, and 8, run through the acceptance procedure, gave a poor outcome, and the BL attributes this to the mismatch. The MD will update the S&P Global data in the vector database, and the BL will rerun data sets 6, 7, and 8 to see whether results improve. If they do not, the BL will build a new data set and run it through the vector search and the LLM version. The BL and the MD will compare record counts between the two versions of the table.
-- The 10/22/2026 date for the reference-data update was the first step in the plan. It can move as long as the SME review and comparisons arrive by 11/2/2026. The BL said the work is on track for 11/2/2026. The MO confirmed the plan for 11/2/2026: update the reference table, run the vector search and the LLM version, and complete the SME review.
+- The BL updated the S&P Global reference data in the vector database last week and checked the tables in use. The MD updated the configuration table.
+- Data sets 6, 7, and 8 were not rerun. The BL found an issue with them, built a new data set, set 9, and sent it to the MD. The comparison and the SME review will be on set 9.
+- The MD confirmed the configuration is frozen. The MD will include the configuration settings in the PA form, or provide the latest code, so the form and the code agree.
 
 ## SME Review
 
-- The MO will perform the review. The sample will be stratified by rail (ACH Originated and ACH Received) and by stored-procedure outcome, as agreed on 10/14/2026. The comparison will cover the stored procedures, the vector search, and the LLM version. The MO estimates about 700 to 1,000 names, checking 10 to 12 fields per record, and considers this manageable. Results are due 11/2/2026.
+- The MO asked whether the 11/2/2026 date for the SME results has a day or two of flexibility. The date was confirmed as Monday 11/2/2026, and the MO will work to it. Validation's secondary will work with the MO on the results while the lead is on leave.
 
-## Configuration Table
+## Answers to the Two Written Questions
 
-- The pilot configuration is to be provided in one table, including the GPT-OSS reasoning setting, with the code version on which the SME results are produced. The code package shared earlier is not the running version. Due with the SME review by 11/2/2026.
+- Resolved identifier. The S&P Global identifier is the primary output. The input is matched to the D&B reference data and to the S&P Global reference data independently; there is no comparison between the two, and a higher D&B score does not change the S&P Global result. The MD understands the business line's assessment of outcomes to look at the S&P Global result only. Validation will evaluate both results when it reviews the SME sample, so the sample should show the D&B result alongside the S&P Global result.
+- Non-U.S. counterparties. The MD stated that the inputs include a country field, but the ACH records are U.S. transactions and the counterparties are treated as U.S. entities.
 
-## Automated Acceptance Rules
+## Personal Information in the Transaction Summaries
 
-- The MO said the Automated Acceptance Rules have not changed since the December 2025 pilot. They are four or five fuzzy-matching rules, the same process the BL used with Kensho, which check the returned entity against the original record. They are separate from the comparison run, which checked whether the S&P Global identifier from the LLM version matched the identifier from the stored procedure. The MO noted that fuzzy matching is not entirely black and white and that the rules have to be considered when evaluating the results.
+- The transaction summaries sent to GPT-OSS carry the counterparty names, the transaction descriptions, and the transaction frequencies. The MD's position is that ACH transaction data carries no personal information and that the summaries contain only business names and transaction usage; the MO said the data is scrubbed upstream. This is recorded as an assumption of the model and will be stated as such in the form.
 
 ## Code Corrections
 
-- The sector fallback identified in October, which recorded a response with no valid sector as Agriculture, was described as a bug fix that needs no further explanation in the submission. Validation will record it as fixed in its question log.
-
-## Fair and Responsible Banking (FaRB)
-
-- FaRB has received answers to all of its questions. Its remaining question, whether the EMA covers the pilot only or also a full rollout, was answered by MRG as above. FaRB's review begins once MRG completes its EMA review.
+- The sector-code range mapping (31-33, 44-45, 48-49) did not require a code change. The MD added the individual two-digit codes to the lookup dictionary in data preparation, so each prefix maps to its sector. Validation will record it as fixed.
+- Single-candidate scoring. The vector search returns at least 20 candidates for every record, so the case of a single candidate does not arise.
 
 ## Action Items
 
-This list replaces the 10/14/2026 list.
+This list replaces the 10/19/2026 list.
 
-- BL and MD (Guru, Wentao): next revision of the PA form with (1) Question 4 reworded for the allowed immaterial prompt changes and the fixed configuration, (2) the payment-rail and VectorDB-challenger answers written into Question 1, (3) the acceptance-rate sentence restated with the stored-procedure figure, (4) the Question 5 fragment removed and the milestone dates set to 11/30/2026 to 5/30/2027, (5) the reference-data refresh described once, as a cadence the team can meet, (6) the consumer filter and the Customer 360 scrub stated under the controls, (7) the monthly SME review of 200 accepted resolutions per ACH rail stated under the controls, and (8) the statement that the inferred NAICS labels were not separately assessed for accuracy. Target: 11/2/2026
-- MD and BL (Wentao, Guru): update the S&P Global data in the vector database; rerun data sets 6, 7, and 8; build a new data set if results do not improve. Target: in time for the SME review by 11/2/2026
-- MO (Bill): SME review of the stratified sample (by rail and by stored-procedure outcome), with the stored-procedure, vector-search, and LLM-version results compared and the acceptance-procedure results alongside; results shared with Validation. Target: 11/2/2026
-- MD (Wentao): the pilot configuration table (candidate count, industry weight, score variant used by the acceptance process, Mistral weights loaded, GPT-OSS reasoning setting, transaction observation window), with the code version the SME results are produced on. Target: 11/2/2026
-- MRG (Damien): review of the change EMA; the 3/31/2026 end date for the December 2025 pilot in EMA 60213900 (10/14/2026 action).
-- FaRB (Patricia): review of the LLM version once MRG's EMA review is complete.
-- Validation: record the sector-fallback correction as fixed in the question log, and circulate the question log with the 10/19 answers for the MO team's review.
-- Closed: BL, resubmission of the change EMA.
+- BL (Guru): next revision of the PA form with the 11/30/2026 to 5/30/2027 period in Questions 2, 4, and 5; the allowed immaterial prompt changes added to the Question 4 monitoring bullet; the consumer filter and Customer 360 scrub, and the monthly SME review of 200 accepted resolutions per ACH rail, added under the Question 4 controls; the acceptance-rate sentence restated for this model on about 60,000 records a month; the personal-information assumption stated. Target: 11/2/2026
+- MD (Wentao): the configuration settings in the PA form, or the latest code, so the two agree; written answers to the remaining questions in the 10/19 minutes. Target: 11/2/2026
+- MO (Bill) with the BL and MD: the SME review on data set 9, stratified by rail and by stored-procedure outcome, with the stored-procedure, vector-search, and LLM-version results compared and the D&B result shown alongside the S&P Global result. Target: 11/2/2026
+- MO (Bill): let MRG know that the PA form dates are moving to the period in the change EMA, 11/30/2026 to 5/30/2027.
+- MRO (Fion): discuss with MRG whether the agreed material-change definition is recorded in the EMA, and when.
+- Validation (Aditi): work with the MO on the SME results during the week of 11/2/2026; record the sector-mapping correction and the candidate count in the question log.
+- Closed: BL and MD, the S&P Global reference-data update in the vector database and the configuration table. Done.
+- Closed: BL, the Question 5 fragment. Fixed in the 10/26 draft.
 
 ## Items Deferred to Next Session or Email
 
-- For a written answer with these minutes: the form states that S&P Global is preferred. When D&B returns the higher-scoring candidate, which identifier is the resolved output, and which identifier does the SME review judge?
-- For a written answer with these minutes: does the pilot population include non-U.S. counterparties? The form should state it.
-- Confirmation that the Customer 360 scrub covers the transaction summaries sent to GPT-OSS, which carry counterparty names and payment descriptions.
-- Whether the Automated Acceptance Rules check against the original input name where the LLM has rewritten the name.
-- Whether the two October code corrections (the sector fallback, and the mapping of the 31-33, 44-45, and 48-49 sector codes) are in the version producing the SME results. The code version provided with the configuration table should show it.
-- MRG's acceptance of the change EMA (MRG target 10/24/2026).
+- MRG's acceptance of the change EMA and the risk rating, and the 3/31/2026 end date for the December 2025 pilot in EMA 60213900. MRG was not on the call.
+- The FaRB review status. FaRB was not on the call.
+- The remaining questions in the 10/19 minutes, for which the MD will provide written answers.
+- Whether the sector-fallback correction is in the version producing the SME results. The code version provided by the MD will show it.
+- Not reached on the call, for the next form revision: the Mistral prompt in Appendix 7.1 differs from the code package shared on 09/28 (the search-for-matches step is now generate-from-learned-knowledge, and the top-three request is removed); the form should state that this is the running prompt and when it changed. Also: the reference-data refresh described once (Question 1 says weekly, the data paragraph says three to four times a year); the Question 5 sentence still naming a parallel run against the VectorDB version, which is no longer in use; the Appendix 7.2 and 7.3 labels, which are swapped against their content; and the Question 6 answer, which still cites the December 2025 FRBD disposition pending FaRB's determination on the change EMA.
