@@ -1,168 +1,125 @@
-# 2026 Year-End Self-Evaluation: Final Text for Submission
+# Handoff: R&D Plan Word File, Tracked Changes and Comment Replies
 
-Paste-ready text for Workday, assembled 10/30/2026. Supersedes the 10/26 draft ([20261026_Jordan_2026_Goals_with_Year_End_Status.md](20261026_Jordan_2026_Goals_with_Year_End_Status.md)): every bracketed [confirm] item in that draft has been resolved against the workspace record, the Model-7409 Special Purpose Validation signed 10/29 is added as the seventh completed validation, the additions from the [10/26 gap check](20261026_Year_End_Gap_Check_Additions_and_Unmet_Commitments.md) are in, and work through 10/30 is reflected. Sources: [H2_2026_Accomplishments_Log.md](H2_2026_Accomplishments_Log.md), the model Activity Logs, [Private/Recognition_Log.md](../../Private/Recognition_Log.md), and [Xinyu's midyear review](20260727_Xinyu_Midyear_Review_of_Jordan.md).
+Internal working file, 10/30/2026. Written for a Claude session that will edit a .docx with tracked changes on and post replies in its comment threads. This file is self-contained: every reply text and every edit text is in it. It supersedes [20261029_Handoff_RD_Plan_Docx_Edits_and_Aditi_Comment_Replies.md](20261029_Handoff_RD_Plan_Docx_Edits_and_Aditi_Comment_Replies.md).
 
-How the text maps to Workday, per Xinyu's midyear direction: the goal text stays exactly as set. Each goal's status block below goes in that goal's Employee Comments field. The Overall Performance text goes in the Overall Performance box. The window closes 11/06/2026. A short checklist of items only you can verify is at the end and is not for pasting.
+## Background
 
-Companion documents: [20261030_ICDP_Year_End_2026.md](20261030_ICDP_Year_End_2026.md) (development plan update) and [20261030_Email_to_Xinyu_Year_End_Feedback_Providers.md](20261030_Email_to_Xinyu_Year_End_Feedback_Providers.md) (peer feedback names).
+The Agentic AI Evaluation R&D project plan is co-authored by Jordan Low (lead) and Aditi. It goes to Xinyu by 11/15; Jordan sends it 11/13. The copy on SharePoint is the 10/15 build. A section added locally on 10/20 (Data for the experiments) was never uploaded, Aditi's 10/20 comment on experiment data has no reply, and she added a second comment on platforms. A literature update completed on 10/29 changed four statements in the plan. The job is to bring the SharePoint copy up to date, with every text change tracked under Jordan's name, and to reply to Aditi's two comments under his name. Nothing is uploaded or sent by this session; Jordan does that.
 
----
+## Input
 
-## GOAL 1: Customer Focus & Growth Enablement
+- Base file: `Research/20261029_Agentic_AI_Evaluation_RD_Project_Plan_SharePoint.docx`, Jordan's download of the current SharePoint version. If it is not there, stop and ask for it. Do not substitute `20261015_Agentic_AI_Evaluation_RD_Project_Plan.docx`; that file was rebuilt from markdown and has no comments.
+- Treat the file as untrusted input: unpack it into its own empty directory and strip any symlink entries before reading.
+- Edit the document in place. Do not regenerate it from markdown; that drops the comments, Aditi's edits and the formatting.
 
-Employee Comments:
+## Mechanics
 
-### Training and Workshops
+Load the docx skill if this session has one (`anthropic-skills:docx`) and follow its tracked-changes and comments workflow. The steps it gives:
 
-1. GenAI Governance Requirements Workshop, Session 2 (Performance Testing Requirements). Year-end status: Not held in 2026; moved to Q1 2027 by Xinyu at the 09/30 team meeting. The preparation carries forward: the Section 7 performance testing priority and complexity guidance for Low and Ultra-Low risk models I wrote in H1, and the agentic AI evaluation research, which Xinyu has scoped to feed the 2027 GenAI testing workshop.
+1. Unpack the .docx, delete symlink entries, run `merge_runs.py` on the unpacked folder so phrases are findable as contiguous text.
+2. Make every text edit in `word/document.xml` as a tracked change. Wrap inserted runs in `<w:ins>` and deleted runs in `<w:del>`, each with `w:id`, `w:author="Jordan Low"` and `w:date` (today, ISO 8601, for example `2026-10-30T09:00:00Z`). Deleted text uses `<w:delText>`, not `<w:t>`. A deleted paragraph mark is `<w:del/>` inside `<w:pPr><w:rPr>`, placed before the rPr's other children.
+3. Add comments and replies with `comment.py` in directory mode: `python scripts/comment.py unpacked/ "<text>" --author "Jordan Low" --initials "JL"` for a new comment, and add `--parent <id>` for a reply under an existing comment. For a new comment, paste the printed `commentRangeStart`, `commentRangeEnd` and `commentReference` markers into `document.xml` around the anchor text; without them the comment exists but is not shown.
+4. Rezip and validate: `python scripts/office/validate.py out.docx --original <base>.docx --author "Jordan Low"`. The author flag reports any text changed without a tracked-change wrapper. Fix every report before finishing.
 
-2. Feedback and support on Agentic AI training sessions. Year-end status: Done. I supported the three H1 sessions, reviewed the LangGraph training dry run on 08/19 and prepared feedback for Zhiguang and Eric, and reviewed the 2026 quant training deck for the validation teams at Aditi's request on 10/26, where I caught a chart whose percentages could not come from the stated model count.
+Without the skill, the same OOXML rules apply; the six comment files (`comments.xml`, `commentsExtended.xml`, `commentsIds.xml`, `commentsExtensible.xml`, the relationships entry and the content-type override) must stay cross-linked, and a reply is a comment whose `commentsExtended.xml` entry names the parent's `paraId`.
 
-3. Knowledge sharing from GenAI validations. Year-end status: Done. In H2 the knowledge sharing moved from individual walkthroughs to reusable team material.
-   - The Model-7409 audit Q&A package Aditi and I prepared is the team's reference for future audits (Xinyu, 08/31).
-   - A peer-bank automation briefing and a gap analysis of our GenAI templates from the September AI and ML models conference Bob sent me to, covering UBS, JPMorgan, Wells Fargo and four other banks.
-   - The conference lessons segment at Bob's 10/28 all-hands: three lessons (test every way a GenAI-drafted letter can fail, validate GenAI-written rules like any model change, add net new data only if it fixes a prior mistake and is fair to use) delivered in about eight and a half minutes to about 35 people across the AI CoE, fraud, financial crimes and compliance, credit scoring and marketing validation teams.
-   - A standing reference on multi-turn jailbreak testing (Crescendo and DeepTeam) for the team's R&D lines.
+## Step 1: inventory the comments
 
-4. First-line GenAI presentation series on Streamlining and Change Management. Year-end status: Done in H1. I built the effort-reduction estimate (about 44 percent for Validation and 35 percent for model owners) and the material-versus-immaterial change definitions used in the June workshops, which in part informed the reduction of the GenAI Provisional Approval timeline from four to six weeks to two to three weeks. In H2 I applied the new change pathways on live models (Model-6962, Model-7154 and Model-7409) while Nan led the change governance guidance.
+Read `word/comments.xml` and `word/commentsExtended.xml`. List every thread: comment ID, author, date, anchor text, comment text, existing replies, resolved or open. Record the total count. As of 10/30 the panel shows two comments, both by Aditi, both open, no replies:
 
-### Cross-Functional Collaboration
+- C1, anchored in Work breakdown item 2 near the words "subtle tool-": asks what data the experiments use and how it is collected, and whether it comes from an existing model or an agent Validation builds.
+- C2, anchored on the Tools and platforms heading: asks whether the experiments run on one platform or on several.
 
-1. AI/ML risk management framework with AI Technology Oversight and the AI CoE. Year-end status: Achieved. In H2 the collaboration moved from template comments to working arrangements with the first line.
-   - Monitoring: wrote the required agentic AI monitoring metrics for the Monitoring Plan template and set the boundary where first-line operational monitoring continues and MRM governs model performance monitoring (07/29).
-   - Guardrails: contributed to the risk-tiered Lumenova guardrail templates, where Saima named me among the contributors (07/10), and to the 07/17 working session she directed to shorten the path through MRM.
-   - Change management foresight: flagged in June that the gateway move to GPT-5.1 would trigger change reviews on four GenAI models and that validators should ask developers ahead of it; the unapproved GPT-5.1 switch on Model-7306 in August was the case the note anticipated.
-   - Tiering: took the team's automation initiative through the first-line AI risk intake, approved at Tier 2 on 10/14, drafted the AI Registry record, and opened the question of a consistent MRM-wide tier for validation-support tools with Becca on 10/23; the MRM position is set at a meeting after my leave.
-   - Platform-versus-model position: when the first-line Model Risk Officer asked on 10/28 whether Lumenova should carry its own model record, I set the position that the platform is validated with each model that uses it, since it has no fixed inputs, outputs or configuration on its own, and secured agreement that model owners are brought into the first-line Lumenova guidance.
-   - Early engagement: advised first-line teams on where the tool-versus-model line falls (CSB loan spreading, 07/24) and on a delivery path for the Access Online chatbot at Saima's request (07/06).
+If the file holds more comments than these, apply Step 4 to each.
 
-2. AI/ML updates for the Model Risk Committee, AI Stakeholder Committee and regulators. Year-end status: Done. I checked every field for my models in the Management Committee priority model report to Vijay and Bob (09/29 and 10/30). That included correcting the Model-7306 Provisional Approval 1 duration from 59 days to 22 by setting the start at the date the complete form arrived; the 09/30 check found the report differed from Archer in one place only, where Archer was wrong. I also supplied the 1286 background for the Management Committee AI priorities reporting (09/25 to 09/28) and wrote the conference briefing for Xinyu.
+## Step 2: text edits, each tracked, each with a short comment from Jordan on the changed text
 
-### White Papers and Research
+The current wording is from 10/30 screenshots of the SharePoint file. If the Word text differs, Aditi may have edited it; apply the same correction to her wording and note the difference in the summary.
 
-1. Agentic AI Framework Evaluation white paper (Q4 2026, lead author with Aditi). Year-end status: Rescoped, not delivered as a 2026 white paper. Following Xinyu's midyear direction to prioritize one research topic, the work became the team's 2027 R&D topic on agentic AI evaluation, which I lead with Aditi as co-author (confirmed 09/28). The plan frames evaluation as risk-based: the depth of testing Validation requires scales with the exposure left after the model owner's controls. The literature review found no published method for that conversion, which is the research contribution; the October update (completed 10/29) added the FSB and MAS final texts, which scale testing up with autonomy and risk but give no such method, and verified every figure carried from the first run. The plan goes to Xinyu by 11/13 (due 11/15) and feeds the 2027 agentic AI testing training and workshop.
+**Edit 1. Section "The idea in one paragraph," the two sentences before the last.**
 
-2. SME and Automated Testing Alignment white paper. Year-end status: Not pursued in 2026, set aside per Xinyu's midyear direction to prioritize one topic. Its core question, how far automated scores can stand in for SME review, informed the lesson on measuring human review in my 10/28 all-hands segment.
+Current: A literature review completed in October found this logic formalized in functional safety standards and in SR 2026-13a's materiality principle, but with no published method for agents; OpenAI's own governance practices paper lists the conversion from control strength to oversight depth as an open question. That gap is the research contribution.
 
-3. Automatic Prompt Optimization and Context Engineering white paper. Year-end status: Not pursued in 2026, set aside per the same direction.
+New: A literature review completed in October found this logic formalized in functional safety standards and in SR 2026-13a's materiality principle, but with no published method for agents. OpenAI's governance practices paper leaves open which agent actions need human approval given the model's measured reliability on the task. The FSB's final sound practices and the MAS final AI risk management guidelines, both issued in October 2026, scale testing up with autonomy and risk, and neither lets a control reduce the testing required. That gap is the research contribution.
 
-### Research and Development Initiatives (H2 2026)
+Comment: Changed after checking the source on 10/29. The OpenAI paper does not use the words control strength or oversight depth, so I restated its open question as written. I added the FSB and MAS final texts from October; they support the direction but give no control offset.
 
-1. H2 2026 R&D roadmap. Year-end status: Done for my line. I lead the agentic AI evaluation topic (above), and the plan draws the boundary with Zhiguang and Eric's multi-turn guardrail research so the two lines share one test agent and attack set without overlapping. Through the 07/08 prioritization sheet for Bob and Vijay, I rewrote the agentic AI evaluation row into concrete deliverables, and it was ranked high.
+**Edit 2. Section "Work breakdown," item 2, the list of instruments.**
 
----
+Current: the Azure AI Evaluation agent evaluators (still in preview)
 
-## GOAL 2: Effective Risk Management
+New: the Azure AI Evaluation agent evaluators (Intent Resolution, Task Adherence and Task Completion still in preview; all tested as code before use, because of a reported defect in Task Adherence that drops supplied inputs silently)
 
-Employee Comments:
+Comment: Azure status as of 10/29. The tool-call evaluators no longer carry a preview label; these three still do. The Task Adherence defect is an open GitHub issue we have not reproduced, so the evaluators get the same code test as the DeepEval metrics.
 
-I completed seven validations in 2026, all on time:
+**Edit 3. Section "Tools and platforms": insert a lead paragraph between the heading and the first bullet.**
 
-- Model-7306 PayVIEW ChatBot, Provisional Approval (01/30/2026).
-- Model-6170, Special Purpose Validation (01/30/2026).
-- Model-7306 PayVIEW ChatBot, Special Purpose Validation, pilot extension (05/19/2026).
-- Model-7409 Conversational AI in IVRs, Provisional Approval, Approved with Restrictions (05/28/2026).
-- Model-7306 PayVIEW ChatBot, Provisional Approval 2, Approved with Restriction (07/10/2026), eight days from kickoff.
-- Model-7468 GenAI Selling Points, Initial Validation, Approved with Restriction (08/04/2026).
-- Model-7409 Conversational AI in IVRs, Special Purpose Validation, Approved with Restriction (10/29/2026), extending the pilot to 06/09/2027.
+Insert: The experiments run on one test agent in one sandbox, the team's LangGraph agent on the GenAI gateway in the development environment with Beacon tracing, and compare several evaluator instruments on the same traces. Each entry below states what the platform supplies: the sandbox, the traces, an instrument, or a control to evidence.
 
-In progress for completion before year-end: the Model-7158 second Provisional Approval, due the last week of November.
+Comment: Added in answer to Aditi's comment on platforms.
 
-1. Primary validator assignments.
-   - Model-7306 PayVIEW ChatBot. Year-end status: Complete; model retired. In June I identified that the combined answer, the user-facing output since the pilot start, was a material change deployed without approval: a new LLM synthesis step that the May Special Purpose Validation had stated in writing required separate approval. I set out the position to MRG, which agreed and reported it to the Model Risk Committee as an Estimation Method of Note; the Model Risk Officer confirmed the change was material under the Provisional Approval terms, and the model owner disabled the feature until Provisional Approval 2. My correctness analysis showed the model owner's regrade from 72.7 percent (32 of 44) to 93.5 percent (29 of 31) came from moving 13 answers to not applicable rather than correcting errors, so the 72.7 percent stood. Provisional Approval 2 was signed 07/10, eight days from kickoff against a 07/16 due date, after Tessa and I found a defect that let content the model's own hallucination check had rejected reach the combined answer; the developer fixed it during the review. Of the 72 test queries, 40 were answered and 36 of those were correct (90 percent, against a 67 percent threshold). When the business line switched the pilot to GPT-5.1 in production without approval in August, I set Validation's written position, confirmed the approval path with MRG and offered a one-to-two-week review; the business line chose to decommission, and MRG retired the model on 10/02. The chronology I built from the record showed about eight weeks on Validation's desk across 16.5 months, with every review on time, which answered the account that validation drove the model's two-year path.
-   - Model-7468 GenAI Selling Points for CBB. Year-end status: Complete. The Initial Validation was signed 08/04, 34 days from the 07/01 start against a 42-day ceiling, Approved with Restriction for six months' production use (08/15/2026 to 02/15/2027), with two High, three Moderate and one Low Priority Findings. The published retrieval metrics did not reconcile to their own evaluation file (recall at 1 posted at 83.65 against a true value of 9.65) and were withdrawn, so my review of all 172 selling points became the performance evidence (3 of 172 with unqualified cost phrasing, no fabricated capabilities). The production export also showed a rebrand regenerated in production without SME re-review, which is why the restriction rested on the missing SME review gate rather than on the three hallucination cases. The model owner then adopted that gate, and MRG determined the method out of scope on 08/26, with the report and all six Findings kept on the record. Aditi was secondary validator.
-   - Model-7637 Knowledgebase Integration (IVR). Year-end status: In progress; Provisional Approval expected in Q1 2027. In July, with Aditi, I moved the model from an Initial Validation due 10/16/2026 with no performance testing to a scoped pilot Provisional Approval with a fixed must-have evidence list. At the 10/08 walkthrough the pilot narrowed to two business lines with a stated maximum scope, the inventory record was aligned to the 02/18/2027 pilot start, and the complete request is due 12/11/2026.
-   - Model-7409 Conversational AI in IVRs (Agentic AI). Year-end status: Provisional Approval delivered, pilot extended by a Special Purpose Validation signed 10/29. The Provisional Approval was built on independent evidence: a live demo with zero end-to-end completions in February, the model owner's system prompt revised in response to Validation's early observations, 36 UAT versions regression-checked by script, and a pilot change classification agreed with the model owner and MRG. The Provisional Approval was then control-tested by CAS with PwC support; the audit closed 08/31 with no issues, no credible challenges and no observations, and the audit lead said it ranked at the top of the provisional validations he had reviewed. The model owner's October request combined a pilot extension with an expansion; my review showed the Provisional Approval's change-control framework requires a new Provisional Approval for added dispute types, so the model owner and MRG agreed on 10/05 to split it. The Special Purpose Validation extends the pilot from 12/09/2026 to 06/09/2027 with scope unchanged (3,657 calls routed to the bot and 10 claims submitted from 06/09 through 09/09, zero alarms or incidents), and the expansion goes to a new EMA and Provisional Approval. I also compared the current production prompt against the version assessed in the Provisional Approval and recorded the seven changes that fall in the framework's significant categories as the starting point for the Initial Validation, due by 06/09/2027.
-   - Model-7158 Entity Name Resolution as a Service. Year-end status: In progress; second Provisional Approval due the last week of November. The model owner's move to an LLM framework was headed for pilot production in October under an approval written for the earlier version; I routed it to a change EMA and a new Provisional Approval, and the period agreed with MRG and the business line is 11/30/2026 to 05/30/2027, a pilot capped at 60,000 records a month feeding the party summary only. My code review found an undisclosed offline use of the LLM (about 3.4 million of roughly 40 million reference entities labelled with no accuracy check) and two defects the developer confirmed and fixed. The evidence submitted measured agreement and rule pass rates rather than accuracy, so the agreed plan is an SME review comparing the current and LLM versions, due 11/02. I run the weekly session with the model owner, business line, developer, Model Risk Officer and MRG, where the business line returned its revised form a week early on 10/26. The streamlined review draft is written, and Aditi covers the kickoff during my leave.
-   - Added during the year: primary validator on Model-7889 CPP Merchant Identification (record at EMA Pending Acceptance; first use 03/01/2027).
+**Edit 4. Lumenova Beacon bullet, on the words "33 agent-as-judge evaluators": comment only, no text change.**
 
-2. Secondary validator support. Year-end status: Secondary on Model-7930 Infosys SOFIA from 10/05, after I took the intake, the route decision and the gap analysis and handed the primary role to Aditi. I supplied MRG the characteristics supporting out-of-scope consideration, MRG made a preliminary out-of-scope determination on 10/08, and its final determination went to its 10/22 agenda with Validation's support on the stated scope conditions. Also secondary to Nan on the Model-6962 and Model-7154 annual reviews below.
+Comment: Aditi, your 10/26 export has 37 files across the agent-as-a-judge folders, against the 33 here from the 10/08 walkthrough. Did Lumenova add evaluators since then, or do some files sit outside the agent-as-judge type? I will update the counts once we know.
 
-2a. Annual reviews and other lifecycle activities:
-   - Model-7154 DocuSign Insight, Annual Review (Nan primary; due 12/17/2026). Year-end status: In progress. With Nan, assessed two proposed model owner changes as material on 10/19: new paragraph examples in the extraction policy, and a policy split that adds two submodels. I raised the coverage question for the model owner to confirm. In June I covered the Agiloft Astra vendor demonstration for Nan.
-   - Model-6962 GCTC Credit Ratings Extraction, Annual Review (Nan primary; due 12/14/2026). Year-end status: In progress. With Nan, advised the model owner on 10/07 that the vendor's proposed GPT-5.6 Luna upgrade is a material change needing approval before implementation. On 10/27 the vendor disclosed that the model has run on GPT-4.1 rather than the GPT-4o of record, and that both retire on 01/14/2027, so I set out the pathway questions for Xinyu and the plan for the change package to reach Validation before 11/20; Nan runs the vendor planning call during my leave.
-   - Model-7638 Premier Airlines. Year-end status: Out of scope since H1; no further activity.
+**Edit 5. Insert the section "Data for the experiments" between the Tools and platforms section and the Deliverables and delivery form section.** Use the same heading style as the other section headings and the same bullet style as the other sections. Text, verbatim:
 
-3. Finding closures within the validation-review window. Year-end status: Done. Five Findings closed within the 30-day window in H1 (four on Model-7154, one on Model-6962). The six Model-7468 Findings closed on an opened-as-closed basis after the 08/26 out-of-scope determination, following PMO guidance to keep them on the record rather than delete them.
+Data for the experiments
 
-4. Monitoring and issue management. Year-end status: On track. No open issues on my models. The Model-6962 monitoring report is due 10/31 for review with Nan, and Model-7154 is due 12/31.
+- Agent built by Validation. The control offset experiment switches controls on and off, which cannot be done on a production model, so it runs on a LangGraph agent the team builds on the gateway in the development environment. Its task set is synthetic banking work (dispute intake, balance transfer, address change) with a written policy, an expected tool sequence and an expected final state per task, generated with the toolkit's synthetic data generator and Claude Code and reviewed by the team. No customer data.
+- Existing-model traces. The evaluator-sensitivity experiment and the trajectory rubric use real traces: Model-7409 trace files in JSON, requested from the model owner as the validation template provides (pilot volume is small, 10 claims through 3,657 interactions, so these are a calibration sample rather than a test set); the Validation-authored Crescendo transcripts from the Model-7569 and Model-7631 PAs, which contain no customer data; and traces from the first pipeline kickoff. Real traces enter the sandbox only within the permitted data boundary, with customer PII masked or excluded; that boundary is confirmed before any trace is moved.
+- Public sets. AgentDojo for tool-use tasks with injected content, and the TRAIL annotated traces (MIT licence) for judge calibration. MAST and AgentErrorBench carry non-commercial licences and serve as annotation schemas only. The banking domain of the tau2-bench repository and FraudBench, both MIT-licensed synthetic retail-banking task sets released in 2026, can seed or cross-check the team's own task set. Results are pinned to a version, because tau2-bench 2.0.0 scores are not comparable with 1.x.
+- Labels. Human labels on a sample of traces by the team, with inter-rater agreement recorded, because judge acceptance thresholds are set against human agreement rather than against perfect agreement.
+- Collection path. Existing traces through the model owner request at kickoff and the team's own PA testing records in the model folders; synthetic tasks and attack sets stored in the research folder, versioned, so the same set serves the multi-turn guardrails line.
 
-5. Timeline commitments (100 percent on time, supporting the team's 90 percent target). Year-end status: Met. Seven of seven completed validations were on time, including Model-7306 Provisional Approval 2 in eight days against a 07/16 due date, the Model-7468 Initial Validation in 34 days against a 42-day ceiling, and the Model-7409 Special Purpose Validation signed ahead of the 12/09/2026 restriction end.
+Comment, on the heading: Added in answer to Aditi's comment on experiment data. The two public banking task sets are new since the 10/15 draft; both are MIT, so we can use them.
 
-6. Regulatory and audit readiness. Year-end status: Done. The Model-7409 Provisional Approval passed CAS control testing with no issues, no credible challenges and no observations. I kept the Model-7468 Findings in the record through the out-of-scope determination so the record reconciles for an examiner, and raised stale Archer inventory fields on Models 7158, 7409 and 7637 with MRG. In H1 I coordinated the OCC DDAI exam response and wrote the SR 2026-13a impact analysis.
+**Edit 6. Section "Timeline," first bullet.**
 
-7. People and team leadership. Year-end status: Ongoing, with a larger group than at midyear.
-   - Aditi: designed and ran her onboarding from April and ran her midyear review in the format Xinyu set. Her role grew through H2 from secondary validator to co-presenter of the Model-7468 outcome, co-lead on Model-7158, primary on Model-7930, and co-author of the 2027 R&D topic.
-   - KPMG offshore analysts: ran the technical interview for Shashank with Jinjun, recommended him, and mentor him with a written development plan. His utilization rose from about 40 percent in the week of 10/05 to about 100 percent the following week, his second return on the Model-7409 form did the review step without prompting, and on 10/28 he brought his first self-initiated evaluation design, which I scoped to the Initial Validation. Mentor to a second KPMG analyst, Shri, from 10/19, and assessed a third candidate against the team's agreed gates.
-   - Hiring: ranked the Mehdi backfill pipeline and built the scored interview instrument the team reused for the KPMG interviews.
-   - Team coverage: in H1 coached Mehdi through his improvement plan until his departure, served as the team's escalation path during Xinyu's leave (routing the Model-7409 Provisional Approval to Bob for sign-off and handling the Model-7306 agentic redesign question with the AI CoE and MRG), and covered for Nan in June. At Xinyu's direction, documented the feedback record and a five-point improvement plan for the offshore analyst on my models.
+Current: November to December 2026: literature update on the harness-control side done; framework and model-owner checklist drafted; sandbox and test agent path settled. Work only where validation load allows.
 
----
+New: November to December 2026: framework and model-owner checklist drafted; sandbox and test agent path settled. Work only where validation load allows. The literature update was completed on 10/29/2026.
 
-## GOAL 3: Operational Excellence
+Comment: The literature update is done. It covers evaluator sensitivity, benchmarks, the supervisory texts and experiment designs. I can share the report.
 
-Employee Comments:
+**Edit 7. Section "Deliverables and delivery form": restart the list numbering at 1.** The two items show as 4 and 5 because the Word list continues from Work breakdown. This is a numbering property change, not a text change; no comment needed. If restarting the numbering requires a new `w:num` entry in `numbering.xml`, add one; do not retype the items.
 
-### Templates and Guidance Documents
+## Step 3: replies to Aditi's two comments
 
-1. Implementation Framework and Testing, Monitoring Plan and Monitoring Report templates. Year-end status: Done for the two templates that came to me.
-   - Implementation Framework and Testing: two review rounds (07/23 and 09/24) against the 2023 template. Per-transaction traceability, prompt change control and foundation model version tracking were adopted, and Jinjun and I finalized the template on 09/29 as one of the five due to MRG by 09/30.
-   - Monitoring Plan: wrote the required agentic AI metrics (goal completion, tool success and unauthorized access, human intervention, each with a threshold and breach definition) and the boundary between first-line and MRM monitoring (07/29).
-   - Monitoring Report: not reviewed by me this year.
+Post each as a threaded reply under her comment (`--parent <her comment ID>`), author `Jordan Low`, initials `JL`. Leave both threads open; resolving them is her call. No greeting, no sign-off.
 
-2. GenAI Validation Template. Year-end status: Partly done. I co-authored draft v1 in H1. The H2 revision, which folds in best practices across project teams, is on Zhiguang's line with a draft due 10/15, and my H2 contribution to validation report practice went through the Model-7468 Initial Validation and the Model-7409 Special Purpose Validation, both reviewed by Xinyu and Bob.
+**Reply to C1 (experiment data), verbatim:**
 
-### Platform Evaluations
+Good catch, both. The control offset experiment needs an agent we build, because the controls have to be switched on and off and that cannot be done on a production model; it runs on a LangGraph agent in DEV with a synthetic banking task set (written policy, expected tool sequence, expected final state per task), no customer data. The evaluator-sensitivity experiment and the trajectory rubric use existing traces: the 7409 trace files we can request from the MO, our own Crescendo transcripts from the two Collections VVA PAs, and traces from the first pipeline kickoff, with PII masked or excluded within the sandbox data boundary. Public sets (AgentDojo, TRAIL) are for calibration only. I added a Data section to the plan with the sources, the labeling step and the collection path.
 
-1. Lumenova Platform POC evaluation (with Nan). Year-end status: Achieved. The proof of concept became a standing MRM role on the platform.
-   - H1 results: prompt injection recall rose from 41.4 percent to 85.9 percent on Deepset and 96.7 percent on Qualifire, and Trust Score AUC from 72.2 to 87.6 percent on the 500-query ARES set, after vendor upgrades my feedback contributed to. MRM's own evaluator outperformed the platform's on the same set (AUC 90.0 versus 84.8 percent).
-   - Guardrails: the risk-tiered guardrail templates I contributed to in July are now applied at onboarding.
-   - Evaluators: designed standard evaluator sets by model archetype with Jim Howard (09/04), so developers know what to test before submitting evidence to MRM, and assessed the platform's 31 evaluators against that design (09/21).
-   - Evaluator suite: named lead by Jim (09/17), reviewed all 88 Beacon evaluators for what each result can show as evidence (10/08), kicked off the build with Jim and Nan (10/09), reviewed Jim's project plan against the agreed ownership (AI CoE owns the set, MRM reviews it, the model owner sets thresholds), and wrote the Phase 1 specification for the first two starter suites (internal and customer-facing chatbot) with the standing caveat that a passing result does not by itself support a validation outcome. Per Xinyu, the suites go out as examples with a disclaimer, not as MRM-approved evaluators.
+**Reply to C2 (platforms), verbatim:**
 
-2. Nimbus Uno platform POC evaluation (with Nan). Year-end status: Not met as planned. Phase I was completed in H1. Phase II GenAI testing on Model-7009 did not start: MRM's environment onboarding was still blocked on data migration in September, the GenAI subscription was not signed, the vendor had no GenAI feature ready for a proof of concept, and on 10/27 the first line reported GenAI out of scope for the Nimbus UAT. In July I rewrote the 11 GenAI capability questions and documented the gaps behind the vendor's answers (document intelligence, multi-turn red teaming and judge-to-SME alignment were not functional).
+One sandbox, one test agent, several instruments. Both experiments run on our LangGraph agent on the GenAI gateway in DEV with Beacon tracing on. The platform list is about roles rather than choices: Beacon supplies the traces and is one of the evaluator instruments; DeepEval, the Azure agent evaluators and our own judge prompts are the others, and all of them score the same traces against the same human labels. TrustWise is a control we evidence, not something we evaluate. NayaOne is only the fallback sandbox if DEV does not work out. I added a lead sentence to the Tools section so this reads clearly.
 
-3. ML Studio and Modeva. Year-end status: Not started. On hold all year behind the Lumenova, Nimbus and TrustWise work.
+## Step 4: any other comments found
 
-4. TrustWise AI control-tower platform. Year-end status: Not met. My work was a documentation review in July, which found overlap with Lumenova Beacon and red-team generation relevant to Validation; no hands-on testing took place in 2026.
+- A comment by Aditi asking for a change consistent with the plan: make it as a tracked change and reply in one or two sentences saying what changed.
+- A comment by Aditi asking a question the plan or the 10/29 research report answers: reply in one to three sentences. The report is [20261029_Agentic_AI_Evaluation_Research_Report_Completion.md](20261029_Agentic_AI_Evaluation_Research_Report_Completion.md); its Section 1 has the corrections, 3.6 the library defects, 4.4 the banking benchmarks, 5 the supervisory texts, 8 the candidate experiments.
+- A comment that needs Jordan's decision (scope, roles, dates, what goes to Xinyu, anything the sources do not cover): do not reply. List it in the summary with a suggested reply.
+- A comment by anyone other than Aditi: do not reply. List it in the summary. Shashank's review of the plan was due 10/23 with no return recorded, so say whether his comments are present.
 
-### Validation Automation
+Reply style: short plain sentences that lead with the fact, collaborative, acronyms are fine, no em-dashes. Do not draw on anything under `Private/` or on any section of the 10/07 research report headed "What the employer corpus adds".
 
-1. GenAI Validation Automation Playbook (with Nan and Zhiguang; target December 2026). Year-end status: V1 delivered; the December V2 target no longer applies as set. The Playbook V1 user guide was complete and team-reviewed on 07/24, when Nan presented it to Bob alongside my codebase demonstration, and the DeepEval harness from Model-7409 is part of its tool set. After Bob's 09/04 redirect, further tooling work moved into the enterprise program requirements.
+## Outputs
 
-2. MRM-AI Validation GenAI codebase and workflow (AI CoE Intake 1286; co-lead). Year-end status: Achieved, with a change of direction that enlarged it.
-   - Phase 1: the codebase is in sanctioned use on live validations. I completed the migration to the enterprise gateway and GPT-5.1 ahead of the legacy gateway decommission, registered the initiative with RM&C so the team's automation work is visible across the organization, and demonstrated the codebase to Bob on 07/24.
-   - Phase 3, the MRM Validation Agent: I designed MVP1 (documentation acceptance and validation recommendation). After Zhiguang and I presented the plan on 09/04, Bob elevated it to an enterprise automation program across the GenAI model lifecycle, to be funded through the first-line AI CoE, with Zhiguang and me as the two named drivers. Prashant, head of the first-line AI CoE, had endorsed the initiative at the 09/02 leadership meeting and proposed MRM's testing guidance as default testing for LLM products. We co-authored the nine-section requirements document Bob reviewed on 09/21, which he closed by saying "I think we're participating in something that's going to really have a lot of impact on the organization and MRM, as well as the bank."
-   - Phase 2, Codebase V2 (Q4 2026): suspended with the 09/04 redirect, and its scope folds into the program requirements.
-   - Governance and value: rebuilt the value statement on effort avoided (Finance signed off 10/02), took the initiative through the first-line AI risk intake (Tier 2, 10/14), drafted the AI Registry record, assessed KPMG's AVA tool as a reference for the program (a credible tool for traditional playbooks, with no GenAI and no documentation acceptance), captured MRG's requirements for the program's sixth workflow, and co-lead the team's evaluation of the AI CoE's development-document prototype, where I identified that its minimum-to-pass-validation framing invites words in place of evidence.
+1. The edited Word file, saved as `Research/20261030_Agentic_AI_Evaluation_RD_Project_Plan.docx`. Leave the SharePoint download and the 10/15 file untouched.
+2. The markdown mirror [20261015_Agentic_AI_Evaluation_RD_Project_Plan.md](20261015_Agentic_AI_Evaluation_RD_Project_Plan.md), updated in place with Edits 1, 2, 3 and 6, the two public-sets sentences from Edit 5, and any Step 4 edits. Add one line under its header: Revised 10/30/2026 for the literature update and Aditi's comments; see the Word file for tracked changes.
+3. A summary note, `Research/20261030_RD_Plan_Comment_Replies_Summary.md`, with the comment inventory, the edits applied and any wording differences found, the replies posted verbatim, the comments held for Jordan with suggested replies, and the comments by others.
+4. No messages to anyone and no uploads. Jordan uploads the file.
 
----
+## Checks before finishing
 
-## Overall Performance
+- The comment count equals the Step 1 count plus six edit comments plus the replies posted. No existing comment was altered or lost.
+- The validator with `--author "Jordan Low"` reports no untracked edits, and nothing in the document changed apart from the listed edits.
+- New text contains no em-dashes and matches this file word for word.
+- The file opens cleanly in Word or converts cleanly to PDF.
 
-In 2026 I completed seven validations on time, including the Provisional Approval of the bank's first medium-risk agentic AI application in pilot production, which then passed internal audit with no issues or observations, and my first Initial Validation of the year. I caught three model changes made or planned without approval and routed each to the right review, and my own analysis decided the outcomes: on Model-7306 the material combined-answer change went to MRG and the Model Risk Committee, the model owner's regrade was shown to come from moving answers out of the denominator, and a code defect that bypassed the model's hallucination check was found and fixed during the review; on Model-7468 the published metrics did not reconcile to their own data, and my review of all 172 selling points became the evidence. The automation work I co-lead with Zhiguang became an enterprise program sponsored by Bob, and my Lumenova testing produced measurable platform improvements and a standing MRM role on the first line's evaluation platform. I also took on more people development, with Aditi moving into a primary validator role and two new offshore analysts mentored on live work.
+## Notes for Jordan
 
-Goals not met or changed:
-
-- Performance Testing workshop: moved to Q1 2027 by Xinyu.
-- Agentic AI Framework Evaluation white paper (Q4 2026): rescoped into the 2027 R&D topic, with the plan due 11/15.
-- SME alignment and prompt optimization white papers: set aside per the midyear direction to prioritize one topic.
-- Nimbus Phase II: not started, because the environment and subscription were not ready, the vendor had no GenAI feature ready to test, and the first line has since reported GenAI out of scope for the Nimbus UAT.
-- TrustWise, ML Studio and Modeva: not evaluated hands-on in 2026.
-- Codebase V2 and the Playbook V2: suspended when Bob redirected the build to an enterprise program on 09/04.
-- Model-7306 and Model-7158 Initial Validations: no longer needed as planned; Model-7306 was retired and Model-7158 moved to a second Provisional Approval on the LLM version.
-
-The strengths I relied on most were independent challenge grounded in my own analysis, and the working relationships that let that challenge land: with model owners, with MRG on Model-7306, Model-7468 and Model-7158, with the AI CoE through Saima, Jim Howard and Prashant, and with Bob on the automation program. The Model-7306 model development team told Xinyu and me in July that they were impressed by the depth of the review and expected future models to go more smoothly, and Saima named me among the contributors when the risk-tiered guardrail templates launched. I hold a position when the evidence supports it, as with registering our automation work with RM&C, which Xinyu first questioned and later credited, and I take direction when it improves the work: I rebuilt the Model-7468 rationale on Xinyu's feedback so the restriction rested on the control gap, and I cut the Model-7409 Special Purpose Validation to the extension justification alone at her review, after which Bob approved it for sign-off the next day. My development area remains concise, executive-ready writing. I have made progress, and Bob's only comment on the MVP1 plan was its timeline. My drafts still carry more evaluation detail than some document types need, so I am applying Xinyu's standard of matching a document's depth to its review pathway. In 2027 I plan to deliver the agentic AI evaluation research and the training and workshop it feeds, drive the automation program's first release with Zhiguang, complete the Model-7158 and Model-7637 Provisional Approvals and the Model-7409 Initial Validation by 06/09/2027, and bring Aditi and the offshore analysts to the point where they run Provisional Approvals with review rather than direction.
-
----
-
-## Before you paste (internal, not for submission)
-
-Everything above is written from the workspace record as of 10/30. Four items only you can confirm:
-
-1. Monitoring Report template (Goal 3, item 1). The record shows no work by you on it, so the text says it was not reviewed by you. If you did contribute, replace that line.
-2. LangGraph dry run (Goal 1, item 2). The 08/19 notes carry a "Top Feedback for the Presenters" section; the text says you prepared feedback. If you sent it to Zhiguang and Eric, "prepared" can become "gave."
-3. Model-7930 (Goal 2, item 2). MRG's final out-of-scope determination was on its 10/22 agenda with no outcome on record; the text says it went to the agenda with Validation's support. If the determination is final, say so.
-4. Model-7409 Archer record. The SPV record is with Aditi for secondary review with three field fixes pending; the text counts the SPV as signed and submitted 10/29, which holds regardless.
-
-Items left out on purpose: the 06/25 Monitoring Steering Committee appearance and other one-off meetings (Xinyu's midyear filter), the Model-7930 rating narrative review (the rating belongs to MRG), the midyear action to summarize the auditors' questions as a trend for Bob (not written; the audit closed with no challenges, so decide whether to raise it verbally), and vendor assessments too small for the storyline.
+- The replies and tracked changes will show the author as the plain name Jordan Low, not as your M365 account, so Word will not link them to your profile picture or allow @mention notifications. If you want the replies to come from your account, paste the two reply texts above into the threads yourself in SharePoint and let this session do only the tracked changes.
+- Check the SharePoint version history before uploading. If Aditi edited the file after your download, do not upload over her version; re-run this handoff on the newer copy.
