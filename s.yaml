@@ -1,121 +1,57 @@
-# 1286 - ADD Review Request - Answers, Paste Ready
+# Model-7637 Conversational AI in IVR (Knowledgebase Integration) - Meeting Minutes
 
-Internal working notes, 11/13/2026. Answers for the Request Architecture Decision Document (ADD) Review form (ServiceNow, MyTech, Software Catalog, Software, Other Services), in form order, from three photos of Jordan's screen taken at 9:48 AM with the form still empty. This is step 4 of the 11/06/2026 1LOD approval, and the approval's link for the step points to this catalog item. Text under a Paste label goes into the form as written. Earlier steps: [BCIQ intake, Item ID 2408](20261113_1286_BCIQ_Intake_Submitted_Item_2408.md), [ISS EngageUs](20261113_1286_ISS_EngageUs_Submitted_Record.md).
+**Date:** 11/12/2026
 
-## Read this first
+**Attendees:** John Lorence (Model Owner, MO), Baloo Narayanan (Platform), Fion Wang (Model Risk Officer, MRO), Sana Ahmed (Model Risk Governance, MRG), MRM Validation (Jordan Low)
 
-- This request is a review and approval of solution options, and it names people: a Decision Owner, a Product Manager, a Technical Owner, an ISS architect, and Proposed Approvers. The intake form and the ISS request named no approvers. Tell anyone named here before submitting.
-- Five fields cannot be answered from the record. They are marked OPEN below: ISS Architect Consulted, Proposed Approvers, Business Capability, the open source question, and the columns of the Solution Option table that sit to the right of the photo.
-- The form links an ADD User Guide at the top. [My read: it should define the Decision Type options and say who the Proposed Approvers are.] A photo of the guide would close most of the open fields.
-- The banner at the top sends Technology ADD requests to a redesigned form and keeps Business Application requests on this one. [My read: MRM-AI Validation is a business line's use of existing technology, so this form applies. The CAR record classifies the software as a Utility, so the reviewers may see it differently.]
+The meeting was shortened because of a company-wide system outage.
 
-## Decision
+---
 
-| Field | Answer | Basis |
-|---|---|---|
-| Name of Technology (required) | MRM-AI Validation | The name on CAR 11342, the 1LOD record, and the ISS request. |
-| Decision Type (required) | Tick New Application. Leave Limited Use, Principle Deviation, New Technology, and Technology Standard blank. | CAR 11342 is in Development lifecycle status with no production date, and the toolkit has had no ADD. It uses the existing Azure OpenAI service through the enterprise API gateway, so it brings no new technology. [My read. The option definitions are in the ADD User Guide, which is not on record. Limited Use may also fit a ten-user development tool.] |
-| Decision Impact Level (required) | Business Line | The users are the MRM AI validation team only. |
-| Decision Owner (required) | Jordan Low | Primary owner on the 1LOD record. |
-| Decision Owner L4 Manager | Fills itself. The field is greyed. | |
-| Product Manager (required) | Jordan Low | Judgment call. No product manager is on record for the toolkit. CAR lists the Product as AI and ML Platform, and that product's manager is not on record. |
-| Technical Owner (required) | Jordan Low | Judgment call. Matches the submitted intake, which names Jordan as the only technology contact, and MRM wrote the toolkit's code. CAR 11342 lists Chenglin Zhang of AI CoE Support as Technical Owner, with Jim Howard as Primary Business Line Owner. Enter Chenglin Zhang only after telling him. The background text states the CAR ownership so the two records reconcile. |
+## PA Request Form Format
 
-## Solution attributes
+- The MRO explained that the MO team placed its responses beside the list of requirements at the end of the form so the questions and answers could be tracked together, and asked whether the form could be accepted in that layout.
+- MRG stated that the submitted form should be complete within the form boxes, without comments and without a separate list of Validation's questions and the MO's responses.
+- Validation agreed that the responses belong in the form boxes. Validation noted that the list of requirements was provided to cover the GenAI items that the current form does not ask for.
+- The MO will move the responses into the relevant boxes as complete answers and remove the list and the comments. The MO noted that the update will follow other priority work currently underway.
+- The MO asked whether the answers need changes beyond being placed in the boxes. Validation asked for the pilot dates to be corrected.
 
-| Field | Answer | Basis |
-|---|---|---|
-| Involves Cloud Solution (required) | Yes | The toolkit calls Azure OpenAI. Matches the Cloud services tick on the ISS request and the cloud-based solutions tick on the intake. Yes may open further fields. |
-| Involves AI or Machine Learning | Yes | |
-| Involves Open Source Approval? | OPEN. Unknown, unless Jordan knows how the libraries are installed. | The toolkit uses open-source Python libraries: scikit-learn, umap-learn, and hdbscan for clustering per the V1 documentation, and DeepEval in the version under development. Nothing on record shows whether they come from the bank's approved package source or have had an open source review. If they come from the bank's internal package repository, No is the answer. |
-| Business Capability | OPEN. The list is not visible. Pick the risk management or model risk option. | Not required. |
-| Technical Capability | Leave blank. | Not required. The eight options have no AI or analytics entry, and nothing on record maps the toolkit to one. A radio button usually cannot be cleared once chosen. |
-| CAR ID | 11342 (look-up; MRM-AI Validation) | |
-| Clear Path ID | Leave blank. | None on record. |
-| ISS Engage US Record ID | Replace N/A with the EngageUs request number. | It is on the Requested Item Status tab that is open beside this form. |
-| ISS Architect Consulted (required) | OPEN. The list is not visible. | If the list is Yes and No, the answer is No, or the in-progress option if one exists: the EngageUs request went in today and no architect is assigned. If the list is names, Beth Nordin is the only ISS contact on record. She discussed the use case with 1LOD and MRM on 10/23/2026, her title is not on record, and that discussion was not an architecture review, so ask her who to list. |
+## Pilot Dates and EMA
 
-## Business Case
+- Previous pilot period: 02/18/2027 through 08/16/2027. Revised pilot period in the form: 03/01/2027 through 09/01/2027, tentative.
+- The MO stated that the business line is not yet certain of the pilot start date and that 03/01/2027 is the current expectation. The date may move as the work progresses, and the business line is aiming for the first quarter of 2027, most likely March.
+- Question 2 of the form still shows a Phase 1 date of 11/19/2026. The MO will correct it.
+- MRG noted that the EMA shows an expected date of first use of 02/18/2027 and is with the MO in Archer for update. The MO will update the EMA with the expected pilot dates.
 
-Paste:
+## Prompts, Diagrams, and Repository Access
 
-MRM-AI Validation provides task-automation and analytical tools that support Model Risk Management (MRM) validation analysts in second-line validation of generative AI models. Validators otherwise review model responses one at a time against evaluation criteria, group test questions and knowledge base content by topic, and write test cases by hand. The toolkit assists with these tasks through LLM-as-a-judge scoring of model responses against defined metrics, topic modeling of text, and synthetic test data generation. The validation process remains analyst-led. A validator reviews every output before it is relied upon and makes all validation conclusions and decisions.
+- Validation asked Platform for access to the Git repository with the prompts, and for the monitored metrics and alarm thresholds. Platform stated that the prompts are still being developed and will be shared once they are ready. No date was given.
+- Validation noted that the architecture diagram and the guardrail document have not yet been received. Platform stated that one diagram is ready and will be shared first, and that a high-level architecture diagram is still being prepared.
+- Validation asked Platform to share material as each piece becomes available, so the review can begin before the full set is complete.
 
-## Key Decision Criteria
+## Language Model and Speech Engine Versions
 
-Paste:
+- Platform stated that it is exploring a newer Claude Sonnet model (version 5 or 5.2) as the reasoning model, in place of the Claude Haiku 4.5 named in the form. Platform's position is that Sonnet performs better than Haiku for reasoning across the business lines' knowledge bases and that the newer version performs better than version 4.5. The model has not yet been enabled within the bank.
+- Platform stated that the speech-to-speech model will be Nova Sonic 2.5, where the form names Nova Sonic 2.0, and that the request to use it in the lower environments is close to approval.
+- The MO stated that the team will proceed with the model that is ready and will update the form once Platform provides the details.
+- MRG asked whether the model version would change if a newer version is released before or during the pilot. Platform stated that once the versions are named in the PA request form, there is no plan to move to a newer version during the pilot.
+- Validation's understanding is that the choice between Nova Sonic and Deepgram with Cartesia for the pilot is still open.
+- The model names and versions above are the best information the MO and Platform could provide at the time of the meeting. The exact versions will be stated in the form once Platform sends the details to the MO.
 
-- Use of the bank's existing enterprise AI platform, with no new technology, vendor, or cloud resource.
-- Model documentation is treated as confidential and is sent only to Azure OpenAI through the enterprise API gateway. The toolkit handles no personal data, PII, or PCI, and no production data.
-- A validator reviews every output. The toolkit takes no automated action and has no integration with other systems.
-- The solution stays within the development scope that 1LOD AI Risk approved (Risk ID 3123, Tier 2 - Moderate Risk).
-- No new cost for the current capability.
+## Action Items
 
-## Decision Context / Background Information
+- Move the responses from the list of requirements into the form boxes as complete answers, remove the list and the comments, and correct Question 2 to the expected pilot dates. Owner: John Lorence (MO). Target: TBD, following the MO's other priority work.
+- Update the EMA in Archer with the expected pilot dates. Owner: John Lorence (MO). Target: TBD, following the MO's other priority work.
+- Share the diagram that is ready, then the high-level architecture diagram. Owner: Baloo Narayanan (Platform). Target: the first diagram is ready to share; architecture diagram TBD.
+- Provide access to the Git repository with the prompts once the prompts are ready, and the monitored metrics and alarm thresholds. Owner: Baloo Narayanan (Platform). Target: TBD. Previous targets: 10/16/2026 and 10/23/2026.
+- Send the MO the details of the reasoning model and the speech-to-speech model, with versions, for the form. Owner: Baloo Narayanan (Platform). Target: TBD.
+- Send written comments on the content of the form responses. Owner: Jordan Low (Validation). Target: week of 11/16/2026.
 
-Replace the bracketed ISS number before pasting.
+## Items Deferred to Next Session or Email
 
-Paste:
-
-MRM-AI Validation is a Python toolkit that the MRM AI validation team, about ten validators, runs in the IT development environment as local desktop applications and notebooks. It calls Azure OpenAI (GPT-5.1 and the text-embedding-ada-002 embedding model) through the enterprise API gateway operated by AI CoE Support. Inputs are model development documentation, knowledge base content, and test or synthetic datasets, which are treated as confidential. The toolkit has no customer-facing use, no access from outside the bank network, and no connectors, and it exposes no APIs. Open-source Python libraries are used for clustering (scikit-learn, umap-learn, and hdbscan), and the DeepEval evaluation library is being tested for the next version.
-
-Reference numbers: AI CoE intake 1286. 1LOD Risk ID 3123, rated Tier 2 - Moderate Risk, with this ADD review listed as a next step in the approval dated 11/06/2026. AI Registry AI0004803. CAR ID 11342 (APM0010562), component 11342.1 Open AI Dev Environment, in Development lifecycle status, with AI CoE Support as the recorded owner. ISS EngageUs request [ISS request number]. Corporate Functions Change Management Intake Item ID 2408.
-
-A planned next phase adds a documentation completeness check, suggested validation activities, and first drafts of validation report sections, each reviewed by a validator. The build approach and platform for that phase are being determined, with a first release targeted for 03/31/2027. This request covers the toolkit as it runs today. A change of platform, vendor, connectors, or integrations in the next phase would be brought back for architecture review.
-
-[NEW - not discussed with Xinyu or Bob. Rationale: the last sentence commits MRM to return for architecture review if the next phase changes the platform or vendor. It follows the 1LOD Risk Guidance on reassessment before material expansion. Remove the sentence if the commitment is unwanted. Also confirm the DeepEval statement against the current state of the V2 work.]
-
-## Solution options
-
-Number of options being proposed: 2, the minimum, as selected.
-
-The table shows five columns and scrolls to the right, so more columns exist. OPEN: a photo of the Add dialog would show them.
-
-### Option 1
-
-| Column | Paste |
-|---|---|
-| Option Name | Python toolkit on the enterprise AI platform |
-| Option Description | MRM validators run an internally developed Python toolkit as local desktop applications and notebooks. The toolkit calls Azure OpenAI (GPT-5.1 and the text-embedding-ada-002 embedding model) through the enterprise API gateway for LLM-as-a-judge scoring, topic modeling, and synthetic test data generation. A validator reviews every output. |
-| Infrastructure Requirements or Dependencies | No new infrastructure. The toolkit depends on the existing enterprise API gateway and Azure OpenAI service operated by AI CoE Support (CAR ID 11342, component 11342.1 Open AI Dev Environment), on Python, and on open-source Python libraries. |
-| Hosting Requirements or Dependencies | No new hosting. The toolkit runs in the IT development environment and creates no cloud resources. |
-| Schedule Requirements or Dependencies | In use in development today. Development environment access is renewed every three months. The first release of the next phase is targeted for 03/31/2027, subject to the build decision. |
-
-### Option 2
-
-| Column | Paste |
-|---|---|
-| Option Name | Manual validation without AI tooling |
-| Option Description | Validators review model responses one at a time against evaluation criteria, group test questions and knowledge base content by topic, and write test cases by hand. No AI service is used. |
-| Infrastructure Requirements or Dependencies | None. |
-| Hosting Requirements or Dependencies | None. |
-| Schedule Requirements or Dependencies | None. This is the baseline. |
-
-The options leave out the vendor evaluation platforms and the open build decision for the next phase. That decision is unresolved and sits with Bob, naming a vendor would conflict with the No vendor answers on the intake and the ISS request, and the 07/15/2026 plan keeps the vendor-import goal unnamed in written materials. Add a third option only if the ADD is meant to cover the next phase.
-
-## Recommendation
-
-| Field | Answer |
-|---|---|
-| Recommended Solution Option (required) | Python toolkit on the enterprise AI platform |
-| Please provide Proposed Approvers (required) | OPEN. Not on record. See below. |
-
-### Decision Recommendation Rationale
-
-Paste:
-
-The Python toolkit is recommended. It uses the bank's existing enterprise API gateway and Azure OpenAI service, and it adds no new technology, vendor, cloud resource, or integration. It handles no personal data, PII, or PCI, and no production data. A validator reviews every output and makes all validation conclusions, so the toolkit takes no decision and no automated action. It already operates within the development scope that 1LOD AI Risk approved at Tier 2 - Moderate Risk (Risk ID 3123). Manual validation without AI tooling leaves scoring, topic grouping, and test case writing fully manual.
-
-### Proposed Approvers
-
-Nothing on record says who approves an ADD for a business line tool. The ADD User Guide should say. Leads from the record, none of them confirmed:
-
-- Robert Larson is the secondary owner on the 1LOD record and the natural business approver if the form wants one.
-- On 09/02/2026 the AI platform team said a colleague named Ravi [surname not on record] had an AI platform ADD in his approval queue. He may be the architecture approver for AI work, or may know who is.
-- Other ADD requests on record carry numbers in the form REQ followed by seven digits, so the number to send Nicole will look like that.
-
-## After submitting
-
-1. Record the request number here and in the ISS and BCIQ record files.
-2. Send the ISS and ADD numbers to Nicole and to the change risk intake team for Item ID 2408. The draft note to Cathy and Nicole in the BCIQ record file has a placeholder for the ISS number; add the ADD number to it.
-3. Add both numbers to AI Registry record AI0004803. That completes step 5 except for the BCIQ number, which waits on the intake team.
+- UAT start and end dates, and the dates for the pre-pilot SME evaluation and guardrail testing results (previous target 12/11/2026).
+- Maximum pilot scope: the number of articles per business line, the maximum call volume, and whether the quarterly article additions fall within it.
+- The speech configuration for the pilot.
+- The guardrail document, and the dates for the monitored metrics and alarm thresholds.
+- The rates for the success and expansion criteria, and the conditions that trigger the kill switch.
+- Alignment of the Archer dates (expected date of first use, validation due date, and documentation due date) once the EMA is updated.
