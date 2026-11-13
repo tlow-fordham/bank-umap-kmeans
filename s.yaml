@@ -1,158 +1,117 @@
-# 1286 - BCIQ Intake (Corporate Functions Change Management) - All Answers, Paste Ready
+# 1286 - ISS Engage Us Request - Answers, Paste Ready
 
-Internal working notes, 11/13/2026. Every answer for the intake form, in the order the form shows them. Text under a Paste label goes into the form as written and carries no confidential content. Reasoning and history are in the working draft: [20261023_1286_BCIQ_Intake_Draft_Answers.md](20261023_1286_BCIQ_Intake_Draft_Answers.md). Form questions: [../Governance/20261023_BCIQ_Corporate_Functions_Change_Management_Intake_Transcription.md](../Governance/20261023_BCIQ_Corporate_Functions_Change_Management_Intake_Transcription.md).
+Internal working notes, 11/13/2026. Answers for the ISS Engage Us request (ServiceNow, MyTech Service Catalog, Technology Infrastructure, Security, ISS Engage Us, form version 6.4.1 - 261013), in form order, from five photos of Jordan's screen taken at 7:52 AM. One photo is blurred and the dropdown option lists are not visible, so several answers give the option to look for. Text under a Paste label goes into the form as written. This is step 3 of the 11/06/2026 1LOD approval. The BCIQ intake went in first: [20261113_1286_BCIQ_Intake_Submitted_Item_2408.md](20261113_1286_BCIQ_Intake_Submitted_Item_2408.md).
 
-Three answers are still open and are marked where they occur:
+The form's opening note says that an AI effort should open an EngageUs only when directed, and to continue if the 1LOD AI Risk program directed it. The 11/06/2026 approval lists it as a next step, so the request is in order. Per the 10/23/2026 meeting, ISS engagement is recommended for this use case because it matched no security pattern, the output is security recommendations with no approval step, and Beth Nordin is the contact into ISS.
 
-- The ISS EngageUs and ADD numbers, which do not exist yet.
-- Whether anyone outside the United States runs the toolkit.
-- Three tick-box judgment calls to raise with Cathy.
+## Initiative involve any of the following?
 
-Save draft. Do not press Submit until the numbers are in and Cathy has seen the draft.
+| Option | Answer | Basis |
+|---|---|---|
+| Cloud services | TICK | Azure OpenAI through the enterprise API gateway. Matches the BCIQ intake. |
+| Code developed at U.S. Bank | TICK | The toolkit is Python code written by the MRM team. |
+| Data transmitted externally | Blank | The CAR record gives the hosting entity as U.S. Bank, the delivery channel as internal network, and external access as No. The cloud tick and the description carry the Azure OpenAI call. Judgment call. |
+| Data requires encryption | TICK | The inputs are treated as confidential. [My read: confidential data normally carries an encryption requirement. The bank's standard is not on record here. Judgment call.] |
+| Mobile app or device | Blank | None. |
+| Payment Card / PCI data | Blank | None. |
+| Personally Identifying Information (PII) | Blank | None. |
+| Artificial Intelligence (AI) | TICK | |
+| None of the above | Blank | |
 
-## Start screen (already entered)
-
-| Field | Answer |
-|---|---|
-| Request type | Risk Assessment (i.e., BCIQ), New Third-Party Onboarding, or Corporate Directed Contract requests |
-| Does the primary impacted cost center roll up to a Corporate Functions BL? | Yes |
-| 11-digit cost center of the organization driving the change | 03002538828 |
-
-## Owner Information
-
-| Field | Answer |
-|---|---|
-| Change/Contract Owner | TXLOW (pre-filled) |
-| Additional Owners | Xinyu Wu (search by name) |
-
-Additional owners get no automated notices, so each notice has to be forwarded to Xinyu.
-
-## Purpose
+## Tracking Numbers
 
 | Field | Answer |
 |---|---|
-| Anticipated Implementation Date | 3/31/2027 |
-| Primary Impacted Org | Risk Management & Compliance (RM&C) |
-| Cost Center driving change | 03002538828 |
-| Other Impacted Organization (OIO) Cost Center | 03000005300 (AI CoE Support, AIDI) |
+| AI CoE Intake | 1286 |
+| 1LOD AI Risk Intake | 3123 |
+| Jira Issue ID | Leave blank. None on record. |
+| PRISM | Leave blank. |
+| BCIQ | Leave blank. No BCIQ number exists yet. Intake Item ID 2408 is not a BCIQ number and goes in the comments. |
+| Project Number | Leave blank. |
+| CAR ID | 11342 (look-up; MRM-AI Validation) |
+| AFE | Leave blank. |
+| ADD (Architecture Decision Document) | Leave blank. The ADD request is not open yet. |
+| CIT | Leave blank. |
+| Project Coordinator | Jordan Low |
+| Project Contact(s) | Jordan Low. Add Robert Larson to match the BCIQ intake if a second contact is wanted. |
 
-### Purpose of Business Change
+## Initiative
 
-This is the Description that 1LOD holds since the 10/30/2026 corrections. One phrase differs: the record is named as the 1LOD risk record, so the sentence reads clearly on this form.
+| Field | Answer |
+|---|---|
+| Initiative name | MRM-AI Validation |
+| Estimated date of delivery | 2027-03-31 |
+
+### Initiative description
 
 Paste:
 
-The initiative provides task-automation and analytical tools that support Model Risk Management validation analysts in performing second-line validation of generative AI and agentic AI models. The validation process remains analyst-led: MRM validators perform the analysis and reviews, evaluate tool-generated outputs, exercise professional judgment, and make all validation conclusions and decisions. The current capability (Phase 1) is a Python toolkit used by the MRM AI validation team on GenAI model validations to assist with LLM-as-a-judge scoring of model responses (query, response, and retrieved context) against defined metrics, topic modeling of text such as knowledge base articles and test queries, and synthetic test data generation. These capabilities automate or assist with discrete tasks within the analyst's workflow, not the validation itself. Every output is reviewed and assessed by a validator before it is relied upon. The toolkit runs in the IT development environment and calls Azure OpenAI through the enterprise API gateway: GPT-5.1, plus the text-embedding-ada-002 embedding model for topic modeling. Development environment access is renewed every three months. Validators run the tools as local desktop applications and notebooks, and in the current phase the outputs stay within MRM. The planned next phase, for which requirements are being defined, adds further task support for the analyst: a completeness check of submitted model development documentation against MRM's documentation requirements, with the validator reviewing the result and sending the documentation feedback to the model developer; suggested validation activities and tests for the validator to consider when planning a validation; and first drafts of validation report sections for the validator to revise, with the validator writing all conclusions, Findings, and outcomes. Each of these is reviewed and acted on by the validator before anything leaves MRM. The end product in every case is a validation report that goes through validator, manager, and executive review and peer review before it is uploaded to Archer, a cycle that runs over days rather than hours, so each AI-assisted output is checked more than once before it is relied upon. The build approach (internal, contractor, or vendor) and platform are being determined; the first release is targeted for 03/31/2027, subject to that decision, and the 1LOD risk record will be reassessed before that release, as the risk guidance requires. Technologies are Python and Azure OpenAI (GPT-5.1 and text-embedding-ada-002) through the enterprise API gateway.
+MRM-AI Validation is a Python toolkit that Model Risk Management (MRM) validators use to assist second-line validation of generative AI models. It scores model responses against defined metrics (LLM-as-a-judge), groups text by topic, and generates synthetic test data. A validator reviews every output and makes all validation conclusions. The toolkit runs in the IT development environment as local desktop applications and notebooks, and it calls Azure OpenAI (GPT-5.1 and the text-embedding-ada-002 embedding model) through the enterprise API gateway operated by AI CoE Support. Inputs are model development documentation, knowledge base content, and test or synthetic datasets, which are treated as confidential. The toolkit handles no personal data, PII, or PCI, and no production data. It has about ten internal users, no customer-facing use, no access from outside the bank network, and no connectors, and it exposes no APIs. A planned next phase adds a documentation completeness check, suggested validation activities, and first drafts of validation report sections, each reviewed by a validator. The build approach and platform for that phase are being determined. 1LOD AI Risk rated the use case Tier 2 - Moderate Risk (Risk ID 3123) and listed this EngageUs request as a next step in its approval dated 11/06/2026.
 
-Short version, only if the field cuts the text off:
-
-The change provides task-automation and analytical tools that support Model Risk Management (MRM) validation analysts in second-line validation of generative AI and agentic AI models. The current capability is a Python toolkit, run in the IT development environment through the enterprise API gateway to Azure OpenAI, that assists with scoring model responses against defined metrics, topic modeling of text, and synthetic test data generation. The planned next phase adds a completeness check of model development documentation, suggested validation activities, and first drafts of validation report sections. The validator reviews every output and makes all validation conclusions and decisions. The first release of the next phase is targeted for 03/31/2027.
-
-### Change Risk Applicability
-
-Tick three and leave eleven blank.
-
-| Scenario | Answer | Basis |
-|---|---|---|
-| Offshoring services | Blank | Holds only if no one outside the United States runs the toolkit. OPEN: Jordan to confirm. |
-| New or modified technology (applications, hardware, or utilities) | TICK | Registered application, CAR ID 11342, with a new release. |
-| Changes to authentication processes | Blank | Uses the gateway's existing authentication. |
-| Handles personal or confidential data | TICK | Inputs include model development documentation, treated as confidential. No personal data. Raise with Cathy. |
-| Uses cloud-based solutions | TICK | Azure OpenAI Service through the enterprise API gateway. |
-| Involves AI/ML Chatbots or conversational interfaces | Blank | No chat interface. Validators run desktop applications and notebooks. |
-| New models or significant changes to existing model | Blank | CFR Model Risk Program confirmed in writing on 11/06/2026 that no EMQ is required. Raise with Cathy. |
-| Modifies or creates APIs | Blank | Calls the gateway API and exposes none. |
-| Critical data, key reports, or data lineage | Blank | Outputs are validation workpapers. |
-| Retail investment products or systems | Blank | Not applicable. |
-| Covered funds or proprietary trading activities | Blank | Not applicable. |
-| Innovative technologies or changes involving intellectual property | Blank | Uses the bank's existing AI platform and brings in no new technology. Raise with Cathy. |
-| Processes EU personal data / special categories of data | Blank | No personal data and no use in the EU. |
-| Regulatory implications, including mergers, acquisitions, or investments | Blank | Not driven by a change in law or regulation. |
-
-## Third Party Information
-
-| Field | Answer |
-|---|---|
-| Is a contract needed? And/or are any Third Parties involved in this change? | No |
-| Is this request to engage a new third party vendor? | No (the form may hide this after the first No) |
-| Internal applications related to the business change | MRM-AI Validation, CAR ID 11342, APM0010562 |
-
-If the internal applications field is a look-up, search 11342 or MRM-AI Validation.
-
-## Current & Future State
-
-### CURRENT
+### Current State
 
 Paste:
 
 Model Risk Management (MRM) validators assess generative AI models largely by hand. They review model responses one at a time against evaluation criteria, group test questions and knowledge base content by topic, and write test cases, and they record the results in validation workpapers and reports. A Python toolkit assists this work in the IT development environment through the enterprise API gateway, with LLM-as-a-judge scoring, topic modeling, and synthetic test data generation. A validator reviews every output before it is used, and the toolkit makes no validation decisions.
 
-### FUTURE
+### Target State
 
 Paste:
 
 The toolkit continues as described, and the next phase adds three kinds of task support for the validator: a completeness check of submitted model development documentation against MRM's documentation requirements, suggested validation activities and tests for the validator to consider when planning a validation, and first drafts of validation report sections for the validator to revise. The validator reviews the completeness result and sends the documentation feedback to the model developer, and nothing leaves MRM without that review. Validators write every conclusion, Finding, and outcome. There is no customer-facing use and no automated action in other systems.
 
-### BCIQs associated with Current State
-
-Leave blank. There are none.
-
-## Customer & Technology Impact
-
-### CUSTOMER IMPACT
-
-OPEN: the location line assumes that only United States staff run the toolkit.
+### Customer Impact
 
 Paste:
 
 No impact to U.S. Bank customers. The toolkit is internal to Model Risk Management and has no customer-facing use. The employees affected are the MRM AI validation team, about ten validators, who use the toolkit as an aid in their own validation work. Locations: United States.
 
-If offshore team members or contractor analysts run the toolkit, replace the last sentence with: Locations: United States and India. [State whether the India users are bank employees or contractors.] In that case the Offshoring services box and the third-party answer need a second look with Cathy before submitting.
-
-### TECHNOLOGY IMPACT
-
-Answer: Yes.
+### Technology Impact
 
 Paste:
 
-Yes. The change is supported by MRM-AI Validation (CAR ID 11342, APM0010562, component 11342.1 Open AI Dev Environment), which is in Development lifecycle status. The toolkit is written in Python and calls Azure OpenAI (GPT-5.1 and the text-embedding-ada-002 embedding model) through the enterprise API gateway in the IT development environment, under AI CoE intake 1286. Validators run the tools as local desktop applications and notebooks. The toolkit exposes no APIs and has no integration with other systems. AI CoE Support is the technical owner on the CAR record.
+MRM-AI Validation, CAR ID 11342 (APM0010562), component 11342.1 Open AI Dev Environment, in Development lifecycle status. The toolkit calls Azure OpenAI through the existing enterprise API gateway. It creates and modifies no APIs and no cloud resources, adds no integration with other systems, and needs no new CAR ID.
 
-## Cost
+### URLs and additional comments
 
-### What is the anticipated cost?
+The box holds placeholder text ("Provide references to supporting materials" and three bullets). Replace it.
 
 Paste:
 
-No incremental cost for the current toolkit. It uses the existing enterprise AI platform and is built and run by the MRM validation team. The build approach for the next phase (internal, contractor, or vendor) is being determined, so its cost and funding source are not yet set.
+AI Registry record: AI0004803. 1LOD approval of record: 11/06/2026, Risk ID 3123, Tier 2 - Moderate Risk, risk manager Nicole Knutson. Corporate Functions Change Management Intake: Item ID 2408, submitted 11/13/2026. No BCIQ number is assigned yet. The ADD request is not open yet, and its number will be provided when available. Beth Nordin of ISS discussed this use case with the 1LOD risk team and MRM in October 2026.
 
-If the field takes only a number, enter 0 and put the sentences above in Comments.
+Add the code repository link if the toolkit's code sits in the bank's GitHub.
+
+## Engagement details
 
 | Field | Answer |
 |---|---|
-| Is there CapEx funding? | No |
-| Was the business change reviewed within the Regulatory Change Management Program? | No |
+| Primary business line impacted | Risk Management & Compliance (the option that matches RM&C) |
+| Project Priority | Low Priority, as selected. The request number is issued on submission, and that is what Nicole and the intake team asked for. |
+| Vendor or partner providing goods or services? | No. Matches the BCIQ intake and the CAR record (TPRM Association: No). The description names Azure OpenAI. Judgment call, see below. |
+| Estimated duration of Project | Short-term (< 1 week). The toolkit uses the existing platform and adds no components. Unknown is the fallback. |
+| Development Methodology | Agile (optional field) |
+| Project stage | Optional. Pick the development or build stage if one is offered. |
 
-## Attachments & Comments
+On the vendor question, the form's hint says to select Yes where there is an existing vendor with no change in the vendor's role. Azure OpenAI is a Microsoft service, so Yes is also defensible. If Yes is chosen, name Microsoft Azure OpenAI, consumed through the enterprise API gateway under the AI CoE's arrangements.
 
-### Attachments
+## Scope and Impact
 
-None.
+The option lists are not visible. All six fields are required.
 
-### Comments
+| Field | Answer |
+|---|---|
+| Environment | Development or non-production, if offered. The photo shows Other. Keep Other only if no development option exists. |
+| Information/Data Type | Confidential (U.S. Bank Confidential). Not Restricted, PII, or PCI. |
+| Type of Solution | The option for an internally developed application or tool. Not vendor or SaaS. |
+| Number of Components | 1. The CAR record lists one component, 11342.1. [The blurred photo appears to show a different value in this field.] |
+| State of Proposed Solution | The option for development or not yet in production. [The blurred photo appears to show "Existing in Production". If so, change it: the CAR lifecycle is Development and the 1LOD approval keeps the capability within its DEV scope.] |
+| Transactions per Month | OPEN: Jordan's estimate. No usage figure is on record. The judge makes five API calls per scored row, and use is per validation, so the count is high in a month with a scoring run and zero otherwise. |
+| Users per Month | 10 |
+| Beta-Test Users | 10. The same team; every current user is a pre-production user because the toolkit is in development. |
 
-OPEN: the two bracketed numbers. If the form shows its own fields for the ISS and ADD numbers, enter them there and delete that sentence.
+## After submitting
 
-Paste:
-
-AI use case identifiers: AI CoE intake 1286; 1LOD Risk ID 3123; AI Registry AI0004803; CAR ID 11342 (APM0010562). 1LOD Risk rated the use case Tier 2 - Moderate Risk. The approval of record is dated 11/06/2026 and the risk manager is Nicole Knutson. That approval lists no EMQ step, and the CFR Model Risk Program confirmed in writing on 11/06/2026 that an EMQ is not required. ISS EngageUs request: [number]. ADD request: [number]. The confidential data scenario is selected because the inputs include model development documentation, which is treated as confidential. The toolkit handles no personal data, PII, or PCI, and no production data. The scope and build approach of the next phase are being defined, and the 1LOD risk tier will be reassessed before any material expansion.
-
-## Before pressing Submit
-
-1. Open the ISS EngageUs and ADD requests and put both numbers in Comments.
-2. Settle the offshore question. It drives the Offshoring services box and the locations sentence.
-3. Send the saved draft to Cathy, as agreed on 10/23/2026, and raise the three judgment calls: confidential data, new models, and innovative technologies.
-4. After submitting, send the BCIQ, ISS, and ADD numbers to Nicole and add them to AI Registry record AI0004803.
-
-## Not yet seen on screen
-
-The answers from Current & Future State onward follow the question sheet Cathy shared on 10/23/2026. The live form has already shown one field that the sheet lacks (Internal applications related to the business change), so later sections may hold more.
+1. Record the request number here and in the BCIQ record file.
+2. Send the number to Nicole and to the change risk intake team for Item ID 2408, and add it to AI Registry record AI0004803.
+3. Open the ADD request next and enter this request's number on it if asked.
