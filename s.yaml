@@ -1,192 +1,133 @@
-# Handoff: statistics and tests on enraas_perf2.xlsx (Model-7158)
+# Handoff: analysis of the SME calls on the LLM version's output in enraas_perf2.xlsx (Model-7158)
 
-*Written 11/15/2026 by the Claude session that holds the Model-7158 validation notes, for a Claude session that can open the workbook. Internal working material; not for distribution.*
+*Written 11/16/2026 by the Claude session that holds the Model-7158 validation notes, for a Claude session that can open the workbook. Second handoff on this workbook; the first is dated 11/15/2026. Revised the same day to cover the LLM version's output only. Internal working material; not for distribution.*
 
 ## 1. What is needed
 
-Run the tests in Section 5 on `enraas_perf2.xlsx` and write the results to one markdown file in the layout given in Section 6. The requesting session has seen the workbook only through phone photos: the summary tab, the top 13 rows of one rail with all columns, and 31 rows of the other rail with six columns. Every count on the row-level tab is therefore unknown, and the values in Section 4 may contain misreads.
+The model owner's copy of the workbook has four columns that hold a correct or incorrect call on the LLM version's output for each record. Run the tests in Section 5 on those columns and write the results to one short markdown file in the layout of Section 6. The results go into a decision on the Provisional Approval this week and into the performance section of the validation report.
 
-The results feed two things. The first is a working session with the model owner on Monday 11/16/2026. The second is the performance section of a validation report due 12/11/2026. Block A serves Monday and comes first. Blocks B and C serve the report and can follow in the same file.
+Scope: the LLM version's final output only, which is its S&P Global result and its D&B result. Leave the VectorDB columns out of this run. The model owner said he will supply calls separately for records where the two versions differ.
+
+Use the model owner's updated copy. If the SME Review tab in the file you have still has 29 columns starting at `spg_match_review_code`, stop and tell Jordan the updated file is needed.
 
 ## 2. Background
 
-- Model-7158 Entity Name Resolution as a Service (ENRaaS) at U.S. Bank takes the counterparty name on an ACH record and resolves it to a company in two reference sources, S&P Global and Dun & Bradstreet (D&B).
-- The workbook compares three approaches on the same records. The stored procedures are rule-based SQL in production today. The VectorDB version is the first model version, which is being retired. The LLM version is the new version under Provisional Approval review; it adds LLM steps, including a rewrite of the input name.
-- There are two rails: ACH Originated and ACH Received. The column `llm_sor` carries the rail. Report every statistic by rail. A pooled figure alone is not usable.
-- The records are data set 9, loaded 10/10/2026: 32,832 ACH Originated and 105,361 ACH Received, 138,193 in total.
-- Each model version returns a candidate match and a score. Automated Acceptance Rules then mark the match "Accepted" or leave it NULL. Accepted means a rule passed. It does not mean the match is correct.
-- Validation needs correctness of accepted matches as judged by a subject matter expert (SME), per rail. The model owner sent this workbook on 11/13/2026 as the completed SME review. In the photographed part, the SME Review tab shows the automated acceptance on every row (reviewer id "trusted-service-user", one rule comment) and no human judgment. Validation has asked the model owner to add the SME's call (correct, incorrect, cannot determine) as a column for each version's result, plus the reviewer's name. That column may or may not be there when you open the file.
-- The model owner's explanation for the stored procedures' high rate on ACH Originated is that they can look up the U.S. Bank party behind the account number, which neither model version does. Validation asked for those lookup records to be separated, and the model owner said they are hard to isolate. Several tests below try to isolate them from the fields in the tab.
+- Model-7158 Entity Name Resolution as a Service resolves the counterparty name on an ACH record to a company in S&P Global and in Dun & Bradstreet (D&B). There are two rails, ACH Originated and ACH Received, in `llm_sor`.
+- The SME Review tab holds 132 records the LLM version accepted: 32 of 1,071 on ACH Originated and 100 of 6,526 on ACH Received. All 132 also carry a result from the stored procedures, the rule-based process in production today.
+- The four new columns sit to the left of the original 29, so every original column has moved four letters to the right. Find columns by header name, never by letter.
+  - Column A, `sme_standard_and_poors_is_correct_flag`
+  - Column B, `sme_why_standard_and_poors_is_correct_desc`
+  - Column C, `sme_dun_and_bradstreet_is_correct_flag`
+  - Column D, `sme_why_dun_and_bradstreet_is_correct_desc`
+- The model owner made the calls himself and described two ways of making them. Where the LLM version's S&P Global id equals the stored procedure's, he marked the record correct. Otherwise he read the names and marked the record correct or too generic. One reason cell seen on screen is a formula on the flag.
+- The model owner also said that in production he would send the LLM version the records the stored procedures do not resolve. The 132 records are all ones the stored procedures did resolve. So the split between calls that are agreement with the stored procedure and calls that are a reading of the names is the most important number in this analysis.
 
 ## 3. Rules for the work
 
-- Read only. The workbook is evidence. Do not edit, sort, filter, recolour, or save it. If you need formulas, work on a copy. Leave Sheet1 alone; it is Jordan's own paste of the header and first 13 rows, and it is not data.
-- The workbook is the source. Where it differs from this handoff, report the workbook and list the difference in the results file.
-- Compute locally. Do not send workbook contents to any external service, and do not contact anyone.
-- Every rate carries its numerator and denominator in the same line, for example: 412 of 1,071, 38.5 percent.
-- Treat a blank cell and the text NULL both as null, and say which form each column uses.
-- Compare ids as trimmed text. Strip a trailing ".0" and leading zeros before comparing, and say so.
-- Do not judge whether a match is correct. The name tests below are mechanical screens and are to be labelled as screens.
-- Report numbers and method. Keep interpretation to one line per test. Do not draft report narrative.
-- Make routine choices yourself and record them. Stop and ask Jordan only if the file cannot be opened or the tabs described here do not exist.
+Same as the 11/15 handoff. In short:
 
-Masking in the results file, which will be saved in a repository with handling rules:
+- Read only. Do not edit, sort, filter, or save the workbook.
+- The workbook is the source. Where it differs from this handoff, report the workbook and list the difference.
+- Compute locally. Every rate carries its numerator and denominator. Report by rail, never pooled only.
+- Treat a blank cell and the text NULL both as null. Keep blank separate from FALSE in every count. Compare ids as trimmed text with a trailing ".0" and leading zeros removed.
+- Do not judge whether a match is correct, and do not judge whether the model owner's call is right. Report where calls differ from each other or from the mechanical screens.
+- Numbers and method only. One line of interpretation per test at most. No report narrative.
+- Reuse `20261116_enraas_perf2_analysis.py`: its header-name lookup, id cleaning, CLEAN2, name classes, and masking. Add the new tests to it.
 
-- Never write the digits of `llm_party_id`, `sp_party_id`, or `vdb_party_id`. They read as routing and account numbers. Refer to rows by sheet row number.
-- Replace any run of six or more digits inside an input name with [digits].
-- Where an input name reads as an individual's name, write the given name and any professional suffix, and replace the rest with [surname withheld].
-- Write [another bank] in place of the name of any bank other than U.S. Bank or U.S. Bancorp, in inputs and in resolved entity names. If unsure whether a name is a bank, mask it.
-- Cap every example list at 25 rows per rail unless a test says otherwise.
+Masking, with two corrections to the last run:
 
-## 4. What the photos showed, to be verified
+- Never print party id digits. Refer to rows by sheet row number. Replace runs of six or more digits in an input name with [digits].
+- Sheet rows 4, 16, 30, 81, 102, and 128 are inputs that read as individuals. Print the given name and any professional suffix only, in the input and in any entity name that repeats the person's name. The last run printed four of these in full.
+- Write [another financial institution] for any bank or credit union other than U.S. Bank or U.S. Bancorp, in inputs and in entity names.
 
-Location: the Validation team SharePoint site (MRMVAI_MLCOE); Jordan will point you to the file. Tabs seen: Sample records, SME Review, Sheet1.
+## 4. Counts in hand, to be reconciled first
 
-Sample records tab, as read:
+Two sets of counts exist and they do not agree.
 
-- Source records: ACH_Received 105,361; ACH_Origination 32,832.
-- Stored Procedure block, ACH Origination: "Accepted" 8,430; "Auto-accepted high confidence" 13,156; "NewRecord2Match" 11,360; records 32,946; accepted count 21,586; resolved rate 65.5%.
-- Stored Procedure block, ACH Received: "Auto-accepted high confidence" 6,911; "NewRecord2Match" 98,450; records 105,361; resolved rate 6.6%.
-- Vector DB block: ACH Origination NULL 31,558, Accepted 1,274, 3.9%; ACH Received NULL 86,199, Accepted 19,162, 18.2%.
-- LLM block: ACH Origination NULL 31,761, Accepted 1,071, 3.3%; ACH Received NULL 98,835, Accepted 6,526, 6.2%.
-- The stored-procedure record count on ACH Origination (32,946) is 114 more than the source count (32,832). The cause is not stated.
+- Jordan's count from the file: 78 TRUE in column A and 47 TRUE in column C, with a variety of reason text in columns B and D.
+- Read from photos of the model owner's screen, sheet rows 2 to 68 only (67 of the 132 records): column A TRUE on 57 and FALSE on 10 (sheet rows 3, 4, 19, 27, 30, 31, 32, 64, 66, 68); column C TRUE on 59 and FALSE on 8 (sheet rows 3, 4, 19, 27, 30, 64, 66, 68).
+- Column C cannot be TRUE on 59 of the first 67 records and on 47 of all 132. Column A at 78 would leave 21 TRUE among the last 65 records, against 57 among the first 67.
 
-SME Review tab, 29 columns in this order as read: `spg_match_review_code`, `spg_match_review_comment`, `spg_match_reviewer_id`, `sprtr`, `llm_sor`, `llm_input_name`, `llm_party_id`, `llm_spg_entity_name`, `dnb_entity_id`, `llm_dnb_entity_name`, `llm_dnb_enraas_score`, `llm_spg_entity_id`, `llm_spg_enraas_score`, `sprtr1`, `sp_party_id`, `sp_spgid`, `sp_spg_entity_name`, `sp_party_name_clean`, `sp_duns_number`, `sp_duns_source`, `sprtr2`, `vdb_sor`, `vdb_party_id`, `vdb_input_name`, `vdb_dnb_entity_id`, `vdb_dnb_entity_name`, `vdb_spg_entity_id`, `vdb_spg_entity_name`, `vdb_spg_enraas_score`. The three `sprtr` columns are separators.
+Settle this before anything else. Check for an active filter or hidden rows, blank cells, flags stored as text instead of booleans, formula cells whose cached value differs from what the formula returns, and whether the file changed after the session (the session ran from about 1:30 PM Eastern on 11/16/2026).
 
-Read from the visible rows only:
+Other items read from the photos, to confirm or correct:
 
-- Every visible row: code "Accepted", comment "Three word names with first Five Characters matching", reviewer "trusted-service-user".
-- Sheet rows 2 to 14 are ACH Originated. The LLM and VectorDB versions name the same S&P Global entity on 9 of the 13. The LLM score is higher on 12 and equal on 1.
-- On the same 13 rows the stored procedure returns an S&P Global id on all 13, the same entity as the LLM version on 3, and a different one on 10. Of the 10, 6 are U.S. Bancorp (`sp_spgid` 305304, `sp_duns_source` "USB SETTLEMENT").
-- Sheet row 5: input SANTINI FINE WIN; LLM version Santini Fine Wines, Inc., id 234408911, score 0.814891; stored procedure U.S. Bancorp; VectorDB version Santini France, id 674761250, score 0.633057.
-- Input names stop at 16 characters on ACH Originated and 22 on ACH Received.
-- Party ids hold a digit string followed by the name, and some carry a SETTLEMENT or SETTLMT label.
-- Several accepted S&P Global matches are a short name equal to the start of the input (for example ELIKANA FAMILY GROUP to Elikan, and three TMHP PAYMT rows to Tmh). Five of 62 visible inputs read as individuals.
+- Reasons seen: Name Match, Names close but too generic, S&P matches stored proc, USB Settlement, Name Match to correct S&P, D&B matches stored proc.
+- Sheet row 30: column B reads "USB Settlement", although the stored-procedure source on that row read as NULL.
+- Cell B13 held the formula `=IF(A13=TRUE, "S&P matches stored proc", "")`.
+- TMHP PAYMT records at sheet rows 44, 53, and 56 are TRUE with Name Match, and those at sheet rows 64 and 68 are FALSE.
+- Sheet rows 7, 35, and 36 are TRUE in both A and C while the S&P Global and D&B entity names differ.
 
 ## 5. Tests
 
-Definitions used below:
+### Block S: needed first
 
-- Rail: the value of `llm_sor`.
-- Same entity: equal S&P Global ids after the id cleaning in Section 3. Where an id is null on one side, the comparison is null, not different.
-- CLEAN(name): uppercase, punctuation replaced by a space, spaces collapsed, trimmed.
-- CLEAN2(name): CLEAN, then remove digit-only tokens and any digit run glued to the front of a word, then remove legal-form tokens wherever they appear (INC, INCORPORATED, LLC, LLP, LP, LTD, CORP, CORPORATION, CO, COMPANY).
-- Name class of an entity name E against an input I, both under CLEAN2, evaluated in this order:
-  1. Equal: I equals E.
-  2. Input completes to entity: I is a prefix of E, which is what a cut-off input looks like.
-  3. Entity is a leading fragment: E is shorter than I and is a prefix of I. Split this class by the number of tokens in E (one, two, three or more).
-  4. Other: neither. Report a similarity ratio for these and name the measure used.
+S1. The workbook and the four columns.
+- File path, modified time, last modified by, sheet list, SME Review dimensions, and any active filter or hidden rows on the tab.
+- Whether the 132 records are the same as in the 11/16 run and in the same order (compare input name and party id), and whether any value in the original 29 columns changed.
+- For each of the four columns: exact header, data type, and counts of TRUE, FALSE, blank, and anything else, by rail. State how the totals compare with 78 and 47.
+- For each of the four columns: how many cells are formulas and how many are typed values, by rail. List each distinct formula pattern with the row number replaced by {r}, and its count. Read formulas in formula mode and cached values in data-only mode, and report any cell where the two disagree.
+- Any column, comment, cell marking, or file property that names the reviewer.
 
-### Block A: needed for Monday 11/16/2026
+S2. Correctness of the LLM version's output, by rail.
+- S&P Global flag: TRUE, FALSE, blank, with the TRUE rate on the rail's records and on the records judged.
+- D&B flag: the same.
+- The record as a whole: both TRUE, S&P Global only, D&B only, neither, not judged.
+- A Wilson 95 percent interval on each TRUE rate, with one line stating that it assumes a random draw, which is not established for this sample.
 
-A1. Workbook inventory.
-- Every sheet, including hidden and very hidden: name, used range, row and column counts.
-- Hidden rows or columns, active filters, sort state, frozen panes, defined names, external links, data connections, queries.
-- Cell comments, notes, and threaded comments: count and text.
-- File properties: author, last modified by, created and modified timestamps. If version history is reachable, list versions after 11/13/2026 12:47 PM and what changed.
+S3. The reasons.
+- Every distinct text in column B and in column D, exactly as typed after trimming, with counts by rail and by flag. Note variants that differ only in case or spacing.
+- A grouping of those texts, stated so it can be checked: agreement with the stored procedure; a positive reading of the names; too generic; settlement or account; anything else; blank.
+- Rows where the reason and the flag do not agree, such as a match reason on a FALSE flag, a too-generic reason on a TRUE flag, or a reason with a blank flag.
+- Every row whose reason mentions settlement: sheet row, both flags, `sp_duns_source`, and whether the stored procedure returns U.S. Bancorp.
 
-A2. Sample records tab.
-- Transcribe every non-empty cell with its address, value, and formula text where there is one. State whether each rate is a formula or a typed value.
-- Recompute every sum and rate from the counts and report any that do not tie, including the 114-record difference.
-- Report anything on the tab beyond the four blocks in Section 4: notes, queries, further blocks to the right or below.
+S4. How each call was made. This is the main test.
+- For every record compute whether `llm_spg_entity_id` equals `sp_spgid`. Cross-count that against the column B reason group and the column A flag, by rail.
+- Report three groups by rail: correct with ids equal to the stored procedure's; correct with ids different, which is a reading of the names; incorrect or blank. State the TRUE rate on the records where the ids differ, with its denominator and Wilson interval.
+- List all rows where the ids are equal and the reason is something other than agreement with the stored procedure, and all rows where the reason is agreement and the ids differ.
+- The same for D&B: `dnb_entity_id` against `sp_duns_number`, cross-counted with the column D reason group and the column C flag. State on which records "Name Match to correct S&P" appears, in terms of the column B reason on the same row and whether the D&B ids are equal, different, or null on the stored-procedure side.
 
-A3. SME Review tab: size and structure.
-- Exact header strings in order, and any column to the right of `vdb_spg_enraas_score`.
-- Row count in total and by rail. Reconcile to the LLM accepted counts (1,071 and 6,526). State whether the tab is the whole accepted set or a part of it.
-- For each column: data type, non-null count, distinct count.
-- Counts of every distinct value of `spg_match_review_code`, `spg_match_review_comment`, and `spg_match_reviewer_id`, by rail.
-- Row order: whether the tab is sorted by rail, score, input name, party id, or nothing recognisable.
-- Fully duplicated rows, by rail.
+S5. Calls by stored-procedure source.
+- By rail and `sp_duns_source`: column A flag TRUE, FALSE, and blank, split by ids equal and ids different. Include USB SETTLEMENT, AC360_cross_reference, primary_account_source, Distinct_Name_Substring, Business Name Exact Match, SPG Duns Internal Cross Reference, and NULL.
 
-A4. Any human judgment, anywhere.
-- Look for a column, a tab, a cell comment, or a fill or font colour that marks rows as reviewed, correct, or incorrect. Report counts of rows by fill colour and by font colour on the SME Review tab.
-- Report any reviewer id other than "trusted-service-user".
-- If a judgment exists in any form, run C1.
+S6. Consistency of the calls.
+- Flags in A and C against the relation between `llm_spg_entity_name` and `llm_dnb_entity_name` (equal, one a prefix of the other, different, as in test B5 of the first handoff). List every record TRUE in both where the names are different.
+- Repeated inputs (same CLEAN2 input within a rail, such as the nine TMHP PAYMT records): for each group, list sheet row, both flags, both reasons, both scores, and a letter standing for each distinct `llm_spg_entity_id` in the group. Count groups with mixed flags.
+- Records sharing one `llm_spg_entity_id`: count ids with mixed flags and list them.
+- Column A flag by name class of the LLM S&P Global name against the input (equal, input completes, fragment of one word, two words, three or more, other), by rail, shown separately for ids equal to the stored procedure's and ids different. List every one-word fragment marked TRUE and every equal-class record marked FALSE. The same for column C against the LLM D&B name.
+- The six individual rows in Section 3: both flags and both reasons.
 
-A5. Join integrity across the three blocks of the SME Review tab.
-- Rows where `vdb_sor` differs from `llm_sor`.
-- Rows where `vdb_input_name` differs from `llm_input_name`, and where `sp_party_name_clean` differs from `llm_input_name`.
-- Rows where `sp_party_id` or `vdb_party_id` differs from `llm_party_id`.
+S7. The records marked incorrect.
+- Every record FALSE in column A: sheet row, rail, masked input, LLM S&P Global entity, score, reason, name class, `sp_duns_source`, and whether the ids equal the stored procedure's. Put the list in the row-lists file and give counts by rail, reason group, and name class in the results file.
+- The same for column C with the LLM D&B entity and score.
+- If the last 65 records carry far fewer TRUE flags than the first 67, say what distinguishes them: rail, reason, blank cells, input pattern, or score.
 
-A6. LLM version against VectorDB version, S&P Global result.
-- By rail: rows where both have an id; same entity; different entity; VectorDB null. The different-entity count is the number of rows that need a ground-truth call.
-- Score comparison on rows where both have a score: LLM higher, equal, lower; mean and median difference; shown separately for same-entity and different-entity rows.
-- The same counts for the D&B result (`dnb_entity_id` against `vdb_dnb_entity_id`).
-- Up to 25 different-entity rows per rail: sheet row, input, LLM entity and score, stored-procedure entity and `sp_duns_source`, VectorDB entity and score.
-- Caveat to carry into the results: the tab has no accepted flag for the VectorDB version, so a VectorDB id means a candidate was returned.
+### Block T: for the report
 
-A7. LLM version against the stored procedure.
-- By rail: rows where `sp_spgid` is non-null; same entity as the LLM version; different; null. The null count is the number of LLM-accepted records the stored procedure does not resolve.
-- Every distinct value of `sp_duns_source` with counts by rail, and for each value the same, different, and null split.
-- Rows where the stored procedure returns U.S. Bancorp, by rail and by `sp_duns_source`.
-- The 20 most frequent stored-procedure entities on different-entity rows, by rail.
-- Name class of `sp_spg_entity_name` against `sp_party_name_clean`, by rail and by `sp_duns_source`. This separates name-based results from account-based ones.
-- Party id structure, without printing digits: length of the digit string, delimiter, and every text label found (SETTLEMENT, SETTLMT, and any other), with counts by rail.
-- Rows sharing the same party id digit string: number of distinct digit strings by rail, and the distribution of rows per string (1, 2 to 5, 6 to 20, 21 or more). For strings with two or more rows, report how many return a single `sp_spgid` across all their rows and how many return a single `llm_spg_entity_id`. A stored procedure that resolves the account would return one entity per string.
-- Caveat to carry into the results: the tab has no stored-procedure match code, so a non-null `sp_spgid` means an id was returned.
+T1. Calls against scores.
+- `llm_spg_enraas_score` for TRUE and for FALSE records in column A, by rail: count, minimum, median, maximum, mean. The same for column C against `llm_dnb_enraas_score`.
+- Counts by score band (below 0.55, 0.55 to 0.65, 0.65 to 0.75, 0.75 to 0.85, 0.85 and above) against the flag, by rail.
+- For each cut-off from 0.50 to 0.90 in steps of 0.05, by rail: FALSE records at or above it and TRUE records below it. Report the counts and stop there.
+- The 15 lowest-scoring TRUE records and every FALSE record at or above 0.75, by rail.
 
-A8. Name-pattern screen on accepted matches.
-- Name class of `llm_spg_entity_name` against `llm_input_name`, by rail, with class 3 split by token count.
-- The same for `vdb_spg_entity_name`, and for `llm_dnb_entity_name`.
-- Number of rows that change class when digit tokens are kept.
-- Up to 25 rows per rail from class 3 with a one-token entity, and up to 25 from class 4 with the lowest similarity.
-- On rows where the LLM and VectorDB versions differ (A6), which of the two entity names sits in the better class or has the higher similarity to the input: LLM, VectorDB, tie.
-
-A9. Check of the photographed rows.
-- Confirm or correct the sheet row 5 values in Section 4, cell by cell.
-- Confirm or correct the three counts for sheet rows 2 to 14 in Section 4.
-
-### Block B: for the report
-
-B1. Scores. For `llm_spg_enraas_score`, `llm_dnb_enraas_score`, and `vdb_spg_enraas_score`, by rail:
-- Count, minimum, percentiles 1, 5, 10, 25, 50, 75, 90, 95, 99, maximum, mean.
-- Counts in 0.05 bands, and counts at or above 0.90 and 0.95.
-- The ten most frequent score values and the share of rows whose score has two or fewer decimals.
-- LLM score distribution split by A6 outcome (same or different from VectorDB) and by A7 outcome.
-
-B2. The stated rule, checked mechanically. The comment on the rows is "Three word names with first Five Characters matching". By rail, on raw names and on CLEAN names:
-- Token count of the input (1, 2, 3, 4 or more) and of `llm_spg_entity_name`.
-- Whether the first five characters of the input equal the first five of the entity name.
-- The cross-count of the two, and up to 15 rows per rail that fit neither reading of the rule.
-
-B3. Truncation. By rail: distribution of input name length, the share of inputs at the maximum length, and the A8 name classes split by at-maximum against shorter.
-
-B4. Repeated inputs. Group rows by CLEAN2 of the input within a rail.
-- Number of groups with two or more rows and the rows in them.
-- Groups that resolve to more than one `llm_spg_entity_id`, more than one `dnb_entity_id`, and more than one `vdb_spg_entity_id`.
-- The ten largest groups.
-
-B5. S&P Global against D&B within the LLM version. By rail: rows with both results, S&P Global only, D&B only, neither. Where both exist, the name class of `llm_spg_entity_name` against `llm_dnb_entity_name` treated as input and entity in both directions, reduced to: equal, one is a prefix of the other, different.
-
-B6. Concentration. By rail: distinct `llm_spg_entity_id` count, the share of rows in the top 1 and top 10 entities, and the 25 most frequent entities with counts.
-
-B7. Inputs that read as individuals. A screen only. Flag an input when it has two to four alphabetic tokens under CLEAN, no legal-form or business word, and either a professional or generational suffix (MD, DNP, DDS, DO, DMD, DC, PHD, JR, SR, II, III) or a first token found in a given-name list available locally. State the list used, or that none was available. Report the count by rail, the A8 name class of the flagged rows, and up to 15 masked examples per rail.
-
-### Block C: conditional
-
-C1. If a human judgment exists in any form. By rail and by version judged:
-- Rows judged, and counts of correct, incorrect, and cannot determine, with the rate on rows judged and on all rows.
-- Reviewer names with counts.
-- If only part of the tab was judged, how the judged rows compare with the rest on rail, score band, and name class.
-- The judgment split by A6 outcome, A7 outcome, A8 name class, B1 score band, and B3 truncation.
-- Every row judged incorrect, masked, up to 100.
-
-C2. If any tab or range holds records the LLM version did not accept (a null or other review code, or the full 138,193). By rail: the cross-count of LLM accepted against VectorDB accepted, the score distributions of records the VectorDB version accepted and the LLM version did not, and any stored-procedure match code per record.
-
-C3. If the workbook changed after 11/13/2026 12:47 PM. State what changed, and run every test on the current version.
+T2. Calls against truncation. Column A flag by input at the maximum length (16 on ACH Originated, 22 on ACH Received) against shorter, by rail.
 
 ## 6. Results file
 
-Name: `YYYYMMDD_Model-7158_enraas_perf2_Workbook_Statistics_and_Tests_Results.md`, with the date of the run. If you can see the USB_MRV workspace, save it in `Model-7158_Entity_Name_Resolution_as_a_Service/`. Otherwise give Jordan the file, or print the whole markdown in one block so he can carry it across.
+Name: `YYYYMMDD_Model-7158_enraas_perf2_SME_Calls_LLM_Output_Results.md`, with the date of the run.
+
+The last results file reached the requesting session as screenshots, and parts were lost. Keep this one short enough to carry across whole:
+
+- Aim for 200 lines or fewer. Counts and cross-counts in compact tables.
+- Keep the script out of the results file. Save it beside the workbook and give its filename.
+- Put any row list longer than 15 rows in a second file named `..._SME_Calls_LLM_Output_Row_Lists.md`.
 
 Layout:
 
-1. Header: workbook path, file modified timestamp, date and time of the run, tool used.
-2. Headline, twelve lines at most: rows per rail and whether they tie to 1,071 and 6,526; whether a human judgment exists and where; rows where the LLM and VectorDB versions differ, per rail; LLM-accepted rows the stored procedure also resolves, and how many agree, per rail; rows where the stored procedure returns U.S. Bancorp; name classes per rail; individuals flagged; sheet row 5 confirmed or corrected.
-3. Results by test, using the ids and order above. For each test: the numbers, the method in one or two lines (sheet, columns, filter, null handling), and anything unexpected.
-4. Differences from this handoff.
-5. Not computed, with the reason.
-6. Other things noticed that no test asked for.
-7. Appendix: the script or formulas used, so the tests can be rerun when the workbook is updated.
+1. Header: workbook path, file modified time, last modified by, date and time of the run.
+2. Headline, ten lines at most: the reconciled TRUE, FALSE, and blank counts for A and C per rail, and how they compare with 78 and 47; the both-TRUE count per rail; the three groups of S4 per rail; the TRUE rate on records where the ids differ, per rail; whether the flags are formulas or typed; groups with mixed flags; whether a reviewer is named.
+3. Check of Section 4, item by item: confirmed or the corrected value.
+4. Results by test, using the ids above.
+5. Differences from this handoff, not computed with the reason, and other things noticed.
 
-Format: tables are fine for counts and cross-counts. Plain text, no emoji, no em-dashes. If Block A is ready before the rest, deliver it first and say what remains.
+Format: plain text, no emoji, no em-dashes. If Block S is ready before Block T, deliver it first.
