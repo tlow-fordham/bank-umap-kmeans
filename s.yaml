@@ -1,43 +1,48 @@
-# Handoff annex: delta on the SME calls analysis (Model-7158)
+# Model-7158 Entity Name Resolution as a Service - Meeting Minutes
 
-Written 11/16/2026 by the Claude session that holds the Model-7158 validation notes, for the Claude session that produced 20261116_Model-7158_enraas_perf2_SME_Calls_LLM_Output_Results.md and its row lists. Annex to the SME calls handoff of the same date. Internal working material; not for distribution.
+**Date:** 11/16/2026, 2:00 PM to 2:16 PM ET (Microsoft Teams)
 
-## What is needed
+**Meeting:** Provisional Approval (PA) early engagement for the LLM version
 
-The first run answered the handoff and its numbers tie. This annex asks only for what that run did not print and for what its results raised. Write one new file with the items below and nothing that is already in the results file or the row lists.
+**Attendees:** Bill Miller (Model Owner, MO), Guru Dath Gundurao (Business Line, BL), Paramjit Chumber (Product Manager), Fion Wang (Model Risk Officer, MRO), Jordan Low (MRM Validation)
 
-Name: YYYYMMDD_Model-7158_enraas_perf2_SME_Calls_LLM_Output_Delta.md. Aim for 80 lines or fewer, so it carries across whole.
+**Purpose:** Walk through the SME review workbook and document the reason for the pilot.
 
-Same rules as before: read only; workbook is the source; rates carry numerator and denominator; by rail; rows by sheet row number; the same masking the results file used. Extend 20261116_sme_calls_analysis.py and keep the script out of the file.
+---
 
-## Items
+## Reason for the pilot
 
-D1. Where the small formula patterns sit.
-- The results file reports three formula patterns with small counts: column A =IF(sp_spgid=305304, FALSE, "") on 4 cells, column B =IF(sp_spgid=305304, "USB Settlement", "") on 1 cell, and column C =IF(sp_spgid=305304, FALSE, "") on 3 cells. List the sheet row of each cell.
-- For each of those 8 cells, print the raw formula with its cell references as stored, and state whether every reference points to the cell's own row.
-- For the two large patterns in A and C and the two in B and D, give the count of cells whose references point to a different row.
+Validation asked the MO and BL to describe the reason for the pilot so that it is documented accurately.
 
-D2. Six rows in full.
-- For sheet rows 4, 19, 27, 29, 30, and 32, and for each of columns A to D: typed value or formula, the raw content, and the displayed value. Add for each row whether sp_spgid is 305304 and the sp_duns_source value.
+- Purpose. The LLM version is a new method, and the purpose of the pilot is to determine which segments of ACH records benefit from it. The MO confirmed this purpose.
+- Resolution techniques. The stored procedures resolve records through several techniques, which the resolution source field identifies, such as USB Settlement, AC360 cross reference, and distinct name substring. The MO explained that some of these techniques use additional account or customer information, while the LLM version works only from the name on the record. The MO's position is that records resolved through those techniques are better left to the stored procedures, and that the records the stored procedures leave unresolved are the ones to send to the LLM version. These are expectations ahead of the pilot. With several techniques in play, only the pilot can show on which segments the LLM version is suitable and improves on the stored procedures, and whether that benefit is narrow or broad.
+- Parallel run. In production the MO can select the records to send to the LLM version by resolution source and run the LLM version in parallel with the stored procedures, with the two results held in separate tables and compared.
+- Why production. Running this comparison in the development environment requires moving the production data that the resolution process uses into development. The MO stated that this transfer is onerous because of the sensitivity of production data, and that it is more practical to bring the model to the data than the data to the model.
+- Validation will document this purpose and this constraint in its review of the request.
 
-D3. How the incorrect calls were entered.
-- The 17 FALSE cells in column A and the 15 in column C, by rail: how many are typed and how many are a formula, and which formula.
+## SME review workbook
 
-D4. Column C by stored-procedure source. This is the table the first run gave for column A only.
-- One row per rail and sp_duns_source value (including NULL), with: records; dnb_entity_id equal to sp_duns_number, different, or null on the stored-procedure side; column C flag TRUE and FALSE within each.
+- The MO provided an updated workbook with four columns recording the MO's review of whether each S&P Global result and each D&B result is a match. The review is the MO's best estimate from visual inspection and covers the LLM version's results.
+- The MO will add an assessment of the VectorDB version's result on the records where the two versions return different results.
+- The 132 records were drawn in SQL from the LLM version's results that the acceptance rules accepted. About 200 had been requested.
+- The acceptance rules are stored procedures, and each accepted record carries the reason for its acceptance.
+- On records where the stored procedures resolve through account information, such as USB Settlement, the MO assessed the LLM version's result against the input name.
 
-D5. Both calls by technique group.
-- Group sp_duns_source as: account or customer (USB SETTLEMENT, AC360_cross_reference, primary_account_source); name match (Distinct_Name_Substring, Business Name Exact Match); SPG Duns Internal Cross Reference; NULL.
-- By rail and group: records; S&P Global ids equal; column A TRUE and FALSE; both flags TRUE.
+## Request form and timeline
 
-D6. Only if the workbook has changed. The first run used a file modified 11/16/2026 14:02:28. The model owner said he would add an assessment of the VectorDB version's result where it differs from the LLM version's.
-- If a later version exists: its modified time, any new column with its exact header, and the number of cells in columns A to D whose value or formula changed, with their sheet rows.
-- For each new column: value counts by rail.
-- For the 15 records where llm_spg_entity_id differs from vdb_spg_entity_id: sheet row, column A flag, and the new VectorDB assessment.
-- If nothing has changed, say so in one line.
+- The Product Manager asked for the status of the request form.
+- The BL stated that the request form was updated for Validation's questions and resubmitted last week, and will send the latest version to Validation.
+- Validation will compare the latest version with its open comments and return any that remain.
+- The Product Manager noted that the pilot start was moved to 12/14/2026 to allow time for validation, and that a later start would fall into the year-end code freeze.
 
-## Layout
+## Action Items
 
-1. Header: workbook path, modified time, run time.
-2. One short section per item, D1 to D6, in that order.
-3. Anything that differs from the first run, in one list.
+- MO: add the assessment of the VectorDB version's result on records where it differs from the LLM version's result. Target: 11/16/2026.
+- BL: send the latest request form to Validation. Target: 11/16/2026.
+- Validation: review the updated SME review workbook and send follow-up questions by email. Target: 11/17/2026.
+- Validation: compare the latest request form with its open comments and return any that remain. Target: TBD, on receipt of the form.
+
+## Items Deferred to Next Session or Email
+
+- Follow-up questions on the SME review workbook, by email.
+- Remaining comments on the request form, by email.
