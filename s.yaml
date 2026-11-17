@@ -1,10 +1,10 @@
 # Model-7158 Entity Name Resolution as a Service - Meeting Minutes
 
-**Date:** 11/16/2026, 2:00 PM to 2:16 PM ET (Microsoft Teams)
+**Date:** 11/16/2026, 2:00 PM to 2:30 PM ET (Microsoft Teams)
 
 **Meeting:** Provisional Approval (PA) early engagement for the LLM version
 
-**Attendees:** Bill Miller (Model Owner, MO), Guru Dath Gundurao (Business Line, BL), Paramjit Chumber (Product Manager), Fion Wang (Model Risk Officer, MRO), Jordan Low (MRM Validation)
+**Attendees:** Bill Miller (Model Owner, MO), Guru Dath Gundurao (Business Line, BL), Paramjit Chumber (Business Unit Owner), Wentao Lu (Model Developer, MD), Fion Wang (Model Risk Officer, MRO), Jordan Low (MRM Validation)
 
 **Purpose:** Walk through the SME review workbook and document the reason for the pilot.
 
@@ -30,15 +30,15 @@ Validation asked the MO and BL to describe the reason for the pilot so that it i
 
 ## Request form and timeline
 
-- The Product Manager asked for the status of the request form.
-- The BL stated that the request form was updated for Validation's questions and resubmitted last week, and will send the latest version to Validation.
+- Paramjit asked for the status of the request form.
+- Guru stated that the request form was updated for Validation's questions and resubmitted last week, and will send the latest version to Validation.
 - Validation will compare the latest version with its open comments and return any that remain.
-- The Product Manager noted that the pilot start was moved to 12/14/2026 to allow time for validation, and that a later start would fall into the year-end code freeze.
+- Paramjit noted that the pilot start was moved to 12/14/2026 to allow time for validation, and that a later start would fall into the year-end code freeze.
 
 ## Action Items
 
 - MO: add the assessment of the VectorDB version's result on records where it differs from the LLM version's result. Target: 11/16/2026.
-- BL: send the latest request form to Validation. Target: 11/16/2026.
+- BL (Guru): send the latest request form to Validation. Target: 11/16/2026.
 - Validation: review the updated SME review workbook and send follow-up questions by email. Target: 11/17/2026.
 - Validation: compare the latest request form with its open comments and return any that remain. Target: TBD, on receipt of the form.
 
