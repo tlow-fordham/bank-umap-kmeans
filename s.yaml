@@ -1,48 +1,159 @@
-# Model-7158 Entity Name Resolution as a Service - Meeting Minutes
+# Handoff: full recount on the model owner's updated SME workbook (Model-7158)
 
-**Date:** 11/16/2026, 2:00 PM to 2:30 PM ET (Microsoft Teams)
+*Written 11/17/2026 by the Claude session that holds the Model-7158 validation notes, for a Claude session that can open the workbook. Third handoff on this workbook, after the SME calls handoff and its annex of 11/16/2026. Internal working material; not for distribution.*
 
-**Meeting:** Provisional Approval (PA) early engagement for the LLM version
+## 1. What is needed
 
-**Attendees:** Bill Miller (Model Owner, MO), Guru Dath Gundurao (Business Line, BL), Paramjit Chumber (Business Unit Owner), Wentao Lu (Model Developer, MD), Fion Wang (Model Risk Officer, MRO), Jordan Low (MRM Validation)
+The model owner sent an updated copy of the workbook on 11/17/2026, seen here as `enraas_perf2 1 (002).xlsx`. It has two new columns at the left of the SME Review tab, and at least one SME cell has changed. Recount everything the Provisional Approval text uses from this file, with every figure derived from the workbook's own contents. Write one results file and one row-lists file in the layout of Section 7.
 
-**Purpose:** Walk through the SME review workbook and document the reason for the pilot.
+The requesting session will replace its numbers with yours. Compute first. Section 6 lists the figures on file, for comparison after the counts are done.
 
----
+## 2. What is known about the updated file
 
-## Reason for the pilot
+Read from one photo of sheet rows 1 to 35, so treat each point as something to confirm.
 
-Validation asked the MO and BL to describe the reason for the pilot so that it is documented accurately.
+- New column A, header `LLM v Vector DB`, and new column B, header `LLM Correct Reason`. Both are filled on some rows and empty on most. Values seen in A: `LLM Correct` and `Both Correct`. Values seen in B: `Name Match`, and two longer sentences about the VectorDB name being a likely wrong variation.
+- The four SME columns that sat in A to D now sit in C to F. Every other column has moved two more letters to the right.
+- Sheet row 30: the S&P Global reason read `USB Settlement` in the last run and now reads `Names close but too generic`. The S&P Global flag still shows FALSE, while column A on the same row reads `Both Correct`.
+- The file name matches a copy an analyst on the validation team made (`enraas_perf2 1.xlsx`), so the file may carry a tab added by Validation.
 
-- Purpose. The LLM version is a new method, and the purpose of the pilot is to determine which segments of ACH records benefit from it. The MO confirmed this purpose.
-- Resolution techniques. The stored procedures resolve records through several techniques, which the resolution source field identifies, such as USB Settlement, AC360 cross reference, and distinct name substring. The MO explained that some of these techniques use additional account or customer information, while the LLM version works only from the name on the record. The MO's position is that records resolved through those techniques are better left to the stored procedures, and that the records the stored procedures leave unresolved are the ones to send to the LLM version. These are expectations ahead of the pilot. With several techniques in play, only the pilot can show on which segments the LLM version is suitable and improves on the stored procedures, and whether that benefit is narrow or broad.
-- Parallel run. In production the MO can select the records to send to the LLM version by resolution source and run the LLM version in parallel with the stored procedures, with the two results held in separate tables and compared.
-- Why production. Running this comparison in the development environment requires moving the production data that the resolution process uses into development. The MO stated that this transfer is onerous because of the sensitivity of production data, and that it is more practical to bring the model to the data than the data to the model.
-- Validation will document this purpose and this constraint in its review of the request.
+## 3. Rules carried over
 
-## SME review workbook
+- Read only. Leave the workbook unedited, unsorted, unfiltered and unsaved.
+- The workbook is the source. Where it differs from this handoff, report the workbook and list the difference.
+- Every rate carries its numerator and denominator. Report by rail, then in total.
+- Compare ids as trimmed text with a trailing `.0` and leading zeros removed.
+- Report what the cells say and where they disagree with each other. Leave the question of whether a match or a call is right to the validators.
+- Numbers and method only, with one line of interpretation per test at most.
+- Masking as in the last run: rows by sheet row number, party id digits withheld, runs of six or more digits in an input shown as [digits], given name only for inputs that read as individuals, and [another financial institution] for any bank or credit union other than U.S. Bank or U.S. Bancorp.
+- Extend `20261116_sme_calls_analysis.py`. Save the script beside the workbook and give its filename.
 
-- The MO provided an updated workbook with four columns recording the MO's review of whether each S&P Global result and each D&B result is a match. The review is the MO's best estimate from visual inspection and covers the LLM version's results.
-- The MO will add an assessment of the VectorDB version's result on the records where the two versions return different results.
-- The 132 records were drawn in SQL from the LLM version's results that the acceptance rules accepted. About 200 had been requested.
-- The acceptance rules are stored procedures, and each accepted record carries the reason for its acceptance.
-- On records where the stored procedures resolve through account information, such as USB Settlement, the MO assessed the LLM version's result against the input name.
+## 4. Rules for this run: derive everything from the workbook
 
-## Request form and timeline
+Earlier counts went wrong because TRUE was typed as text in some cells and stored as a boolean in others. The columns in this file are free text entered by hand, so the script must discover what is there before it counts.
 
-- Paramjit asked for the status of the request form.
-- Guru stated that the request form was updated for Validation's questions and resubmitted last week, and will send the latest version to Validation.
-- Validation will compare the latest version with its open comments and return any that remain.
-- Paramjit noted that the pilot start was moved to 12/14/2026 to allow time for validation, and that a later start would fall into the year-end code freeze.
+1. Columns. Find every column by its header text after trimming and case-folding, and print the header-to-letter map for the SME Review tab. If a header named in this handoff is missing, renamed or duplicated, print the closest headers found and say which one was used.
+2. Rails. Take the rail from `llm_sor` on each row. Print the distinct `llm_sor` values and their counts.
+3. Records. Take the record set from the rows that carry data, and print the first and last sheet row and the count. Report hidden rows, active filters, merged cells, totals rows and any row below the data.
+4. Profile before counting. For each hand-entered column (the two new columns and the four SME columns), print every distinct raw content with its count and its stored type: boolean, number, text, formula, error or empty. For text, show the string between brackets with its length, so that leading or trailing spaces and case differences are visible.
+5. Flag normalization. Build the mapping from the profile and print it as raw content, stored type, normalized value and count.
+   - TRUE: a boolean true, or text that equals `true` after trimming and case-folding.
+   - FALSE: a boolean false, or text that equals `false` after trimming and case-folding.
+   - BLANK: an empty cell, an empty string, or text that equals `null` after trimming and case-folding.
+   - OTHER: every remaining content, such as yes, no, Y, N, correct, a number, or an error. Keep OTHER as its own category in every count and list its sheet rows with the raw content. If an OTHER value plainly means correct or incorrect, say so beside it and leave it in OTHER.
+6. Formula cells. Read each cell in formula mode and in cached-value mode. Evaluate the simple IF patterns yourself from the row's own values and report every cell where the cached value and your evaluation differ, or where no cached value exists. Use the value Excel displays, and state which source you used.
+7. Category columns. For `LLM v Vector DB`, `LLM Correct Reason`, the two reason columns, `sp_duns_source` and `spg_match_review_code`, enumerate the distinct values found and build every cross-count from that enumeration. Group variants that differ only in case, spacing or punctuation, and print the variants under the group. Where this handoff names a group of values, apply it to the values found and give any value the handoff does not name its own line.
+8. Meaning of column A. Print each distinct value of `LLM v Vector DB` and propose, for each, what it says about the LLM version's result (correct, incorrect, unclear) and about the VectorDB version's result (correct, incorrect, unclear). Print that mapping as a table so it can be checked. A value that fits neither reading goes to unclear, with its rows.
+9. The id that the settlement formulas key on. Read it from the formula text in the workbook and report where it appears.
+10. Ties. Under every count table print whether TRUE plus FALSE plus BLANK plus OTHER equals the records, and whether the rails sum to the total.
 
-## Action Items
+## 5. Tests
 
-- MO: add the assessment of the VectorDB version's result on records where it differs from the LLM version's result. Target: 11/16/2026.
-- BL (Guru): send the latest request form to Validation. Target: 11/16/2026.
-- Validation: review the updated SME review workbook and send follow-up questions by email. Target: 11/17/2026.
-- Validation: compare the latest request form with its open comments and return any that remain. Target: TBD, on receipt of the form.
+### Block U: the file
 
-## Items Deferred to Next Session or Email
+U1. File and tabs.
+- Path, file name, modified time, last modified by, and the date and time of the run.
+- Sheet list with dimensions. For any tab that the last run did not have, or that carries the words Validation analysis: its name, its size, and for each filled cell the label, the formula text and the displayed value (first 40 cells if longer).
+- SME Review: header-to-letter map, records by rail, hidden rows, filters.
 
-- Follow-up questions on the SME review workbook, by email.
-- Remaining comments on the request form, by email.
+U2. Changes since the last run. The last run used a file modified 11/16/2026 14:02:28.
+- Match records between the two files by rail, input name and party id. State whether the records and their order are the same.
+- Columns added and columns removed, by header.
+- For every column present in both files: the number of cells whose value or formula changed. For the four SME columns list each changed cell with its sheet row, the content before and the content after, typed or formula.
+- State whether the tabs other than SME Review are identical to the last run's.
+
+U3. The six hand-entered columns.
+- The profile and the normalization mapping from Section 4, by rail.
+- Typed cells against formula cells, by column and rail. Each distinct formula pattern with the row number shown as {r}, and its count.
+- Every formula whose references point to a row other than its own: sheet row, column, raw formula, displayed value.
+- Sheet rows 27 and 30, and any other row found under the previous bullet: for each of the six columns, typed or formula, raw content and displayed value.
+
+### Block V: the counts
+
+V1. The two flags, by rail.
+- S&P Global flag: TRUE, FALSE, BLANK, OTHER. TRUE rate on all records and on records judged (TRUE plus FALSE).
+- D&B flag: the same.
+- Both TRUE, S&P Global only, D&B only, neither, not judged.
+- Sheet rows of every record whose S&P Global flag is anything other than TRUE, and the same for D&B.
+
+V2. How the S&P Global calls were made, by rail.
+- Records where `llm_spg_entity_id` equals `sp_spgid`, and records where the two differ.
+- Within each: flag TRUE, FALSE, BLANK, OTHER. The TRUE rate on the records where the ids differ.
+- The same for D&B, with `dnb_entity_id` against `sp_duns_number`.
+
+V3. By stored-procedure source.
+- One line per rail and distinct `sp_duns_source` value, null included: records; S&P Global ids equal to the stored procedure's; S&P Global flag TRUE, FALSE, BLANK, OTHER; D&B flag TRUE and FALSE.
+- The same by group. Account or customer: `USB SETTLEMENT`, `AC360_cross_reference`, `primary_account_source`. Name match: `Distinct_Name_Substring`, `Business Name Exact Match`. `SPG Duns Internal Cross Reference` on its own. Null on its own. Any other value found on its own line.
+- For each group, by rail and in total: records; LLM version and stored procedure returned the same S&P Global entity; S&P Global flag TRUE over records.
+
+V4. Records with an S&P Global flag other than TRUE.
+- For each: sheet row, rail, normalized flag, typed or formula with the raw formula, reason text, `sp_duns_source`, whether the ids equal the stored procedure's, and whether `sp_spgid` equals the id the settlement formulas key on.
+- Counts by rail and by the groups of V3.
+- For records with a null `sp_duns_source`: whether the stored-procedure columns still carry an entity id and name.
+
+V5. LLM version against VectorDB version.
+- By rail: records where `llm_spg_entity_id` equals `vdb_spg_entity_id`, and records where the two differ, with the sheet rows of the differing records.
+- The same for the D&B ids, if the tab has a VectorDB D&B id column. Name the column used.
+
+V6. The two new columns.
+- The profile of each, by rail.
+- Where they are filled: rows with column A filled and S&P Global ids different between the versions; rows with column A filled and ids equal; rows with column A empty and ids different. List the sheet rows of each set.
+- For every row in any of those three sets, in the row-lists file: sheet row, rail, column A value, column B text, S&P Global flag (normalized), S&P Global reason, D&B flag, LLM S&P Global score, VectorDB S&P Global score, `sp_duns_source`, LLM id equal to the stored procedure's, VectorDB id equal to the stored procedure's, and the masked input with the two entity names.
+
+V7. Column A against the S&P Global flag.
+- Cross-count of what column A says about the LLM version's result (from the mapping in Section 4, item 8) against the normalized S&P Global flag, on the rows where column A is filled.
+- Every row where the two disagree: sheet row, the raw content of both cells, and typed or formula for each.
+
+V8. The versions compared on the records where they differ, by rail and in total.
+- From column A's mapping: LLM correct and VectorDB incorrect; both correct; VectorDB correct and LLM incorrect; neither; unclear; column A empty.
+- The same table a second time, with the LLM version's result taken from the S&P Global flag on rows where column A and the flag disagree.
+
+V9. The headline on three bases, by rail and in total. For each basis give S&P Global TRUE over records judged, the count judged incorrect, the count not judged, and the group table of V3 (records, flag TRUE) recomputed.
+- Basis 1: the flags as displayed.
+- Basis 2: cells whose formula points to a row other than its own are treated as not judged.
+- Basis 3: where column A and the S&P Global flag disagree on the LLM version's result, column A is used.
+- State which rows move between the bases.
+
+### Block W: figures from the other tabs
+
+W1. Only if U2 shows the other tabs changed, recompute by rail: records on data set 9, records the Automated Acceptance Rules accepted for the LLM version, and records the stored procedures resolved. If the tabs are identical to the last run's, say so in one line.
+
+## 6. Figures on file, for comparison after computing
+
+These are the figures the approval text and the notes carry today. Use them only for the comparison table in the results file. Keep them out of the script as inputs, filters and row selectors.
+
+- Records: 132, with 32 on ACH Originated and 100 on ACH Received.
+- S&P Global flag TRUE on 25 of 32 and 90 of 100. D&B flag TRUE on 27 of 32 and 90 of 100. Both TRUE on 25 and 88.
+- S&P Global flag FALSE on 17 records: sheet rows 3, 4, 19, 27, 30, 31, 32 and 64, 66, 68, 69, 74, 80, 81, 89, 102, 128.
+- TRUE typed as text on 37 cells of the S&P Global flag and 70 cells of the D&B flag.
+- S&P Global ids equal to the stored procedure's on 67 records (4 and 63), all TRUE. Where the ids differ, TRUE on 21 of 28 and 27 of 37.
+- Account or customer group: 58 records (16 and 42), same entity as the stored procedure on 10, flag TRUE on 44. Name match group: same entity on 39 of 40. Records outside the account or customer group: flag TRUE on 71 of 74.
+- The 17 FALSE records by group: 14 account or customer, 3 null source.
+- Formulas keyed to one `sp_spgid` value on 4 cells of the S&P Global flag, 1 cell of its reason, and 3 cells of the D&B flag. Three cells pointed to the row above: the S&P Global flag on sheet rows 27 and 30, and the S&P Global reason on sheet row 30.
+- LLM and VectorDB versions returned the same S&P Global id on 117 of 132. They differ on 15: sheet rows 5, 7, 12, 14, 22, 29, 30, 33 and 34, 60, 76, 84, 89, 101, 128.
+- Column A as read from the photo: `LLM Correct` on sheet rows 5, 7, 14, 33 and `Both Correct` on sheet rows 12, 22, 29, 30, 34. Rows beyond 35 were not seen.
+- Data set 9: the Automated Acceptance Rules accepted 1,071 of 32,832 on ACH Originated and 6,526 of 105,361 on ACH Received. The stored procedures resolved 6,911 of 105,361 on ACH Received.
+
+In the results file, give one line per figure: on file, computed, same or different, and the sheet rows that explain a difference.
+
+## 7. Results files
+
+Names: `YYYYMMDD_Model-7158_enraas_perf2_Updated_Workbook_Recount_Results.md` and `..._Recount_Row_Lists.md`, with the date of the run.
+
+The files reach the requesting session as photos of a screen, so they must survive that trip.
+
+- Results file of 220 lines or fewer. Tables of eight columns or fewer. Lines of 110 characters or fewer.
+- Begin every section with its test id (U1, V3 and so on), so that photos can be put back in order.
+- Give row lists as sheet row numbers separated by commas. Lists longer than 15 rows go in the row-lists file, with the count kept in the results file.
+- Keep the script out of both files.
+
+Layout of the results file:
+
+1. Header: workbook path and name, modified time, last modified by, run time, script filename.
+2. Headline, 15 lines at most: records by rail; the two flags by rail on basis 1; the count of OTHER and of text-typed flags; the cells changed since the last run; the three bases of V9 in one small table; the V8 table from column A; the rows where column A and the flag disagree.
+3. The mapping tables of Section 4, items 5 and 8.
+4. Results by test, U1 to W1.
+5. The comparison with Section 6.
+6. Differences from this handoff, anything not computed with the reason, and other things noticed.
+
+Format: plain text, no emoji, no em-dashes. If Block U and V1 to V4 are ready before the rest, deliver them first.
