@@ -1,34 +1,8 @@
-To: Damien Traore, Paramjit Chumber, Bill Miller, Guru Dath Gundurao, Wentao Lu, Fion Wang. Cc: Xinyu Wu, Aditi Pandey.
+Hi Paramjit,
 
+Thank you for the EMA updates and the records, and thanks to Drew for pulling them. Those items are complete.
 
-
-Subject: Model-7158 Entity Name Resolution as a Service - proposed EMA and PA request form changes ahead of the MRG decision
-
-Hi all,
-
-Here are the proposed changes to the change EMA and the PA request form, based on the meeting minutes of the past several weeks. I have consolidated them into one email. Each shows the current text and the proposed text. The Model Owner remains responsible for what is submitted. Please make the changes before our meeting on Monday 11/23/2026, or we can walk through them together in a working session.
-
-EMA 68556408, proposed changes (Paramjit, with Damien)
-
-1. Pilot Decision Details, first sentence.
-Before: "During testing the LOB saw matched results on ACH-Received averaging 17% which was marginally above the StorProc returns, however with the high volume of data this becomes meaningful."
-After: "On the 10/10/2026 production load of 138,193 ACH records, the acceptance rules accepted the LLM version's result on 1,071 of 32,832 ACH Originated records (3.3 percent) and on 6,526 of 105,361 ACH Received records (6.2 percent)."
-
-2. Pilot Decision Details, second sentence.
-Before: "The pilot will be able to assess if the matched returns are persistent over a 3-4 month period and also incorporate ACH-Originated assessment."
-After: "The purpose of the pilot is to determine on which segments of ACH records the LLM version improves on the stored procedures and could replace them, and on which segments the stored procedures remain the better method, for example settlement payments. Records are selected by resolution source, both methods run on the same records in production, and the two results are held in separate tables and compared."
-
-3. Pilot Details, the pilot period.
-Before: "(11/30/2026 to 5/30/2027)"
-After: "(12/14/2026 to 6/15/2027)"
-
-4. Pilot Milestone Details, the dates.
-Before: "PA review October to November 2026; production use on the ACH rails from 11/30/2026; Monthly SME review through the period; full validation complete by 5/30/2027."
-After: "PA review October to December 2026; production use on the ACH rails from 12/14/2026; Monthly SME review through the period; full validation complete by 6/15/2027."
-
-5. AI / ML Model Structure / Nature, second paragraph.
-Before: "The LLM component is used to infer industry classification information for unresolved entities. Specifically, the model analyzes aggregated payment transaction activity associated with an entity over a defined observation period and predicts a likely North American Industry Classification System (NAICS) industry group. The inferred NAICS classification is not used as a standalone matching decision. Instead, it serves as an additional feature within the entity resolution framework and is combined with other similarity signals to improve candidate ranking and match selection. The final entity resolution outcome is determined through the integration of multiple matching signals, including business name similarity, reference data attributes, and the LLM-derived industry classification."
-After: "The LLM component, GPT-OSS-20B, is used in three steps. Where the initial confidence score is below 0.8, it rewrites the input business name to a likely official name for a second candidate-retrieval pass. For entities with at least ten ACH transactions in the observation period, it infers a two-digit North American Industry Classification System (NAICS) sector from a summary of payment activity, which serves as one similarity signal in candidate ranking. Offline, it infers a three-digit NAICS code for S&P Global reference entities whose code cannot be taken from the Dun & Bradstreet cross-reference or the S&P Global industry fields. The existing scoring and the acceptance rules determine the match."
+Here are the remaining items, restated from the top.
 
 PA request form, proposed changes (Guru and Bill, with Wentao on items 3 and 4)
 
@@ -60,17 +34,14 @@ After: "The ENRaaS LLM version will run in parallel (as a challenger) to the sto
 Before: "4/5/27 Deliver MRV documentation for ENRaaS LLM"
 After: "3/31/27 Deliver MRV documentation for ENRaaS LLM"
 
-8. Question 6, FRBD link. The current link opens the December 2025 EMA. Please replace it with the link to EMA 68556408.
-
-Records to send (Paramjit or Wentao)
-
-1. The PDF export of BCIQ-44548141.
-2. The PDF export of PRISM-89997 as updated for the LLM version. If no PRISM update was required for the LLM version, please confirm that in your reply.
+8. Question 6, the line under the FRBD statement, to list the risk group records.
+Before: "MMA BCIQ-44548141"
+After: "PRISM-89997, Entity Name Resolution as a Service: Approved, final decision 1/24/2025. BCIQ-55058072, Entity Name Resolution as a Service CoE#320: Business Change Review Complete, 10/9/2024. BCIQ-44548141, EAA Money Movement Analytics - Greenplum, New Transaction Capture & Relationship Manager Use: Business Change Review Complete, 1/2/2024."
 
 MRO and MRG sign-off
 
-1. Fion: please enter the MRO Authorization Date on the updated form.
-2. Damien: please complete the MRG decision section and send me the form with the dated MRG approval.
+9. Fion: please enter the MRO Authorization Date on the updated form.
+10. Damien: please complete the MRG decision section and send me the form with the dated MRG approval.
 
 Thank you,
 Jordan
